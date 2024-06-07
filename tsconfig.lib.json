@@ -1,0 +1,12 @@
+{
+  "references": [
+    {
+      "path": "./tsconfig.json"
+    }
+  ],
+  "exclude": [
+    "stories",
+    "**/*.stories.ts",
+    "**/*.stories.tsx"
+  ]
+}

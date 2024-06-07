@@ -1,0 +1,116 @@
+/**
+ * This is template config for extension: [Create Item By Template]
+ * This is a JavaScript code file that will be executed in the Node environment
+ * And you can add any Javascript(commonjs) code here
+ * For more advanced usage, please see this wiki: https://github.com/lanten/create-item-by-template/wiki/Template-Example
+ */
+
+/** file list */
+const files = {
+  tsx: (name) => {
+    const nameR = removeSuffix(name)
+    const nameH = toCamel(nameR)
+    const nameX = toCamel(nameR, false)
+    return [
+      `import React from 'react'`,
+      `import clsx from 'clsx'`,
+      ``,
+      `import { ${nameX}Styled } from './${nameR}.styled'`,
+      ``,
+      `export interface ${nameH}Props extends ReactBaseType {}`,
+      ``,
+      `export const ${nameH}: React.FC<${nameH}Props> = ({ ...wrapProps }) => {`,
+      `  wrapProps.className = clsx(${nameX}Styled, 'taomu-${nameR}', wrapProps.className)`,
+      ``,
+      `  return (`,
+      `    <div {...wrapProps}>`,
+      `      <p>component ${nameR} is created</p>`,
+      `    </div>`,
+      `  )`,
+      `}`,
+      ``,
+    ]
+  },
+
+  stories: (name) => {
+    const nameR = removeSuffix(name)
+    const nameH = toCamel(nameR)
+
+    return [
+      `import type { Meta, StoryObj } from '@storybook/react'`,
+      ``,
+      `import { ${nameH} } from './${nameR}'`,
+      ``,
+      `const meta: Meta<typeof ${nameH}> = {`,
+      `  title: 'Components/${nameH}',`,
+      `  component: ${nameH},`,
+      `  tags: ['autodocs'],`,
+      `  argTypes: {},`,
+      `}`,
+      ``,
+      `type Story = StoryObj<typeof meta>`,
+      `export default meta`,
+      ``,
+      `export const 基础示例: Story = {`,
+      `  args: {},`,
+      `}`,
+      ``,
+    ]
+  },
+
+  'index.ts': (name) => {
+    return [`export * from './${name}'`, ``]
+  },
+
+  styled: (name) => {
+    const nameR = removeSuffix(name)
+    const nameX = toCamel(nameR, false)
+
+    return [
+      `import { css } from '@emotion/css'`,
+      ``,
+      `export const ${nameX}Styled = css\`\``,
+    ]
+  },
+
+  less: (name) => {
+    return [`.${name} {`, ``, `}`]
+  },
+}
+
+/** folder list */
+const folders = {
+  'react-component': (name) => {
+    return {
+      'index.tsx': files['index.ts'],
+      [`${name}.tsx`]: files.tsx,
+      [`${name}.stories.tsx`]: files.stories,
+      [`${name}.styled.ts`]: files.styled,
+    }
+  },
+}
+
+/**
+ * 中划线转驼峰
+ * @param {String} str
+ * @param {Boolean} c 首字母大写
+ */
+function toCamel(str, c = true) {
+  let strH = str.replace(
+    /([^\-])(?:\-+([^\-]))/g,
+    (_, $1, $2) => $1 + $2.toUpperCase()
+  )
+  if (c) strH = strH.slice(0, 1).toUpperCase() + strH.slice(1)
+  return strH
+}
+
+/**
+ * 移除后缀名
+ * @param {String} str
+ * @returns
+ */
+function removeSuffix(str) {
+  return str.replace(/^(.+)\..*$/, '$1')
+}
+
+module.exports = { files, folders }
