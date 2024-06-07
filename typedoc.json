@@ -1,7 +1,12 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
+  ],
+  "exclude": [
+    "**/*.stories.ts",
+    "**/*.stories.tsx"
   ],
   "out": "storybook-static/type-doc"
 }

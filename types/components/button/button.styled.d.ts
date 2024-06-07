@@ -1,1 +1,1 @@
-export declare const buttonStyled: string;
+export declare const buttonStyled: import("@emotion/utils").SerializedStyles;

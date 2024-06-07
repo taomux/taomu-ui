@@ -22,9 +22,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
+    "baseUrl": ".",
     "types": [
       "vite/client"
-    ]
+    ],
   },
   "include": [
     "src",
