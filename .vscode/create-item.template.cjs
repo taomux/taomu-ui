@@ -67,7 +67,7 @@ const files = {
     const nameX = toCamel(nameR, false)
 
     return [
-      `import { css } from '@emotion/css'`,
+      `import { css } from '@emotion/react'`,
       ``,
       `export const ${nameX}Styled = css\`\``,
     ]

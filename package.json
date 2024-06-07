@@ -3,19 +3,33 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./types/index.d.ts",
+  "exports": {
+    "types": "./types/index.d.ts",
+    "import": "./dist/index.js"
+  },
+  "files": [
+    "README.md",
+    "types",
+    "dist"
+  ],
   "scripts": {
     "dev": "npm run doc",
     "doc": "npm run storybook",
-    "build:type-doc": "typedoc --tsconfig tsconfig.doc.json",
+    "build": "node scripts/rm-dist.js && tsc -p tsconfig.lib.json",
+    "build:type-doc": "typedoc --tsconfig tsconfig.lib.json",
     "build:doc": "npm run build-storybook && npm run build:type-doc",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@emotion/css": "^11.11.2",
+    "@emotion/react": "^11.11.4",
     "clsx": "^2.1.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "taomu-toolkit": "^0.0.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.5.0",
@@ -27,12 +41,15 @@
     "@storybook/react": "^8.1.6",
     "@storybook/react-vite": "^8.1.6",
     "@storybook/test": "^8.1.6",
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
     "storybook": "^8.1.6",
     "typedoc": "^0.25.13",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "typescript": "^5.4.5",
+    "vite": "^5.2.13"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

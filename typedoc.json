@@ -1,13 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
-    "./lib/auth/**/*.ts",
-    "./lib/consts/**/*.ts",
-    "./lib/fetch/**/*.ts",
-    "./lib/hooks/**/*.ts",
-    "./lib/routes/**/*.ts",
-    "./lib/types/**/*.ts",
-    "./lib/utils/**/*.ts",
+    "./src/**/*.ts"
   ],
   "out": "storybook-static/type-doc"
 }

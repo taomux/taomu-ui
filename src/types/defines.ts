@@ -10,7 +10,7 @@ declare global {
     value: string
   }
 
-  type ReactDivProps = React.HTMLAttributes<HTMLDivElement>
+  type ReactDivProps = HTMLAttributes<HTMLDivElement>
 
   interface ReactBaseType {
     id?: string

@@ -1,9 +1,16 @@
 {
-  "references": [
-    {
-      "path": "./tsconfig.json"
-    }
+  "extends": [
+    "./tsconfig.json"
   ],
+  "compilerOptions": {
+    "noEmit": false,
+    "sourceMap": false,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationDir": "types",
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": false
+  },
   "exclude": [
     "stories",
     "**/*.stories.ts",
