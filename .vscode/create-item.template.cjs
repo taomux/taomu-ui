@@ -13,17 +13,17 @@ const files = {
     const nameX = toCamel(nameR, false)
     return [
       `import React from 'react'`,
-      `import clsx from 'clsx'`,
       ``,
+      `import { useTaomuClassName } from '../../hooks'`,
       `import { ${nameX}Styled } from './${nameR}.styled'`,
       ``,
       `export interface ${nameH}Props extends ReactBaseType {}`,
       ``,
-      `export const ${nameH}: React.FC<${nameH}Props> = ({ ...wrapProps }) => {`,
-      `  wrapProps.className = clsx(${nameX}Styled, 'taomu-${nameR}', wrapProps.className)`,
+      `export const ${nameH}: React.FC<${nameH}Props> = ({ className, ...wrapProps }) => {`,
+      `  const ${nameX}ClassName = useTaomuClassName('${nameR}', className)`,
       ``,
       `  return (`,
-      `    <div {...wrapProps}>`,
+      `    <div className={${nameX}ClassName} css={${nameX}Styled} {...wrapProps}>`,
       `      <p>component ${nameR} is created</p>`,
       `    </div>`,
       `  )`,
@@ -66,11 +66,7 @@ const files = {
     const nameR = removeSuffix(name)
     const nameX = toCamel(nameR, false)
 
-    return [
-      `import { css } from '@emotion/react'`,
-      ``,
-      `export const ${nameX}Styled = css\`\``,
-    ]
+    return [`import { css } from '@emotion/react'`, ``, `export const ${nameX}Styled = css\`\``]
   },
 
   less: (name) => {
@@ -96,10 +92,7 @@ const folders = {
  * @param {Boolean} c 首字母大写
  */
 function toCamel(str, c = true) {
-  let strH = str.replace(
-    /([^\-])(?:\-+([^\-]))/g,
-    (_, $1, $2) => $1 + $2.toUpperCase()
-  )
+  let strH = str.replace(/([^\-])(?:\-+([^\-]))/g, (_, $1, $2) => $1 + $2.toUpperCase())
   if (c) strH = strH.slice(0, 1).toUpperCase() + strH.slice(1)
   return strH
 }
