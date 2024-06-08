@@ -95,7 +95,7 @@ export function getGlobalStyled() {
 
     :root {
       --ac-color-primary: ${linkCssVar('colorPrimary')};
-      --ac-color-primary-light: ${mixinRgba('colorPrimaryRgb', 0.8)};
+      --ac-color-primary-light: color-mix(in srgb, ${linkCssVar('colorPrimary')}, #fff 45%);
       --ac-color-primary-dark: color-mix(in srgb, ${linkCssVar('colorPrimary')}, #000 15%);
 
       background-color: ${linkCssVar('colorBackground')};
