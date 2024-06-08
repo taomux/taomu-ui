@@ -19,8 +19,8 @@
     "dev": "npm run doc",
     "doc": "npm run storybook",
     "build": "node scripts/rm-dist.js && tsc -p tsconfig.lib.json",
-    "build:type-doc": "typedoc --tsconfig tsconfig.lib.json",
-    "build:doc": "npm run build-storybook && npm run build:type-doc",
+    "build:typedoc": "typedoc --tsconfig tsconfig.lib.json",
+    "build:docs": "npm run build-storybook && npm run build:typedoc",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
