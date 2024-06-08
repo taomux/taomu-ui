@@ -13,13 +13,13 @@ export interface ButtonLoadingBarProps {
 
 export const ButtonLoadingBar: React.FC<ButtonLoadingBarProps> = ({
   width = '100%',
-  height = 20,
-  radius = 10,
+  height = 16,
+  radius = 4,
   backgroundColor = 'var(--ac-color-primary-light)',
   frontColor = 'var(--ac-color-primary-dark)',
   speed = 0.25,
   scale = 1.2,
-  itemWidth = 10,
+  itemWidth = 6,
 }) => {
   const svgRef = React.useRef<SVGSVGElement>(null)
 
@@ -31,14 +31,14 @@ export const ButtonLoadingBar: React.FC<ButtonLoadingBarProps> = ({
     const rects: React.ReactNode[] = []
 
     const { width: svgRectWidth } = svgRef.current.getBoundingClientRect()
-    const itemHeight = height * 3 + 20
+    const itemHeight = height * 3 + 30
     const rectRepeatCount = svgRectWidth / itemWidth / 2 + 6
 
     for (let i = 0; i < rectRepeatCount; i++) {
       let offsetTop = i * (itemWidth / 1.363) - height * scale
       if (height < 5) {
-        offsetTop -= height * 12
-      } else if (height < 10) {
+        offsetTop -= height * 14
+      } else if (height < 14) {
         offsetTop -= height * 5
       } else if (height < 40) {
         offsetTop -= height * 2
