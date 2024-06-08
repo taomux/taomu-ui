@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { TaomuProvider } from './taomu-provider'
+import { TaomuApp } from './taomu-app'
 
-const meta: Meta<typeof TaomuProvider> = {
-  title: 'Components/TaomuProvider',
-  component: TaomuProvider,
+const meta: Meta<typeof TaomuApp> = {
+  title: 'Components/TaomuApp',
+  component: TaomuApp,
   tags: ['autodocs'],
   argTypes: {},
 }

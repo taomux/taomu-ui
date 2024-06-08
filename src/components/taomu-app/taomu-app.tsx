@@ -1,14 +1,15 @@
 import React from 'react'
 import { Global } from '@emotion/react'
 
+import 'atomic-cls'
 import { useThemeMedia } from '../../hooks'
 import { getGlobalStyled } from '../../styles'
 
-export interface TaomuProviderProps {
+export interface TaomuAppProps {
   children: React.ReactNode
 }
 
-export const TaomuProvider: React.FC<TaomuProviderProps> = ({ children }) => {
+export const TaomuApp: React.FC<TaomuAppProps> = ({ children }) => {
   const { theme } = useThemeMedia()
 
   React.useEffect(() => {

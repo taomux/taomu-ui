@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from 'react'
+import type { ClassValue } from 'clsx'
 
 declare global {
   type BaseSizeLevel = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'none'
@@ -12,12 +13,14 @@ declare global {
 
   type ReactDivProps = HTMLAttributes<HTMLDivElement>
 
-  interface ReactBaseType {
+  interface ReactBaseType<CssVars extends object = GlobalCssVars> {
     id?: string
     children?: React.ReactNode
-    className?: string
+    className?: ClassValue
     style?: React.CSSProperties
     onClick?: React.MouseEventHandler
+    /** 重写 css 变量 */
+    cssVars?: CssVars
   }
 
   interface Window {

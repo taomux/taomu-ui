@@ -1,7 +1,8 @@
 import React from 'react'
 import type { Preview, Decorator } from '@storybook/react'
+import { Global, css } from '@emotion/react'
 
-import { TaomuProvider } from '../src'
+import { TaomuApp, linkCssVar } from '../src'
 
 const preview: Preview = {
   parameters: {
@@ -14,12 +15,19 @@ const preview: Preview = {
   },
 }
 
+const storybookStyled = css`
+  .sbdocs .docs-story {
+    background-color: ${linkCssVar('colorBackground')};
+  }
+`
+
 export const decorators: Decorator[] = [
   (Story) => {
     return (
-      <TaomuProvider>
+      <TaomuApp>
+        <Global styles={storybookStyled} />
         <Story />
-      </TaomuProvider>
+      </TaomuApp>
     )
   },
 ]

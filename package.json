@@ -26,11 +26,12 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
+    "atomic-cls": "^0.0.3",
     "clsx": "^2.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "taomu-store": "^0.0.1",
-    "taomu-toolkit": "^0.0.3"
+    "taomu-toolkit": "^0.0.5"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.5.0",
