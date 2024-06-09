@@ -68,6 +68,11 @@ export function getGlobalStyled() {
       --ac-color-primary-light: color-mix(in srgb, ${linkCssVar('colorPrimary')}, #fff 45%);
       --ac-color-primary-dark: color-mix(in srgb, ${linkCssVar('colorPrimary')}, #000 15%);
 
+      --ac-color-info: ${linkCssVar('colorInfo')};
+      --ac-color-success: ${linkCssVar('colorSuccess')};
+      --ac-color-warning: ${linkCssVar('colorWarning')};
+      --ac-color-error: ${linkCssVar('colorError')};
+
       background-color: ${linkCssVar('colorBackground')};
       color: ${linkCssVar('colorTextDefault')};
       font-family: Inter, Avenir, Helvetica, Arial, sans-serif;

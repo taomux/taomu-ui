@@ -25,7 +25,10 @@ export const Loading: React.FC<LoadingProps> = ({
   ...wrapProps
 }) => {
   const loadingClassName = useTaomuClassName('loading', className)
-  const loadingStyle = useInlineStyle({ loadingSize: size, loadingWeight: weight, loadingSpeed: `${speed}s`, ...cssVars }, style)
+  const loadingStyle = useInlineStyle(
+    { loadingColor: color, loadingSize: size, loadingWeight: weight, loadingSpeed: `${speed}s`, ...cssVars },
+    style
+  )
 
   return <div className={loadingClassName} style={loadingStyle} css={loadingStyled} {...wrapProps} />
 }

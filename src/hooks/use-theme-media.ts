@@ -2,25 +2,21 @@ import React from 'react'
 
 import { globalStore } from '../store'
 
+const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+/** 初始主题色常量 */
+const INITIAL_THEME = mediaQuery?.matches ? 'dark' : 'light'
+
 /**
- * Hook to get the current theme from the user's OS
- *
- * @returns
+ * 获取并监听当前系统主题
  */
 export function useThemeMedia() {
   const { theme: themeConfig } = globalStore.useStore(['theme'])
-  const [theme, setTheme] = React.useState<'light' | 'dark'>('light')
+  const [theme, setTheme] = React.useState<'light' | 'dark'>(INITIAL_THEME)
 
   React.useEffect(() => {
-    let mediaQuery: MediaQueryList | null = null
-    let handleChange = () => {}
-
     if (themeConfig === 'system') {
-      mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      handleChange = () => {
-        setTheme(mediaQuery?.matches ? 'dark' : 'light')
-      }
-      handleChange() // 手动初始化
+      if (!mediaQuery) return
       mediaQuery.addEventListener('change', handleChange)
     } else {
       setTheme(themeConfig)
@@ -32,6 +28,10 @@ export function useThemeMedia() {
       }
     }
   }, [themeConfig])
+
+  function handleChange() {
+    setTheme(mediaQuery?.matches ? 'dark' : 'light')
+  }
 
   return { theme }
 }

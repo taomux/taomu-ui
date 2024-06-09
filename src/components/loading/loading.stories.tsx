@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { Loading } from './loading'
 
+/**
+ * 常规 Loading 组件
+ */
 const meta: Meta<typeof Loading> = {
   title: 'Components/Loading',
   component: Loading,

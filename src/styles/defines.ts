@@ -7,7 +7,14 @@ export type ThemeMode = 'light' | 'dark' | 'common'
 
 export type RgbColorKeys = keyof Pick<
   GlobalCssVars,
-  'colorPrimaryRgb' | 'colorBackgroundRgb' | 'colorFrontRgb' | 'colorShadowRgb'
+  | 'colorPrimaryRgb'
+  | 'colorBackgroundRgb'
+  | 'colorFrontRgb'
+  | 'colorShadowRgb'
+  | 'colorSuccessRgb'
+  | 'colorInfoRgb'
+  | 'colorWarningRgb'
+  | 'colorErrorRgb'
 >
 
 export interface GlobalStyledItem {
@@ -33,9 +40,13 @@ declare global {
     colorFrontRgb?: string
 
     colorSuccess?: string
+    colorSuccessRgb?: string
     colorInfo?: string
+    colorInfoRgb?: string
     colorWarning?: string
+    colorWarningRgb?: string
     colorError?: string
+    colorErrorRgb?: string
 
     /** 默认文本颜色 */
     colorTextDefault?: string

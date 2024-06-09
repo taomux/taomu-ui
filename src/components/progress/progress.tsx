@@ -83,7 +83,7 @@ export const Progress: React.FC<ProgressProps> = ({
         })}
         style={{ width: `${progress}%` }}
       ></div>
-      <div className="relative flex center fs-12 full-screen">{children}</div>
+      {children && <div className="relative flex center fs-12 full-screen">{children}</div>}
     </div>
   )
 }

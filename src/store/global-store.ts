@@ -5,6 +5,14 @@ export interface GlobalStoreState {
   theme: 'light' | 'dark' | 'system'
 }
 
-export const globalStore = new Store<GlobalStoreState>({
-  theme: 'system',
-})
+export const globalStore = new Store<GlobalStoreState>(
+  {
+    theme: (localStorage.getItem('taomu-theme') as GlobalStoreState['theme']) || 'system',
+  },
+  {
+    theme(theme) {
+      localStorage.setItem('taomu-theme', theme)
+      return { theme }
+    },
+  }
+)

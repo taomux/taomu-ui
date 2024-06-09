@@ -1,11 +1,20 @@
+import { linkCssVar, mixinRgba } from '../'
+
 export const COMMON_GLOBAL_VARS: GlobalCssVars = {
   colorPrimary: '#a2c339',
   colorPrimaryRgb: '162, 195, 57',
 
-  colorSuccess: 'var(--ac-color-success)',
-  colorInfo: 'var(--ac-color-info)',
-  colorWarning: 'var(--ac-color-warn)',
-  colorError: 'var(--ac-color-error)',
+  colorSuccess: '#52c41a',
+  colorSuccessRgb: '82, 196, 26',
+  colorInfo: '#1890ff',
+  colorInfoRgb: '24, 144, 255',
+  colorWarning: '#ff9900',
+  colorWarningRgb: '255, 153, 0',
+  colorError: '#ff5257',
+  colorErrorRgb: '255, 82, 87',
+
+  colorTextLink: linkCssVar('colorInfo'),
+  colorTextLinkHover: mixinRgba('colorInfoRgb', 0.75),
 
   fontSize: 16,
 

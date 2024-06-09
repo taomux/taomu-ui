@@ -1,6 +1,6 @@
 import React from 'react'
 import { addons, types } from '@storybook/manager-api'
-import { IconButton, Loader } from '@storybook/components'
+import { IconButton } from '@storybook/components'
 import { LightningIcon, SunIcon, MoonIcon } from '@storybook/icons' // https://main--64b56e737c0aeefed9d5e675.chromatic.com/?path=/docs/introduction--docs
 
 import { globalStore } from '../../src/store'
@@ -56,7 +56,6 @@ export const SwitchThemeButton: React.FC = () => {
   return (
     <IconButton key={TOOL_ID} title="切换主题" onClick={toggleMyTool}>
       {renderIcon()}
-      <Loader />
     </IconButton>
   )
 }

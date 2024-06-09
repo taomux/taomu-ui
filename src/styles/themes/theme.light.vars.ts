@@ -1,4 +1,4 @@
-import { CssVars, linkCssVar, mixinRgba } from '../'
+import { CssVars, linkCssVar } from '../'
 
 export const LIGHT_GLOBAL_VARS: CssVars = {
   colorBackground: `rgb(${linkCssVar('colorBackgroundRgb')})`,
@@ -11,6 +11,6 @@ export const LIGHT_GLOBAL_VARS: CssVars = {
   colorTextGray: 'rgba(81, 90, 110, 0.75)',
   colorTextLight: 'rgba(81, 90, 110, 0.45)',
 
-  colorBorder: 'rgba(0, 0, 0, 0.07)',
-  colorBorderSplit: 'rgba(0, 0, 0, 0.05)',
+  colorBorder: 'rgba(0, 0, 0, 0.1)',
+  colorBorderSplit: 'rgba(0, 0, 0, 0.06)',
 }
