@@ -2,7 +2,6 @@ import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from './button'
-import { ButtonLoadingBar } from './button.loading'
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -56,17 +55,6 @@ export const 基础示例2: Story = {
         >
           越点越圆
         </Button>
-      </div>
-    )
-  },
-}
-
-export const Loading: Story = {
-  args: {},
-  render: () => {
-    return (
-      <div>
-        <ButtonLoadingBar />
       </div>
     )
   },

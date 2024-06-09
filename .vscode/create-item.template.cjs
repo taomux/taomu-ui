@@ -14,16 +14,17 @@ const files = {
     return [
       `import React from 'react'`,
       ``,
-      `import { useTaomuClassName } from '../../hooks'`,
-      `import { ${nameX}Styled } from './${nameR}.styled'`,
+      `import { useTaomuClassName, useInlineStyle } from '../../hooks'`,
+      `import { ${nameX}Styled, ${nameH}CssVars } from './${nameR}.styled'`,
       ``,
-      `export interface ${nameH}Props extends ReactBaseType {}`,
+      `export interface ${nameH}Props extends ReactBaseType<${nameH}CssVars> {}`,
       ``,
-      `export const ${nameH}: React.FC<${nameH}Props> = ({ className, ...wrapProps }) => {`,
+      `export const ${nameH}: React.FC<${nameH}Props> = ({ className, cssVars, style, ...wrapProps }) => {`,
       `  const ${nameX}ClassName = useTaomuClassName('${nameR}', className)`,
+      `  const ${nameX}Style = useInlineStyle(cssVars, style)`,
       ``,
       `  return (`,
-      `    <div className={${nameX}ClassName} css={${nameX}Styled} {...wrapProps}>`,
+      `    <div className={${nameX}ClassName} style={${nameX}Style} css={${nameX}Styled} {...wrapProps}>`,
       `      <p>component ${nameR} is created</p>`,
       `    </div>`,
       `  )`,
@@ -65,8 +66,30 @@ const files = {
   styled: (name) => {
     const nameR = removeSuffix(name)
     const nameX = toCamel(nameR, false)
+    const nameH = toCamel(nameR)
 
-    return [`import { css } from '@emotion/react'`, ``, `export const ${nameX}Styled = css\`\``]
+    return [
+      `import { css } from '@emotion/react'`,
+      ``,
+      `import { setGlobalCssVars, linkCssVar } from '../../styles'`,
+      ``,
+      `export interface ${nameH}CssVars {`,
+      `  ${nameX}Color?: string`,
+      `}`,
+      ``,
+      `setGlobalCssVars('common', {`,
+      `  ${nameX}Color: linkCssVar('colorPrimary'),`,
+      `})`,
+      ``,
+      `export const ${nameX}Styled = css\``,
+      `  stroke: \${linkCssVar('${nameX}Color')};`,
+      `\``,
+      ``,
+      `declare global {`,
+      `  interface GlobalCssVars extends ${nameH}CssVars {}`,
+      `}`,
+      ``,
+    ]
   },
 
   less: (name) => {

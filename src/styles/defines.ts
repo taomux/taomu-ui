@@ -32,6 +32,11 @@ declare global {
     /** 前景色 RGB */
     colorFrontRgb?: string
 
+    colorSuccess?: string
+    colorInfo?: string
+    colorWarning?: string
+    colorError?: string
+
     /** 默认文本颜色 */
     colorTextDefault?: string
     /** 标题颜色 */

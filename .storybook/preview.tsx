@@ -3,6 +3,7 @@ import type { Preview, Decorator } from '@storybook/react'
 import { Global, css } from '@emotion/react'
 
 import { TaomuApp, linkCssVar } from '../src'
+import './toolbar'
 
 const preview: Preview = {
   parameters: {

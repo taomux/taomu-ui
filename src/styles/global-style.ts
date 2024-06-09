@@ -1,8 +1,9 @@
 import { css, type SerializedStyles } from '@emotion/react'
-import { mapInlineCssVarsToString, mapInlineCssVars, getCssVarPrefixWithGroups } from 'taomu-toolkit'
+import { mapInlineCssVarsToString } from 'taomu-toolkit'
 
-import { ThemeMode, RgbColorKeys, CssVars, GlobalStyledItem, TAOMU_PREFIX } from './defines'
+import { ThemeMode, CssVars, GlobalStyledItem, TAOMU_PREFIX } from './defines'
 import { COMMON_GLOBAL_VARS, LIGHT_GLOBAL_VARS, DARK_GLOBAL_VARS } from './themes'
+import { linkCssVar } from './utils'
 
 const globalCssVars: Record<ThemeMode, GlobalCssVars> = {
   common: { ...COMMON_GLOBAL_VARS },
@@ -30,37 +31,6 @@ export function setGlobalCssVars(themeMode: ThemeMode, vars: GlobalCssVars) {
  */
 export function setGlobalStyles(styled: SerializedStyles, scoped?: boolean) {
   globalStyledMap[styled.name] = { scoped, styled }
-}
-
-/**
- * 映射行内 css 变量
- *
- * @param vars
- * @returns
- */
-export function mapTaomuInlineCssVars<T extends GlobalCssVars>(vars?: T) {
-  return mapInlineCssVars(vars, TAOMU_PREFIX)
-}
-
-/**
- * 链接到 css 变量，返回 `var(--xxx-xxx)`
- *
- * @param name
- * @returns
- */
-export function linkCssVar(name: GlobalCssVarsNames) {
-  return `var(${getCssVarPrefixWithGroups(TAOMU_PREFIX)}${name})`
-}
-
-/**
- * 混合 Rgba
- *
- * @param name
- * @param opacity
- * @returns
- */
-export function mixinRgba(name: RgbColorKeys, opacity: number) {
-  return `rgba(${linkCssVar(name)}, ${opacity})`
 }
 
 /**

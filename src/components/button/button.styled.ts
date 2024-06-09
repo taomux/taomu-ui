@@ -32,8 +32,9 @@ setGlobalCssVars('common', {
 })
 
 setGlobalCssVars('light', {
-  btnBackground: linkCssVar('colorFront'),
+  btnBackground: '#fff',
   btnHoverBackground: '#f2f3f5',
+  btnOutlineColor: mixinRgba('colorFrontRgb', 0.15),
 })
 
 setGlobalCssVars('dark', {

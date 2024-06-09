@@ -1,4 +1,4 @@
-import { mixinRgba, linkCssVar } from '../global-style'
+import { mixinRgba, linkCssVar } from '../'
 
 export const DARK_GLOBAL_VARS: GlobalCssVars = {
   colorBackground: `rgb(${linkCssVar('colorBackgroundRgb')})`,

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export interface ButtonLoadingBarProps {
+export interface SvgProgressBarProps {
   width?: number
   height?: number
   itemWidth?: number
@@ -11,7 +11,12 @@ export interface ButtonLoadingBarProps {
   scale?: number
 }
 
-export const ButtonLoadingBar: React.FC<ButtonLoadingBarProps> = ({
+/**
+ * 废弃方案
+ *
+ * @deprecated
+ */
+export const SvgProgressBar: React.FC<SvgProgressBarProps> = ({
   width = '100%',
   height = 16,
   radius = 4,
