@@ -1,1 +1,1 @@
-export * from './test'
+export * from './switch-theme'

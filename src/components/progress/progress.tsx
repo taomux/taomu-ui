@@ -21,8 +21,14 @@ export interface ProgressProps extends ReactBaseType<ProgressCssVars> {
   color?: string
   /** 带条纹 */
   striped?: boolean
+  /** 条纹是否反转 */
+  stripedReverse?: boolean
+  /** 条纹动画反转 */
+  stripedAnimationReverse?: boolean
   /** 条纹动画, 默认开启，仅在 striped 为 true 时生效 */
   animated?: boolean
+  /** 启用过渡动画 */
+  transition?: boolean
 }
 
 /**
@@ -39,12 +45,24 @@ export const Progress: React.FC<ProgressProps> = ({
   radius,
   color,
   striped,
+  stripedReverse,
+  stripedAnimationReverse,
   animated = true,
+  transition = true,
   progress = 0,
   type = 'primary',
   ...wrapProps
 }) => {
-  const progressClassName = useTaomuClassName('progress', `progress-${type}`, className)
+  const progressClassName = useTaomuClassName(
+    'progress',
+    `progress-${type}`,
+    {
+      'striped-reverse': stripedReverse,
+      'striped-animation-reverse': stripedAnimationReverse,
+      'progress-transition': transition,
+    },
+    className
+  )
   const progressStyle = useInlineStyle(
     {
       progressWidth: width,

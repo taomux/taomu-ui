@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useGlobalStore } from '../store'
+import { globalStore } from '../store'
 
 /**
  * Hook to get the current theme from the user's OS
@@ -8,7 +8,7 @@ import { useGlobalStore } from '../store'
  * @returns
  */
 export function useThemeMedia() {
-  const { theme: themeConfig } = useGlobalStore(['theme'])
+  const { theme: themeConfig } = globalStore.useStore(['theme'])
   const [theme, setTheme] = React.useState<'light' | 'dark'>('light')
 
   React.useEffect(() => {
