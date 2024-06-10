@@ -16,6 +16,8 @@ export interface BtnCssVars {
   /** 按钮边框颜色 */
   btnBorderColor?: string
 
+  /** 按钮宽度 */
+  btnWidth?: number | string
   /** 按钮高度 */
   btnHeight?: number | string
   /** 按钮横向内边距 */
@@ -25,6 +27,7 @@ export interface BtnCssVars {
 }
 
 setGlobalCssVars('common', {
+  btnWidth: 'auto',
   btnColor: linkCssVar('colorTextGray'),
   btnColorHover: linkCssVar('colorTextDefault'),
   btnOutlineColor: mixinRgba('colorFrontRgb', 0.3),
@@ -46,13 +49,13 @@ setGlobalCssVars('dark', {
 })
 
 export const buttonStyled = css`
-  cursor: pointer;
   user-select: none;
   transition: all 0.25s;
   outline: transparent solid 0;
   overflow: hidden;
   position: relative;
 
+  width: ${linkCssVar('btnWidth')};
   height: ${linkCssVar('btnHeight')};
   background-color: ${linkCssVar('btnBackground')};
   border-radius: ${linkCssVar('btnRadius')};
@@ -66,7 +69,7 @@ export const buttonStyled = css`
   }
 
   &.is-loading {
-    cursor: default;
+    cursor: progress;
   }
 
   &:hover:not([disabled]) {

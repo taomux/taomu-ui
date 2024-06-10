@@ -1,11 +1,9 @@
 import React from 'react'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { isPromise } from 'taomu-toolkit'
 
 import { useInlineStyle, useTaomuClassName } from '../../hooks'
 import { buttonStyled, BtnCssVars } from './button.styled'
 import { Progress } from '../progress'
-import { buttonAutoAnimate } from './button.animate'
 
 export type ButtonType = 'primary' | 'default' | 'warning' | 'danger' | 'link'
 export type ButtonHtmlType = 'button' | 'submit' | 'reset'
@@ -13,6 +11,12 @@ export type ButtonHtmlType = 'button' | 'submit' | 'reset'
 export interface ButtonProps extends ReactBaseType<BtnCssVars> {
   /** 按钮类型 */
   type?: ButtonType
+  /** 按钮宽度 */
+  width?: number | string
+  /** 按钮高度 */
+  height?: number | string
+  /** 按钮横向间距 */
+  paddingX?: number | string
   /** 使用 flex 替换 inline-flex */
   block?: boolean
   /** 幽灵按钮 */
@@ -31,12 +35,48 @@ export interface ButtonProps extends ReactBaseType<BtnCssVars> {
   showOutline?: boolean
 }
 
+const LoadingBar: React.FC = () => {
+  // TODO: 使用 props 接收状态开控制移出动画
+  const domRef = React.useRef<HTMLDivElement>(null)
+  React.useEffect(() => {
+    if (!domRef.current) return
+
+    const k = new KeyframeEffect(
+      domRef.current,
+      [
+        { transform: 'translate3d(100%, 0, 0)', opacity: 0 },
+        { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+      ],
+      {
+        duration: 600,
+        easing: 'cubic-bezier(0.175, 0.82, 0.265, 1)',
+      }
+    )
+
+    const animation = new Animation(k)
+    animation.play()
+
+    return () => {
+      animation.cancel()
+    }
+  }, [domRef])
+
+  return (
+    <div ref={domRef} className="btn-loader-wrap">
+      <Progress className="btn-loader" height={3} striped progress={100} cssVars={{ progressSpeed: '0.35s' }} />
+    </div>
+  )
+}
+
 export const Button: React.FC<ButtonProps> = ({
   children,
   className,
   cssVars,
   style,
   type = 'default',
+  width,
+  height,
+  paddingX,
   showOutline = true,
   ghost,
   glass,
@@ -46,13 +86,14 @@ export const Button: React.FC<ButtonProps> = ({
   onClick,
   ...wrapProps
 }) => {
-  const [parent] = useAutoAnimate(buttonAutoAnimate)
+  // const [parent] = useAutoAnimate(buttonAutoAnimate)
   const [insideLoading, setInsideLoading] = React.useState(false)
   const isLoading = loading || insideLoading
   let isDisabled = disabled || isLoading
 
   const btnClassName = useTaomuClassName(
     'btn',
+    'flex flex-inline center',
     `btn-${type}`,
     {
       'show-outline': showOutline,
@@ -62,7 +103,7 @@ export const Button: React.FC<ButtonProps> = ({
     },
     className
   )
-  const btnStyle = useInlineStyle(cssVars, style)
+  const btnStyle = useInlineStyle({ btnWidth: width, btnHeight: height, btnPaddingX: paddingX, ...cssVars }, style)
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     if (isDisabled) {
@@ -83,6 +124,8 @@ export const Button: React.FC<ButtonProps> = ({
   function renderLoader() {
     if (!isLoading) return null
 
+    return <LoadingBar />
+
     return (
       <div className="btn-loader-wrap">
         <Progress className="btn-loader" height={3} striped progress={100} cssVars={{ progressSpeed: '0.35s' }} />
@@ -92,7 +135,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      ref={parent}
+      // ref={parent}
       css={buttonStyled}
       className={btnClassName}
       style={btnStyle}

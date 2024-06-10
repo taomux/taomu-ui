@@ -2,6 +2,7 @@ import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from './button'
+import { IconSun, IconMail } from '../icons'
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -201,6 +202,24 @@ export const Loading: Story = {
             Link
           </Button>
         </div>
+      </div>
+    )
+  },
+}
+
+/**
+ * 默认使用 flex 布局
+ */
+export const 居中测试: Story = {
+  render: () => {
+    return (
+      <div>
+        <Button className="gap-12">
+          <IconMail size={16} />
+          <span>Text</span>
+          <span className="fs-18">fs-18</span>
+          <IconSun size={12} />
+        </Button>
       </div>
     )
   },
