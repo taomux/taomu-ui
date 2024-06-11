@@ -4,6 +4,7 @@ import { isPromise } from 'taomu-toolkit'
 import { useInlineStyle, useTaomuClassName } from '../../hooks'
 import { buttonStyled, BtnCssVars } from './button.styled'
 import { Progress } from '../progress'
+import { Transition } from '../transition'
 
 export type ButtonType = 'primary' | 'default' | 'warning' | 'danger' | 'link'
 export type ButtonHtmlType = 'button' | 'submit' | 'reset'
@@ -33,39 +34,6 @@ export interface ButtonProps extends ReactBaseType<BtnCssVars> {
   autoLoading?: boolean
   /** 显示外轮廓 */
   showOutline?: boolean
-}
-
-const LoadingBar: React.FC = () => {
-  // TODO: 使用 props 接收状态开控制移出动画
-  const domRef = React.useRef<HTMLDivElement>(null)
-  React.useEffect(() => {
-    if (!domRef.current) return
-
-    const k = new KeyframeEffect(
-      domRef.current,
-      [
-        { transform: 'translate3d(100%, 0, 0)', opacity: 0 },
-        { transform: 'translate3d(0, 0, 0)', opacity: 1 },
-      ],
-      {
-        duration: 600,
-        easing: 'cubic-bezier(0.175, 0.82, 0.265, 1)',
-      }
-    )
-
-    const animation = new Animation(k)
-    animation.play()
-
-    return () => {
-      animation.cancel()
-    }
-  }, [domRef])
-
-  return (
-    <div ref={domRef} className="btn-loader-wrap">
-      <Progress className="btn-loader" height={3} striped progress={100} cssVars={{ progressSpeed: '0.35s' }} />
-    </div>
-  )
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -121,18 +89,6 @@ export const Button: React.FC<ButtonProps> = ({
     }
   }
 
-  function renderLoader() {
-    if (!isLoading) return null
-
-    return <LoadingBar />
-
-    return (
-      <div className="btn-loader-wrap">
-        <Progress className="btn-loader" height={3} striped progress={100} cssVars={{ progressSpeed: '0.35s' }} />
-      </div>
-    )
-  }
-
   return (
     <button
       // ref={parent}
@@ -144,7 +100,11 @@ export const Button: React.FC<ButtonProps> = ({
       {...wrapProps}
     >
       {children}
-      {renderLoader()}
+      <Transition show={isLoading} animationType="slideRightFade">
+        <div className="btn-loader-wrap">
+          <Progress className="btn-loader" height={3} striped progress={100} cssVars={{ progressSpeed: '0.35s' }} />
+        </div>
+      </Transition>
     </button>
   )
 }

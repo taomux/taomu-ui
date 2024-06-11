@@ -7,6 +7,8 @@ import { IconList } from './icon-list.doc'
  * Icons
  *
  * use: <a href="https://feathericons.com/" target="_blank">react-feather</a> (MIT)
+ * 
+ * 使用 vite 构建时所有图标均为按需引用
  */
 const meta: Meta<typeof IconExample> = {
   title: 'Components/Icons',

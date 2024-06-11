@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { useTaomuClassName, useInlineStyle } from '../../hooks'
-import { transitionStyled, TransitionCssVars } from './transition.styled'
+import * as animationTypes from './animation-types'
 
 export interface TransitionProps {
   children: React.ReactElement
@@ -10,25 +9,35 @@ export interface TransitionProps {
   /** 外部控制的状态，决定 children 是否进场 */
   show?: boolean
   /** 内置动画类型 */
-  animationType?: ''
+  animationType?: AnimationTypes
+  /** 动画配置 */
+  config?: TransitionConfig
+}
+
+export interface TransitionConfig {
+  /** 此处的 options 将被合并至 enter 和 exit，低优先级 */
+  options?: KeyframeEffectOptions
   /** 进场动画配置 */
   enter?: KeyframeEffectArgs | KeyframeEffectBuilder
   /** 出场动画配置 */
   exit?: KeyframeEffectArgs | KeyframeEffectBuilder
 }
 
+export type AnimationTypes = keyof typeof animationTypes
+
 export interface KeyframeEffectArgs {
   keyframes: Keyframe[] | PropertyIndexedKeyframes | null
-  options?: number | KeyframeEffectOptions
+  options?: KeyframeEffectOptions
 }
 
 /**
  * 在一个构建函数中创建 [KeyframeEffect](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect)
  */
-export type KeyframeEffectBuilder = (el: HTMLElement) => KeyframeEffectArgs | void
+export type KeyframeEffectBuilder = (el: HTMLElement, options?: KeyframeEffectOptions) => KeyframeEffectArgs | void
 
-export const Transition: React.FC<TransitionProps> = ({ children, proxyRef, show, enter, exit }) => {
+export const Transition: React.FC<TransitionProps> = ({ children, proxyRef, show, config, animationType = 'fade' }) => {
   const nodeRef = React.useRef<HTMLElement>(null)
+  const animationRef = React.useRef<Animation | void>()
   const [isRenderNode, setIsRenderNode] = React.useState(show)
 
   React.useEffect(() => {
@@ -39,20 +48,35 @@ export const Transition: React.FC<TransitionProps> = ({ children, proxyRef, show
 
   React.useEffect(() => {
     if (show) {
-      setIsRenderNode(true)
+      if (animationRef?.current?.playState === 'running') {
+        nodeRef.current!.style.visibility = 'hidden' // 防止动画重叠
+        animationRef?.current?.cancel()
+        setIsRenderNode(false)
+      }
+      setTimeout(() => {
+        setIsRenderNode(true)
+      }, 0)
     } else {
       if (!nodeRef.current) return
-      playAnimation(nodeRef.current, exit, true).then(() => {
-        nodeRef.current = null
+      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'exit')
+      if (!animationRef.current) return
+
+      animationRef.current.play()
+
+      animationRef.current.onfinish = () => {
+        nodeRef.current!.style.visibility = 'hidden'
         setIsRenderNode(false)
-      })
+      }
     }
   }, [show])
 
   React.useEffect(() => {
     if (isRenderNode) {
       if (!nodeRef.current) return
-      playAnimation(nodeRef.current, enter)
+      nodeRef.current.style.visibility = 'visible'
+      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'enter')
+      if (!animationRef.current) return
+      animationRef.current.play()
     }
   }, [isRenderNode])
 
@@ -61,58 +85,25 @@ export const Transition: React.FC<TransitionProps> = ({ children, proxyRef, show
   return React.cloneElement(children, { ref: nodeRef })
 }
 
-async function playAnimation(el: HTMLElement, config?: KeyframeEffectArgs | KeyframeEffectBuilder, isExit = false) {
-  if (!isExit) {
-    el.style.visibility = 'visible'
-  }
+function createAnimation(
+  el: HTMLElement,
+  config?: TransitionConfig,
+  animationType?: AnimationTypes,
+  type: 'enter' | 'exit' = 'enter'
+): Animation | void {
+  if (typeof config === 'object') {
+    const item = config[type]
 
-  if (!config) return
-
-  let keyframes: KeyframeEffectArgs['keyframes'] | undefined
-  let options: KeyframeEffectArgs['options'] | undefined
-
-  if (typeof config === 'function') {
-    const res = config(el)
-    if (res) {
-      keyframes = res.keyframes
-      options = res.options
+    if (typeof item === 'function') {
+      const res = item(el, config.options)
+      if (!res?.keyframes) return
+      return new Animation(new KeyframeEffect(el, res.keyframes, Object.assign({}, config.options, res.options)))
+    } else if (typeof item === 'object') {
+      return new Animation(new KeyframeEffect(el, item.keyframes, Object.assign({}, config.options, item.options)))
     }
-  } else if (typeof config === 'object') {
-    keyframes = config.keyframes
-    options = config.options
-  }
-
-  if (!keyframes) return
-
-  console.log({ keyframes, options })
-
-  const animation = new Animation(new KeyframeEffect(el, keyframes, options))
-  animation.play()
-
-  return new Promise<void>((resolve) => {
-    const duration = typeof options === 'number' ? options : options?.duration
-
-    console.log({ duration })
-
-    animation.addEventListener('finish', () => {})
-
-    animation.onfinish = () => {
-      if (isExit) {
-        el.style.visibility = 'hidden'
-      }
-      resolve()
+  } else if (animationType) {
+    if (Object.prototype.hasOwnProperty.call(animationTypes, animationType)) {
+      return createAnimation(el, animationTypes[animationType], undefined, type)
     }
-
-    // if (duration) {
-    //   setTimeout(() => {
-    //     resolve()
-    //     // animation.cancel()
-    //   }, duration - 30)
-    // } else {
-    //   animation.onfinish = () => {
-    //     resolve()
-    //     // animation.cancel()
-    //   }
-    // }
-  })
+  }
 }
