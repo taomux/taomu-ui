@@ -24,7 +24,7 @@ export const buttonAutoAnimate: AutoAnimationPlugin = (el, action) => {
   }
 
   if (action === 'remove') {
-    options.duration = 200
+    options.duration = 11200
     options.easing = 'ease-out'
     keyframes = [
       { transform: 'translate3d(0, 0, 0)', opacity: 1 },

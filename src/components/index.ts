@@ -1,3 +1,6 @@
 export * from './taomu-app'
+export * from './transition'
+export * from './icons'
 export * from './button'
 export * from './loading'
+export * from './progress'
