@@ -36,6 +36,8 @@ export const checkboxStyled = css`
     position: relative;
     appearance: none;
     cursor: pointer;
+    border-radius: ${linkCssVar('checkboxRadius')};
+    transition: all var(--td);
 
     &::before {
       width: ${linkCssVar('checkboxSize')};
@@ -99,17 +101,13 @@ export const checkboxStyled = css`
 
   &.show-outline {
     .checkbox-box:not([disabled]) {
-      &::before {
-        outline-offset: 3px;
-        outline: transparent solid;
-      }
+      outline: transparent solid;
+    }
 
+    .checkbox-box:not([disabled]) {
       &:active,
       &:focus {
-        &::before {
-          outline-offset: 0;
-          outline: ${linkCssVar('checkboxOutlineColor')} solid 2px;
-        }
+        outline: ${linkCssVar('checkboxOutlineColor')} solid 2px;
       }
     }
   }

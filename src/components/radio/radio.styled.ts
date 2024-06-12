@@ -34,6 +34,8 @@ export const radioStyled = css`
     position: relative;
     appearance: none;
     cursor: pointer;
+    transition: all var(--td);
+    border-radius: 50%;
     top: -1.5px;
 
     &::before {
@@ -41,7 +43,7 @@ export const radioStyled = css`
       height: ${linkCssVar('radioSize')};
       content: '';
       display: flex;
-      border-radius: 50%;
+      border-radius: inherit;
       border: 2px solid ${linkCssVar('radioBorderColor')};
       background-color: ${linkCssVar('radioBackground')};
       transition: all var(--td);
@@ -55,7 +57,7 @@ export const radioStyled = css`
       top: 50%;
       transform: translate(-50%, -50%);
       position: absolute;
-      border-radius: 50%;
+      border-radius: inherit;
       pointer-events: none;
       background: rgba(255, 255, 255, 0.7);
       transition: all var(--td);
@@ -93,19 +95,20 @@ export const radioStyled = css`
 
   &.show-outline {
     .radio-box:not([disabled]) {
-      &::before {
-        outline-offset: 3px;
-        outline: transparent solid;
-      }
+      outline: transparent solid;
+    }
 
+    .radio-box:not([disabled]) {
       &:active,
       &:focus {
-        &::before {
-          outline-offset: 0;
-          outline: ${linkCssVar('radioOutlineColor')} solid 2px;
-        }
+        outline: ${linkCssVar('radioOutlineColor')} solid 2px;
       }
     }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
   }
 `
 

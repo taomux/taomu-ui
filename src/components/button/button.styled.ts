@@ -78,7 +78,7 @@ export const buttonStyled = css`
   }
 
   &.show-outline:not([disabled]) {
-    outline-offset: 6px;
+    outline-offset: 0px;
     &:active,
     &:focus {
       outline-offset: 0;

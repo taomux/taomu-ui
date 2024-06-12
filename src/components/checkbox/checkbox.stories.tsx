@@ -38,7 +38,7 @@ export const 禁用: Story = {
 export const 尺寸和圆角: Story = {
   render: () => {
     return (
-      <div className="flex row gap-12">
+      <div className="flex row gap-12 flex-wrap">
         <Checkbox label="size-12" size={12} />
         <Checkbox label="size-15(default)" />
         <Checkbox label="size-24" size={24} />
