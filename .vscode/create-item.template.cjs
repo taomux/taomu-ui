@@ -21,7 +21,7 @@ const files = {
       ``,
       `export const ${nameH}: React.FC<${nameH}Props> = ({ className, cssVars, style, ...wrapProps }) => {`,
       `  const ${nameX}ClassName = useTaomuClassName('${nameR}', className)`,
-      `  const ${nameX}Style = useInlineStyle(cssVars, style)`,
+      `  const ${nameX}Style = useInlineStyle<${nameH}CssVars>(cssVars, style)`,
       ``,
       `  return (`,
       `    <div className={${nameX}ClassName} style={${nameX}Style} css={${nameX}Styled} {...wrapProps}>`,
