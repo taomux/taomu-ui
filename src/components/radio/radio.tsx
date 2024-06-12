@@ -1,17 +1,15 @@
 import React from 'react'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
-import { checkboxStyled, CheckboxCssVars } from './checkbox.styled'
+import { radioStyled, RadioCssVars } from './radio.styled'
 
-export interface CheckboxProps extends ReactBaseType<CheckboxCssVars> {
+export interface RadioProps extends ReactBaseType<RadioCssVars> {
   /** 复选框的标签 */
   label?: React.ReactNode
   /** 复选框尺寸 */
   size?: number | string
   /** 复选框颜色 */
   color?: string
-  /** 圆角 */
-  radius?: number | string
   /** 禁用状态 */
   disabled?: boolean
   /** 显示外轮廓 */
@@ -20,7 +18,7 @@ export interface CheckboxProps extends ReactBaseType<CheckboxCssVars> {
   onChange?: (value: boolean, e: React.ChangeEvent) => void
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({
+export const Radio: React.FC<RadioProps> = ({
   children,
   className,
   cssVars,
@@ -28,24 +26,20 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   label,
   size,
   color,
-  radius,
+  disabled,
   showOutline = true,
   value,
-  disabled,
   onChange,
   ...wrapProps
 }) => {
-  const checkboxClassName = useTaomuClassName('checkbox', 'checkbox-label', { disabled, 'show-outline': showOutline }, className)
-  const checkboxStyle = useInlineStyle<CheckboxCssVars>(
-    { checkboxSize: size, checkboxColor: color, checkboxRadius: radius, ...cssVars },
-    style
-  )
+  const radioClassName = useTaomuClassName('radio', { disabled, 'show-outline': showOutline }, className)
+  const radioStyle = useInlineStyle<RadioCssVars>(cssVars, style)
 
   return (
-    <label className={checkboxClassName} style={checkboxStyle} css={checkboxStyled} {...wrapProps}>
+    <label className={radioClassName} style={radioStyle} css={radioStyled} {...wrapProps}>
       <input
-        className="checkbox-box"
-        type="checkbox"
+        className="radio-box"
+        type="radio"
         disabled={disabled}
         checked={value}
         onChange={(e) => onChange?.(e.target.checked, e)}

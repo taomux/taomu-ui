@@ -40,7 +40,7 @@ export const 尺寸和圆角: Story = {
     return (
       <div className="flex row gap-12">
         <Checkbox label="size-12" size={12} />
-        <Checkbox label="size-16(default)" />
+        <Checkbox label="size-15(default)" />
         <Checkbox label="size-24" size={24} />
         <Checkbox label="size-32" size={32} />
         <Checkbox label="size-32-r-12" size={32} radius={12} />
@@ -48,6 +48,18 @@ export const 尺寸和圆角: Story = {
         <Checkbox label="size-48-r-30" size={48} radius={30} />
       </div>
     )
+  },
+}
+
+/**
+ * label 作为快捷属性用于快速定义标签
+ *
+ * 如果你传入了任意 children，那么 label 将失效
+ */
+export const Label与Children: Story = {
+  args: {
+    label: 'checkbox label',
+    children: 'checkbox children',
   },
 }
 

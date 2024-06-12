@@ -28,12 +28,14 @@ export interface ButtonProps extends ReactBaseType<BtnCssVars> {
   htmlType?: ButtonHtmlType
   /** 是否禁用 */
   disabled?: boolean
+  /** 显示外轮廓 */
+  showOutline?: boolean
   /** 加载状态 */
   loading?: boolean
   /** 如果 onClick 返回一个 promise, 则自动添加按钮 loading */
   autoLoading?: boolean
-  /** 显示外轮廓 */
-  showOutline?: boolean
+  /** 在 loading 结束后，自动聚焦 */
+  autoFocus?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -51,10 +53,11 @@ export const Button: React.FC<ButtonProps> = ({
   loading,
   disabled,
   autoLoading = true,
+  autoFocus = true,
   onClick,
   ...wrapProps
 }) => {
-  // const [parent] = useAutoAnimate(buttonAutoAnimate)
+  const btnRef = React.useRef<HTMLButtonElement>(null)
   const [insideLoading, setInsideLoading] = React.useState(false)
   const isLoading = loading || insideLoading
   let isDisabled = disabled || isLoading
@@ -85,13 +88,18 @@ export const Button: React.FC<ButtonProps> = ({
       setInsideLoading(true)
       p.finally(() => {
         setInsideLoading(false)
+        if (autoFocus) {
+          setTimeout(() => {
+            btnRef.current?.focus()
+          }, 0)
+        }
       })
     }
   }
 
   return (
     <button
-      // ref={parent}
+      ref={btnRef}
       css={buttonStyled}
       className={btnClassName}
       style={btnStyle}

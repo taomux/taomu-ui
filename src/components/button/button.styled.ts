@@ -44,7 +44,7 @@ setGlobalCssVars('light', {
 })
 
 setGlobalCssVars('dark', {
-  btnBackground: mixinRgba('colorFrontRgb', 0.15),
+  btnBackground: mixinRgba('colorFrontRgb', 0.1),
   btnBackgroundHover: mixinRgba('colorFrontRgb', 0.25),
 })
 
@@ -78,10 +78,11 @@ export const buttonStyled = css`
   }
 
   &.show-outline:not([disabled]) {
+    outline-offset: 6px;
     &:active,
     &:focus {
-      outline: ${linkCssVar('btnOutlineColor')} solid 3px;
       outline-offset: 0;
+      outline: ${linkCssVar('btnOutlineColor')} solid 3px;
     }
   }
 
