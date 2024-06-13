@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
+    "@rc-component/portal": "^1.1.2",
     "atomic-cls": "^0.0.4",
     "clsx": "^2.1.1",
     "react": "^18.3.1",
