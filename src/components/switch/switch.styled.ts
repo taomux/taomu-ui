@@ -69,7 +69,7 @@ export const switchStyled = css`
 
     &:active {
       .switch-thumb {
-        width: 55%;
+        width: 60%;
       }
     }
 
