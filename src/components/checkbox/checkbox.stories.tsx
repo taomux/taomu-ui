@@ -32,15 +32,14 @@ export const 禁用: Story = {
 
 /**
  * 一般不会搞这么大，使用默认尺寸获得最佳视觉效果
- *
- * 你可以不用，但不能没有
  */
 export const 尺寸和圆角: Story = {
   render: () => {
     return (
       <div className="flex row gap-12 flex-wrap">
-        <Checkbox label="size-12" size={12} />
-        <Checkbox label="size-15(default)" />
+        <Checkbox label="size-11" size={11} />
+        <Checkbox label="size-13(default)" />
+        <Checkbox label="size-18" size={18} />
         <Checkbox label="size-24" size={24} />
         <Checkbox label="size-32" size={32} />
         <Checkbox label="size-32-r-12" size={32} radius={12} />

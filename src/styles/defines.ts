@@ -10,7 +10,6 @@ export type RgbColorKeys = keyof Pick<
   | 'colorPrimaryRgb'
   | 'colorBackgroundRgb'
   | 'colorFrontRgb'
-  | 'colorShadowRgb'
   | 'colorSuccessRgb'
   | 'colorInfoRgb'
   | 'colorWarningRgb'
@@ -66,12 +65,18 @@ declare global {
     /** 分割线颜色 */
     colorBorderSplit?: string
 
-    /** 阴影颜色 RGB */
-    colorShadowRgb?: string
     /** 阴影颜色 */
     colorShadow?: string
-    /** 阴影样式 */
-    boxShadow?: string
+    /** 阴影 XS */
+    boxShadowXS?: string
+    /** 阴影 SM */
+    boxShadowSM?: string
+    /** 阴影 MD */
+    boxShadowMD?: string
+    /** 阴影 LG */
+    boxShadowLG?: string
+    /** 阴影 XL */
+    boxShadowXL?: string
 
     /** 字体大小 */
     fontSize?: number

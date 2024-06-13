@@ -11,7 +11,7 @@ export interface RadioCssVars {
 }
 
 setGlobalCssVars('common', {
-  radioSize: 15,
+  radioSize: 13,
   radioColor: linkCssVar('colorPrimary'),
   radioBorderColor: linkCssVar('colorBorder'),
   radioOutlineColor: mixinRgba('colorPrimaryRgb', 0.3),

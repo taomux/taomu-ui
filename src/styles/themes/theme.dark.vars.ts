@@ -13,4 +13,6 @@ export const DARK_GLOBAL_VARS: GlobalCssVars = {
 
   colorBorder: mixinRgba('colorFrontRgb', 0.1),
   colorBorderSplit: mixinRgba('colorFrontRgb', 0.06),
+
+  colorShadow: 'rgba(0, 21, 41, 0.28)',
 }

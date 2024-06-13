@@ -12,7 +12,7 @@ export interface CheckboxCssVars {
 }
 
 setGlobalCssVars('common', {
-  checkboxSize: 15,
+  checkboxSize: 13,
   checkboxColor: linkCssVar('colorPrimary'),
   checkboxBorderColor: linkCssVar('colorBorder'),
   checkboxRadius: linkCssVar('radiusSM'),
@@ -45,7 +45,7 @@ export const checkboxStyled = css`
       content: '';
       display: flex;
       border-radius: ${linkCssVar('checkboxRadius')};
-      border: 2px solid ${linkCssVar('checkboxBorderColor')};
+      border: 1.5px solid ${linkCssVar('checkboxBorderColor')};
       background-color: ${linkCssVar('checkboxBoxBackground')};
       transition: all var(--td);
     }
@@ -67,7 +67,7 @@ export const checkboxStyled = css`
     &:checked {
       &::before {
         background: ${linkCssVar('checkboxColor')};
-        border: 2px solid ${linkCssVar('checkboxColor')};
+        border: 1.5px solid ${linkCssVar('checkboxColor')};
       }
 
       &::after {

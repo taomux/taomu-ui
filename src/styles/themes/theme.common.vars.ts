@@ -21,4 +21,10 @@ export const COMMON_GLOBAL_VARS: GlobalCssVars = {
   radiusSM: 4,
   radiusMD: 8,
   radiusLG: 16,
+
+  boxShadowXS: `0px 1px 2px 0px ${linkCssVar('colorShadow')}`,
+  boxShadowSM: `0px 1px 4px 0px ${linkCssVar('colorShadow')}`,
+  boxShadowMD: `0px 3px 8px 0px ${linkCssVar('colorShadow')}`,
+  boxShadowLG: `1px 6px 12px 0px ${linkCssVar('colorShadow')}`,
+  boxShadowXL: `2px 8px 16px 0px ${linkCssVar('colorShadow')}`,
 }

@@ -1,10 +1,12 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../styles'
+import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
 
 export interface LoadingCssVars {
   /** 加载器颜色 */
   loadingColor?: string
+  /** 加载器轨道颜色 */
+  loadingTrackColor?: string
   /** 加载器尺寸 */
   loadingSize?: number | string
   /** 线条粗细 */
@@ -15,18 +17,19 @@ export interface LoadingCssVars {
 
 setGlobalCssVars('common', {
   loadingColor: linkCssVar('colorPrimary'),
+  loadingTrackColor: mixinRgba('colorPrimaryRgb', 0.25),
 })
 
 export const loadingStyled = css`
-  border-radius: 50%;
   cursor: progress;
   display: inline-block;
   overflow: hidden;
   height: ${linkCssVar('loadingSize')};
   width: ${linkCssVar('loadingSize')};
+  border-radius: 50%;
   border-width: ${linkCssVar('loadingWeight')};
   border-style: solid;
-  border-color: color-mix(in srgb, ${linkCssVar('loadingColor')}, transparent 75%);
+  border-color: ${linkCssVar('loadingTrackColor')};
   border-top-color: ${linkCssVar('loadingColor')};
   animation: animation-rotate ${linkCssVar('loadingSpeed')} linear infinite;
 

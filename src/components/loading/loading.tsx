@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
-import { loadingStyled } from './loading.styled'
+import { loadingStyled, LoadingCssVars } from './loading.styled'
 
-export interface LoadingProps extends ReactBaseType {
+export interface LoadingProps extends ReactBaseType<LoadingCssVars> {
   /** 大小 默认 26 */
   size?: number
   /** 线条宽度 默认 3 */
