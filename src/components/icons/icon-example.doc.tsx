@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconSun } from '.'
+import { IconSun as IconSun_ } from '.'
 
 interface IconProps extends React.SVGAttributes<SVGElement> {
   /** 图标颜色 */
@@ -8,6 +8,6 @@ interface IconProps extends React.SVGAttributes<SVGElement> {
   size?: number
 }
 
-export const IconExample: React.FC<IconProps> = (props) => {
-  return <IconSun {...props} />
+export const IconSun: React.FC<IconProps> = (props) => {
+  return <IconSun_ {...props} />
 }
