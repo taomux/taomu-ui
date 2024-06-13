@@ -12,6 +12,10 @@ export interface TransitionProps {
   animationType?: AnimationTypes
   /** 动画配置 */
   config?: TransitionConfig
+  onBeforeEnter?: (el: HTMLElement) => void
+  onAfterEnter?: (el: HTMLElement) => void
+  onBeforeLeave?: (el: HTMLElement) => void
+  onAfterLeave?: () => void
 }
 
 export interface TransitionConfig {
@@ -20,7 +24,7 @@ export interface TransitionConfig {
   /** 进场动画配置 */
   enter?: KeyframeEffectArgs | KeyframeEffectBuilder
   /** 出场动画配置 */
-  exit?: KeyframeEffectArgs | KeyframeEffectBuilder
+  leave?: KeyframeEffectArgs | KeyframeEffectBuilder
 }
 
 export type AnimationTypes = keyof typeof animationTypes
@@ -35,16 +39,28 @@ export interface KeyframeEffectArgs {
  */
 export type KeyframeEffectBuilder = (el: HTMLElement, options?: KeyframeEffectOptions) => KeyframeEffectArgs | void
 
-export const Transition: React.FC<TransitionProps> = ({ children, proxyRef, show, config, animationType = 'fade' }) => {
+export const Transition: React.FC<TransitionProps> = ({
+  children,
+  proxyRef,
+  show,
+  config,
+  animationType = 'fade',
+  onBeforeEnter,
+  onAfterEnter,
+  onBeforeLeave,
+  onAfterLeave,
+}) => {
   const nodeRef = React.useRef<HTMLElement>(null)
   const animationRef = React.useRef<Animation | void>()
   const [isRenderNode, setIsRenderNode] = React.useState(show)
 
   React.useEffect(() => {
+    console.log([isRenderNode], nodeRef.current)
+
     if (proxyRef) {
       proxyRef.current = nodeRef.current
     }
-  }, [proxyRef, nodeRef.current])
+  }, [isRenderNode])
 
   React.useEffect(() => {
     if (show) {
@@ -52,11 +68,13 @@ export const Transition: React.FC<TransitionProps> = ({ children, proxyRef, show
         nodeRef.current!.style.visibility = 'hidden' // 防止动画重叠
         animationRef?.current?.cancel()
         setIsRenderNode(false)
-      }
-      setTimeout(() => {
+        setTimeout(() => {
+          setIsRenderNode(true)
+        }, 0)
+      } else {
         setIsRenderNode(true)
-      }, 0)
-    } else {
+      }
+    } else if (isRenderNode) {
       if (!nodeRef.current) return
       animationRef.current = createAnimation(nodeRef.current, config, animationType, 'exit')
       if (!animationRef.current) return
@@ -64,7 +82,7 @@ export const Transition: React.FC<TransitionProps> = ({ children, proxyRef, show
       animationRef.current.play()
 
       animationRef.current.onfinish = () => {
-        nodeRef.current!.style.visibility = 'hidden'
+        nodeRef.current!.style.display = 'none'
         setIsRenderNode(false)
       }
     }
@@ -73,7 +91,7 @@ export const Transition: React.FC<TransitionProps> = ({ children, proxyRef, show
   React.useEffect(() => {
     if (isRenderNode) {
       if (!nodeRef.current) return
-      nodeRef.current.style.visibility = 'visible'
+      nodeRef.current.style.visibility = ''
       animationRef.current = createAnimation(nodeRef.current, config, animationType, 'enter')
       if (!animationRef.current) return
       animationRef.current.play()

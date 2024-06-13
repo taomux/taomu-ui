@@ -73,7 +73,7 @@ export const 自定义动画函数: Story = {
               },
             },
 
-            exit: {
+            leave: {
               keyframes: [
                 { transform: 'translate3d(0, 0, 0)', opacity: 1 },
                 { transform: 'translate3d(-100%, 0, 0)', opacity: 0 },

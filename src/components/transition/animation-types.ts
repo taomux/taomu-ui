@@ -8,7 +8,7 @@ const defaultOptions: KeyframeEffectOptions = {
 export const fade: TransitionConfig = {
   options: defaultOptions,
   enter: { keyframes: [{ opacity: 0 }, { opacity: 1 }] },
-  exit: { keyframes: [{ opacity: 1 }, { opacity: 0 }] },
+  leave: { keyframes: [{ opacity: 1 }, { opacity: 0 }] },
 }
 
 export const slideLeft: TransitionConfig = {
@@ -16,7 +16,7 @@ export const slideLeft: TransitionConfig = {
   enter: {
     keyframes: [{ transform: 'translate3d(-100%, 0, 0)' }, { transform: 'translate3d(0, 0, 0)' }],
   },
-  exit: {
+  leave: {
     keyframes: [{ transform: 'translate3d(0, 0, 0)' }, { transform: 'translate3d(100%, 0, 0)' }],
   },
 }
@@ -29,7 +29,7 @@ export const slideLeftFade: TransitionConfig = {
       { transform: 'translate3d(0, 0, 0)', opacity: 1 },
     ],
   },
-  exit: {
+  leave: {
     keyframes: [
       { transform: 'translate3d(0, 0, 0)', opacity: 1 },
       { transform: 'translate3d(100%, 0, 0)', opacity: 0 },
@@ -42,7 +42,7 @@ export const slideRight: TransitionConfig = {
   enter: {
     keyframes: [{ transform: 'translate3d(100%, 0, 0)' }, { transform: 'translate3d(0, 0, 0)' }],
   },
-  exit: {
+  leave: {
     keyframes: [{ transform: 'translate3d(0, 0, 0)' }, { transform: 'translate3d(-100%, 0, 0)' }],
   },
 }
@@ -55,7 +55,7 @@ export const slideRightFade: TransitionConfig = {
       { transform: 'translate3d(0, 0, 0)', opacity: 1 },
     ],
   },
-  exit: {
+  leave: {
     keyframes: [
       { transform: 'translate3d(0, 0, 0)', opacity: 1 },
       { transform: 'translate3d(-100%, 0, 0)', opacity: 0 },

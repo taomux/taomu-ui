@@ -23,11 +23,21 @@ export const 基础示例: Story = {
   render: () => {
     const [open, setOpen] = React.useState(false)
     const [count, setCount] = React.useState(0)
+    const nodeRef = React.useRef<HTMLDivElement>(null)
+
+    // React.useEffect(() => {
+    //   if (!nodeRef.current) return
+    //   console.log('get nodeRef', nodeRef.current)
+    // }, [nodeRef.current])
+
+    // React.useEffect(() => {
+    //   console.log('----------', nodeRef.current)
+    // }, [])
 
     return (
       <div>
         <Button onClick={() => setOpen(!open)}>open: {open + ''}</Button>
-        <Transition show={open}>
+        <Transition show={open} proxyRef={nodeRef}>
           <Portal getContainer={() => document.body} open={true}>
             <div>
               Hello World {count}
