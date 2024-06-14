@@ -12,14 +12,14 @@ export interface TransitionProps {
   animationType?: AnimationTypes
   /** 动画配置 */
   config?: TransitionConfig
-  onBeforeEnter?: (el: HTMLElement) => void
-  onAfterEnter?: (el: HTMLElement) => void
+  onBeforeEnter?: (el?: HTMLElement | null) => void
+  onEnter?: (el: HTMLElement) => void
   onBeforeLeave?: (el: HTMLElement) => void
-  onAfterLeave?: () => void
+  onLeave?: () => void
 }
 
 export interface TransitionConfig {
-  /** 此处的 options 将被合并至 enter 和 exit，低优先级 */
+  /** 此处的 options 将被合并至 enter 和 leave，低优先级 */
   options?: KeyframeEffectOptions
   /** 进场动画配置 */
   enter?: KeyframeEffectArgs | KeyframeEffectBuilder
@@ -46,21 +46,13 @@ export const Transition: React.FC<TransitionProps> = ({
   config,
   animationType = 'fade',
   onBeforeEnter,
-  onAfterEnter,
+  onEnter,
   onBeforeLeave,
-  onAfterLeave,
+  onLeave,
 }) => {
   const nodeRef = React.useRef<HTMLElement>(null)
   const animationRef = React.useRef<Animation | void>()
   const [isRenderNode, setIsRenderNode] = React.useState(show)
-
-  React.useEffect(() => {
-    console.log([isRenderNode], nodeRef.current)
-
-    if (proxyRef) {
-      proxyRef.current = nodeRef.current
-    }
-  }, [isRenderNode])
 
   React.useEffect(() => {
     if (show) {
@@ -69,32 +61,43 @@ export const Transition: React.FC<TransitionProps> = ({
         animationRef?.current?.cancel()
         setIsRenderNode(false)
         setTimeout(() => {
+          onBeforeEnter?.(nodeRef.current)
           setIsRenderNode(true)
         }, 0)
       } else {
+        onBeforeEnter?.(nodeRef.current)
         setIsRenderNode(true)
       }
     } else if (isRenderNode) {
       if (!nodeRef.current) return
-      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'exit')
+      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'leave')
       if (!animationRef.current) return
 
+      onBeforeLeave?.(nodeRef.current)
       animationRef.current.play()
 
       animationRef.current.onfinish = () => {
         nodeRef.current!.style.display = 'none'
         setIsRenderNode(false)
+        onLeave?.()
       }
     }
   }, [show])
 
   React.useEffect(() => {
+    if (proxyRef) {
+      proxyRef.current = nodeRef.current
+    }
+
     if (isRenderNode) {
       if (!nodeRef.current) return
       nodeRef.current.style.visibility = ''
       animationRef.current = createAnimation(nodeRef.current, config, animationType, 'enter')
       if (!animationRef.current) return
       animationRef.current.play()
+      animationRef.current.onfinish = () => {
+        onEnter?.(nodeRef.current!)
+      }
     }
   }, [isRenderNode])
 
@@ -107,7 +110,7 @@ function createAnimation(
   el: HTMLElement,
   config?: TransitionConfig,
   animationType?: AnimationTypes,
-  type: 'enter' | 'exit' = 'enter'
+  type: 'enter' | 'leave' = 'enter'
 ): Animation | void {
   if (typeof config === 'object') {
     const item = config[type]

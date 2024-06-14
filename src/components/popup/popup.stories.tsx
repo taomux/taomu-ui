@@ -37,7 +37,14 @@ export const 基础示例: Story = {
     return (
       <div>
         <Button onClick={() => setOpen(!open)}>open: {open + ''}</Button>
-        <Transition show={open} proxyRef={nodeRef}>
+        <Transition
+          show={open}
+          proxyRef={nodeRef}
+          onBeforeEnter={() => console.log('before enter')}
+          onEnter={() => console.log('enter')}
+          onBeforeLeave={() => console.log('before leave')}
+          onLeave={() => console.log('leave')}
+        >
           <Portal getContainer={() => document.body} open={true}>
             <div>
               Hello World {count}
