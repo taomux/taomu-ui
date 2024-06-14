@@ -1,11 +1,10 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
-import Portal from '@rc-component/portal'
-
 import { Transition } from '../transition'
 import { Button } from '../button'
 import { Popup } from './popup'
+import { PopupPortal } from './popup.portal'
 
 const meta: Meta<typeof Popup> = {
   title: 'Components/Popup',
@@ -19,41 +18,23 @@ export default meta
 
 export const 基础示例: Story = {
   args: {},
+}
+
+export const 函数打开: Story = {
+  args: {},
 
   render: () => {
-    const [open, setOpen] = React.useState(false)
     const [count, setCount] = React.useState(0)
-    const nodeRef = React.useRef<HTMLDivElement>(null)
 
-    // React.useEffect(() => {
-    //   if (!nodeRef.current) return
-    //   console.log('get nodeRef', nodeRef.current)
-    // }, [nodeRef.current])
-
-    // React.useEffect(() => {
-    //   console.log('----------', nodeRef.current)
-    // }, [])
+    function openPopup() {
+      const demoPopup = new PopupPortal(Popup)
+      demoPopup.open()
+      // console.log({ demoPopup })
+    }
 
     return (
       <div>
-        <Button onClick={() => setOpen(!open)}>open: {open + ''}</Button>
-        <Transition
-          show={open}
-          proxyRef={nodeRef}
-          onBeforeEnter={() => console.log('before enter')}
-          onEnter={() => console.log('enter')}
-          onBeforeLeave={() => console.log('before leave')}
-          onLeave={() => console.log('leave')}
-        >
-          <Portal getContainer={() => document.body} open={true}>
-            <div>
-              Hello World {count}
-              <Button onClick={() => setCount(count + 1)}>add</Button>
-            </div>
-          </Portal>
-        </Transition>
-
-        {/* <div style={{ height: 1000 }}></div> */}
+        <Button onClick={openPopup}>open一个</Button>
       </div>
     )
   },

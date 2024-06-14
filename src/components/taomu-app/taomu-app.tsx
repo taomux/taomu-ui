@@ -11,6 +11,13 @@ export interface TaomuAppProps {
   children: React.ReactNode
 }
 
+/**
+ * 初始化 TaomuApp
+ *
+ * 包裹根节点
+ *
+ * 请确保全局只有一个 TaomuApp
+ */
 export const TaomuApp: React.FC<TaomuAppProps> = ({ children }) => {
   const { theme } = useThemeMedia()
 
