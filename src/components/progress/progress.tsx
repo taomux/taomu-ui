@@ -6,7 +6,7 @@ import { progressStyled, ProgressCssVars } from './progress.styled'
 
 export type ProgressBarType = 'default' | 'info' | 'success' | 'warning' | 'error' | 'gray'
 
-export interface ProgressProps extends ReactBaseType<ProgressCssVars> {
+export interface ProgressProps extends BaseComponentType<ProgressCssVars> {
   /** 类型 */
   type?: ProgressBarType
   /** 进度百分比，0 - 100 */

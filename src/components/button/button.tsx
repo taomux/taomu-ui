@@ -9,7 +9,7 @@ import { Transition } from '../transition'
 export type ButtonType = 'primary' | 'default' | 'warning' | 'danger' | 'link'
 export type ButtonHtmlType = 'button' | 'submit' | 'reset'
 
-export interface ButtonProps extends ReactBaseType<BtnCssVars> {
+export interface ButtonProps extends BaseComponentType<BtnCssVars> {
   /** 按钮类型 */
   type?: ButtonType
   /** 按钮宽度 */

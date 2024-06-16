@@ -6,7 +6,7 @@ import { Loading } from '../loading'
 
 import { switchStyled, SwitchCssVars } from './switch.styled'
 
-export interface SwitchProps extends Omit<ReactBaseType<SwitchCssVars>, 'children'> {
+export interface SwitchProps extends Omit<BaseComponentType<SwitchCssVars>, 'children'> {
   color?: string
   width?: number
   height?: number

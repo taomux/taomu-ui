@@ -3,7 +3,7 @@ import React from 'react'
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { radioStyled, RadioCssVars } from './radio.styled'
 
-export interface RadioProps extends ReactBaseType<RadioCssVars> {
+export interface RadioProps extends BaseComponentType<RadioCssVars> {
   /** 复选框的标签 */
   label?: React.ReactNode
   /** 复选框尺寸 */

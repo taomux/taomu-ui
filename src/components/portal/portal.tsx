@@ -3,7 +3,7 @@ import React from 'react'
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { portalStyled, PortalCssVars } from './portal.styled'
 
-export interface PortalProps extends ReactBaseType<PortalCssVars> {}
+export interface PortalProps extends BaseComponentType<PortalCssVars> {}
 
 export const Portal: React.FC<PortalProps> = ({ className, cssVars, style, ...wrapProps }) => {
   const portalClassName = useTaomuClassName('portal', className)

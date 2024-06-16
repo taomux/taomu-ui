@@ -3,7 +3,7 @@ import { addons, types } from '@storybook/manager-api'
 import { IconButton } from '@storybook/components'
 import { LightningIcon, SunIcon, MoonIcon } from '@storybook/icons' // https://main--64b56e737c0aeefed9d5e675.chromatic.com/?path=/docs/introduction--docs
 
-import { useGlobalStore } from '../../src/store'
+import { globalStore } from '../../src/store'
 
 const ADDON_ID = 'storybook/my-addon'
 const TOOL_ID = `${ADDON_ID}/tool`
@@ -12,7 +12,7 @@ const TOOL_ID = `${ADDON_ID}/tool`
 // const PARAM_KEY = `myAddonParameter`
 
 export const SwitchThemeButton: React.FC = () => {
-  const { theme } = useGlobalStore((state) => ({ theme: state.theme }))
+  const { theme } = globalStore.useStore(['theme'])
 
   React.useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -26,7 +26,7 @@ export const SwitchThemeButton: React.FC = () => {
     iframe.contentWindow.document.documentElement.dataset.theme = theme
 
     const nextTheme = theme === 'light' ? 'dark' : 'light'
-    useGlobalStore.setState({ theme: nextTheme })
+    globalStore.setState({ theme: nextTheme })
   }, [theme])
 
   // React.useEffect(() => {

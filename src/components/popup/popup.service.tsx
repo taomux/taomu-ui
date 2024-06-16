@@ -1,19 +1,25 @@
 import React from 'react'
 
-import { usePopupStore } from './popup.store'
+import { popupStore } from './popup.store'
 
 export const PopupService: React.FC = () => {
-  const { popupsMap, openedPopupsList } = usePopupStore()
+  const { popupsMap, updateCount } = popupStore.useStore(['popupsMap', 'updateCount'])
 
   console.count('count')
 
-  React.useEffect(() => {
-    console.log('openedPopupsList', openedPopupsList)
-  }, [openedPopupsList])
-
-  React.useEffect(() => {
+  const popups = React.useMemo(() => {
     console.log('popupsMap', popupsMap)
-  }, [popupsMap])
 
-  return <>{openedPopupsList}</>
+    const nodes: React.ReactElement[] = []
+
+    for (const [key, [popupPortal, contentProps]] of popupsMap) {
+      console.log({ key, popupPortal, contentProps })
+      nodes.push(popupPortal.render(contentProps))
+      // nodes.push(createPortal(popupPortal.render(contentProps), popupPortal.container, popupPortal.popupId))
+    }
+
+    return nodes
+  }, [popupsMap, updateCount])
+
+  return <>{popups}</>
 }

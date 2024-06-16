@@ -3,7 +3,7 @@ import React from 'react'
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { loadingStyled, LoadingCssVars } from './loading.styled'
 
-export interface LoadingProps extends ReactBaseType<LoadingCssVars> {
+export interface LoadingProps extends BaseComponentType<LoadingCssVars> {
   /** 大小 默认 26 */
   size?: number
   /** 线条宽度 默认 3 */

@@ -33,6 +33,7 @@
     "react-dom": "^18.3.1",
     "react-feather": "^2.0.10",
     "react-mount-node": "^0.0.1",
+    "taomu-store": "^0.0.1",
     "taomu-toolkit": "^0.0.5",
     "zustand": "^4.5.2"
   },

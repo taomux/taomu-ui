@@ -3,7 +3,7 @@ import React from 'react'
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { checkboxStyled, CheckboxCssVars } from './checkbox.styled'
 
-export interface CheckboxProps extends ReactBaseType<CheckboxCssVars> {
+export interface CheckboxProps extends BaseComponentType<CheckboxCssVars> {
   /** 复选框的标签 */
   label?: React.ReactNode
   /** 复选框尺寸 */

@@ -61,12 +61,16 @@ export const Transition: React.FC<TransitionProps> = ({
         animationRef?.current?.cancel()
         setIsRenderNode(false)
         setTimeout(() => {
-          onBeforeEnter?.(nodeRef.current)
           setIsRenderNode(true)
+          setTimeout(() => {
+            onBeforeEnter?.(nodeRef.current)
+          }, 0)
         }, 0)
       } else {
-        onBeforeEnter?.(nodeRef.current)
         setIsRenderNode(true)
+        setTimeout(() => {
+          onBeforeEnter?.(nodeRef.current)
+        }, 0)
       }
     } else if (isRenderNode) {
       if (!nodeRef.current) return

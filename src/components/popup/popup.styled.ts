@@ -3,15 +3,35 @@ import { css } from '@emotion/react'
 import { setGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface PopupCssVars {
-  popupColor?: string
+  zIndex?: string
+  overlayBackground?: string
 }
 
 setGlobalCssVars('common', {
-  popupColor: linkCssVar('colorPrimary'),
+  zIndex: '1000',
+  overlayBackground: 'rgba(0, 0, 0, 0.4)',
 })
 
 export const popupStyled = css`
-  stroke: ${linkCssVar('popupColor')};
+  &:not(.no-fixed) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: ${linkCssVar('zIndex')};
+  }
+
+  .popup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background-color: ${linkCssVar('overlayBackground')};
+    &.background-event {
+      pointer-events: none;
+    }
+  }
 `
 
 declare global {
