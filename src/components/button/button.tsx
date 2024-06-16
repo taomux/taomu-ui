@@ -108,7 +108,7 @@ export const Button: React.FC<ButtonProps> = ({
       {...wrapProps}
     >
       {children}
-      <Transition show={isLoading} animationType="slideRightFade">
+      <Transition show={isLoading} animationType="throughRightFade">
         <div className="btn-loader-wrap">
           <Progress className="btn-loader" height={3} striped progress={100} cssVars={{ progressSpeed: '0.35s' }} />
         </div>

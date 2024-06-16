@@ -17,7 +17,19 @@ export const popupStyled = css`
     position: fixed;
     left: 0;
     top: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: ${linkCssVar('zIndex')};
+  }
+
+  &.background-event {
+    pointer-events: none;
+    .popup-overlay {
+      pointer-events: none;
+    }
+    .popup-content {
+      pointer-events: all;
+    }
   }
 
   .popup-overlay {
@@ -28,8 +40,123 @@ export const popupStyled = css`
     height: 100vh;
     z-index: -1;
     background-color: ${linkCssVar('overlayBackground')};
-    &.background-event {
-      pointer-events: none;
+  }
+
+  .popup-content {
+    &.target-relative-position {
+      position: absolute;
+    }
+  }
+
+  &.position-absolute {
+    &.position-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &.position-dialog-center {
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .vfm--overlay {
+        position: fixed;
+      }
+
+      .hro-popup-modal-content {
+        position: absolute;
+      }
+    }
+
+    &.position-top {
+      .hro-popup-modal-content {
+        position: absolute;
+        top: 0;
+        width: 100vw;
+      }
+    }
+
+    &.position-bottom {
+      .hro-popup-modal-content {
+        position: absolute;
+        bottom: 0;
+        width: 100vw;
+      }
+    }
+
+    &.position-left {
+      .hro-popup-modal-content {
+        position: absolute;
+        left: 0;
+        height: 100vh;
+      }
+    }
+
+    &.position-right {
+      .hro-popup-modal-content {
+        position: absolute;
+        right: 0;
+        height: 100vh;
+      }
+    }
+
+    &.position-center-top,
+    &.position-top-center {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    &.position-bottom,
+    &.position-center-bottom,
+    &.position-bottom-center {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    &.position-left,
+    &.position-left-center,
+    &.position-center-left {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    &.position-right,
+    &.position-right-center,
+    &.position-center-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    &.position-left-top,
+    &.position-top-left {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    &.position-left-bottom,
+    &.position-bottom-left {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+
+    &.position-right-top,
+    &.position-top-right {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+
+    &.position-right-bottom,
+    &.position-bottom-right {
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
     }
   }
 `

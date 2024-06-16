@@ -5,7 +5,8 @@ import { uuid } from 'taomu-toolkit'
 import { Transition, TransitionConfig, AnimationTypes } from '../transition'
 import { useTaomuClassName, useInlineStyle, useEventListener } from '../../hooks'
 import { popupStyled, PopupCssVars } from './popup.styled'
-import { setTargetRelativePosition, setCenterAbsolutePosition } from './popup.utils'
+import { popupStore } from './popup.store'
+import { setTargetRelativePosition, setCenterAbsolutePosition, getAbsoluteAnimation } from './popup.utils'
 
 export type PopupPositionBase = 'left' | 'right' | 'top' | 'bottom' | 'center'
 export type PopupPositionType = PopupPositionBase | `${PopupPositionBase}-${PopupPositionBase}` | 'dialog-center'
@@ -37,11 +38,15 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   overlayAnimationType?: AnimationTypes
   /** 遮罩层动画配置 */
   overlayTransitionConfig?: TransitionConfig
+  /** 遮罩层动画函数配置 */
+  overlayTransitionOptions?: KeyframeEffectOptions
 
   /** 弹层内容内置动画类型 */
   contentAnimationType?: AnimationTypes
   /** 弹层内容出入场动画配置 */
   contentTransitionConfig?: TransitionConfig
+  /** 弹层内容动画函数配置 */
+  contentTransitionOptions?: KeyframeEffectOptions
 
   /** 是否锁定滚动 */
   lockScroll?: boolean
@@ -93,14 +98,18 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       zIndex = 1000,
       backgroundEvent,
       noFixed,
+      escToClose = true,
+      clickToClose = true,
 
       overlay = true,
       overlayProps = {},
       overlayAnimationType,
       overlayTransitionConfig,
+      overlayTransitionOptions,
 
       contentAnimationType,
       contentTransitionConfig,
+      contentTransitionOptions,
 
       equalWidth,
       positionType,
@@ -116,31 +125,31 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
   ) => {
     const contentRef = React.useRef<HTMLDivElement>(null)
 
-    const popupClassName = useTaomuClassName('popup', { 'no-fixed': noFixed }, className)
+    const popupClassName = useTaomuClassName(
+      'popup',
+      `position-${positionType || 'default'}`,
+      { 'position-absolute': !positionTargetElement, 'no-fixed': noFixed, 'background-event': backgroundEvent },
+      className
+    )
     const popupStyle = useInlineStyle<PopupCssVars>({ zIndex: zIndex.toString(), ...cssVars }, style)
 
     const [showOverlay, setShowOverlay] = React.useState(false)
     const [showContent, setShowContent] = React.useState(false)
 
+    useEventListener(document, 'keydown', (e) => {
+      if (e.key === 'Escape' && escToClose) {
+        const { popupsMap } = popupStore.getState()
+        const lastKey = Array.from(popupsMap.keys()).pop()
+        if (lastKey === popupId) {
+          closePopup()
+        }
+      }
+    })
+
     React.useImperativeHandle(ref, () => ({
       open: openPopup,
       close: closePopup,
     }))
-
-    // useDocumentEventListener(
-    //   'keydown',
-    //   escClose
-    //     ? (e) => {
-    //         if (e.key === 'Escape' && escClose) {
-    //           onClose?.()
-    //         }
-    //       }
-    //     : undefined,
-    //   [escClose]
-    // )
-    useEventListener(document, 'keydown', (e) => {
-      console.log(e)
-    })
 
     React.useEffect(() => {
       if (show) {
@@ -163,10 +172,23 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
     function renderOverlay() {
       if (!overlay) return null
 
-      overlayProps.className = clsx('popup-overlay', { 'background-event': backgroundEvent }, overlayProps.className)
+      overlayProps.className = clsx('popup-overlay', overlayProps.className)
+
+      if (clickToClose) {
+        const userOnClick = overlayProps.onClick
+        overlayProps.onClick = (e) => {
+          closePopup()
+          userOnClick?.(e)
+        }
+      }
 
       return (
-        <Transition show={showOverlay} animationType={overlayAnimationType} config={overlayTransitionConfig}>
+        <Transition
+          show={showOverlay}
+          animationType={overlayAnimationType}
+          config={overlayTransitionConfig}
+          options={overlayTransitionOptions}
+        >
           <div {...overlayProps}></div>
         </Transition>
       )
@@ -187,7 +209,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         return
       }
 
-      console.log({ contentElement })
+      console.log(positionType, { contentElement })
 
       setTargetRelativePosition(positionTargetElement, contentElement, positionType, equalWidth)
     }
@@ -195,11 +217,19 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
     function renderContent() {
       if (!children) return null
 
+      const animationType = contentAnimationType || getAbsoluteAnimation(positionType, !!positionTargetElement)
+      const transitionOptions: KeyframeEffectOptions = Object.assign(
+        { duration: 400, easing: 'cubic-bezier(0.175, 0.82, 0.265, 1)' },
+        contentTransitionOptions
+      )
+
       return (
         <Transition
           show={showContent}
           proxyRef={contentRef}
-          animationType={contentAnimationType}
+          animationType={animationType}
+          config={contentTransitionConfig}
+          options={transitionOptions}
           onBeforeEnter={handleBeforeEnter}
           onEnter={onEnter}
           onLeave={onLeave}
@@ -218,5 +248,3 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
     )
   }
 )
-
-Popup.displayName = 'Popup'

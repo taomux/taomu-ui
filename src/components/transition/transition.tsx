@@ -12,6 +12,8 @@ export interface TransitionProps {
   animationType?: AnimationTypes
   /** 动画配置 */
   config?: TransitionConfig
+  /** 动画函数选项，高优先级 */
+  options?: KeyframeEffectOptions
   onBeforeEnter?: (el?: HTMLElement | null) => void
   onEnter?: (el: HTMLElement) => void
   onBeforeLeave?: (el: HTMLElement) => void
@@ -36,6 +38,9 @@ export interface KeyframeEffectArgs {
 
 /**
  * 在一个构建函数中创建 [KeyframeEffect](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect)
+ *
+ * 构建函数返回的对象的 options 拥有最高优先级
+ *
  */
 export type KeyframeEffectBuilder = (el: HTMLElement, options?: KeyframeEffectOptions) => KeyframeEffectArgs | void
 
@@ -44,6 +49,7 @@ export const Transition: React.FC<TransitionProps> = ({
   proxyRef,
   show,
   config,
+  options,
   animationType = 'fade',
   onBeforeEnter,
   onEnter,
@@ -74,7 +80,7 @@ export const Transition: React.FC<TransitionProps> = ({
       }
     } else if (isRenderNode) {
       if (!nodeRef.current) return
-      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'leave')
+      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'leave', options)
       if (!animationRef.current) return
 
       onBeforeLeave?.(nodeRef.current)
@@ -96,7 +102,7 @@ export const Transition: React.FC<TransitionProps> = ({
     if (isRenderNode) {
       if (!nodeRef.current) return
       nodeRef.current.style.visibility = ''
-      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'enter')
+      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'enter', options)
       if (!animationRef.current) return
       animationRef.current.play()
       animationRef.current.onfinish = () => {
@@ -114,21 +120,24 @@ function createAnimation(
   el: HTMLElement,
   config?: TransitionConfig,
   animationType?: AnimationTypes,
-  type: 'enter' | 'leave' = 'enter'
+  type: 'enter' | 'leave' = 'enter',
+  options?: KeyframeEffectOptions
 ): Animation | void {
   if (typeof config === 'object') {
     const item = config[type]
+    const mergedOptions = Object.assign({}, config.options, options)
 
     if (typeof item === 'function') {
-      const res = item(el, config.options)
+      const res = item(el, mergedOptions)
       if (!res?.keyframes) return
-      return new Animation(new KeyframeEffect(el, res.keyframes, Object.assign({}, config.options, res.options)))
+      Object.assign(mergedOptions, res.options)
+      return new Animation(new KeyframeEffect(el, res.keyframes, mergedOptions))
     } else if (typeof item === 'object') {
-      return new Animation(new KeyframeEffect(el, item.keyframes, Object.assign({}, config.options, item.options)))
+      return new Animation(new KeyframeEffect(el, item.keyframes, mergedOptions))
     }
   } else if (animationType) {
     if (Object.prototype.hasOwnProperty.call(animationTypes, animationType)) {
-      return createAnimation(el, animationTypes[animationType], undefined, type)
+      return createAnimation(el, animationTypes[animationType], undefined, type, options)
     }
   }
 }

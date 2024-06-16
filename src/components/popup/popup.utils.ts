@@ -1,17 +1,19 @@
 import { hasClassNameLoopParent } from 'taomu-toolkit'
 
+import type { AnimationTypes } from '../transition'
 import type { PopupPositionType, PopupEqualWidthUnion, PopupPositionBase, PopupRectType } from './popup'
 import { popupStore } from './popup.store'
-export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetRelative?: boolean) {
+
+export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetRelative?: boolean): AnimationTypes {
   if (isTargetRelative) {
     switch (positionType) {
       case 'top-left':
       case 'top-right':
-        return 'ac-move-top'
+        return 'slideTopFade'
 
       case 'bottom-left':
       case 'bottom-right':
-        return 'ac-move-bottom'
+        return 'slideBottomFade'
     }
   }
 
@@ -19,7 +21,7 @@ export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetR
     case 'bottom':
     case 'center-bottom':
     case 'bottom-center':
-      return 'ac-move-bottom'
+      return 'slideBottomFade'
 
     case 'left':
     case 'left-center':
@@ -27,7 +29,7 @@ export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetR
     case 'left-top':
     case 'top-left':
     case 'bottom-left':
-      return 'ac-move-left'
+      return 'slideLeftFade'
 
     case 'right':
     case 'right-center':
@@ -35,10 +37,10 @@ export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetR
     case 'right-top':
     case 'top-right':
     case 'bottom-right':
-      return 'ac-move-right'
+      return 'slideRightFade'
 
     default:
-      return 'ac-move-top'
+      return 'slideTopFade'
   }
 }
 
