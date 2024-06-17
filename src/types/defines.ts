@@ -13,7 +13,7 @@ declare global {
 
   type ReactDivProps = HTMLAttributes<HTMLDivElement>
 
-  interface BaseComponentType<CssVars extends object = GlobalCssVars> {
+  interface BaseComponentType<CssVars extends object = never> {
     id?: string
     children?: React.ReactNode
     className?: ClassValue

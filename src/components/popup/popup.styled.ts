@@ -159,6 +159,30 @@ export const popupStyled = css`
       justify-content: flex-end;
     }
   }
+
+  &.popup-fixed-position-top-left,
+  &.popup-fixed-position-top-center,
+  &.popup-fixed-position-top-right {
+    padding-bottom: var(--targetOffset);
+  }
+
+  &.popup-fixed-position-bottom-left,
+  &.popup-fixed-position-bottom-center,
+  &.popup-fixed-position-bottom-right {
+    padding-top: var(--targetOffset);
+  }
+
+  &.popup-fixed-position-left-top,
+  &.popup-fixed-position-left-center,
+  &.popup-fixed-position-left-bottom {
+    padding-right: var(--targetOffset);
+  }
+
+  &.popup-fixed-position-right-top,
+  &.popup-fixed-position-right-center,
+  &.popup-fixed-position-right-bottom {
+    padding-left: var(--targetOffset);
+  }
 `
 
 declare global {

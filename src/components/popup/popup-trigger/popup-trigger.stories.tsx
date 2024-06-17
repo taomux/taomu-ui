@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Portal } from './portal'
+import { PopupTrigger } from './popup-trigger'
 
-const meta: Meta<typeof Portal> = {
-  title: 'Components/Portal',
-  component: Portal,
+const meta: Meta<typeof PopupTrigger> = {
+  title: 'Components/Popup/PopupTrigger',
+  component: PopupTrigger,
   tags: ['autodocs'],
   argTypes: {},
 }

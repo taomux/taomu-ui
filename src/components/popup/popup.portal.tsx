@@ -26,10 +26,19 @@ export class PopupPortal<ContentProps extends object = any> {
 
   public popupRef = React.createRef<PopupRef>()
 
+  constructor(
+    public content: React.ComponentType<ContentProps>,
+    public options: PopupPortalOptions = {}
+  ) {}
+
+  get containerId() {
+    return this.options.createContainerId || 'taomu-popup-container'
+  }
+
   get container(): PortalContainerType {
     if (this.options.portalContainer) return this.options.portalContainer
 
-    const containerId = this.options.createContainerId || 'taomu-popup-container'
+    const containerId = this.containerId
     const container = document.getElementById(containerId)
     if (container) return container
 
@@ -43,11 +52,6 @@ export class PopupPortal<ContentProps extends object = any> {
     return containerElement
   }
 
-  constructor(
-    public content: React.ComponentType<ContentProps>,
-    public options: PopupPortalOptions = {}
-  ) {}
-
   public readonly render = (contentProps: ContentProps) => {
     const { portalContainer, createContainerId, createContainerClass, zIndex = 1000, onLeave, ...popupProps } = this.options
 
@@ -57,6 +61,7 @@ export class PopupPortal<ContentProps extends object = any> {
       <Popup
         ref={this.popupRef}
         key={this.popupId}
+        groupId={this.containerId}
         popupId={this.popupId}
         zIndex={zIndex + this.createIndex}
         show
@@ -78,7 +83,6 @@ export class PopupPortal<ContentProps extends object = any> {
     const { popupsMap, updateCount } = popupStore.getState()
     if (options) this.updateOptionsStatic(options)
     popupsMap.set(this.popupId, [this, contentProps])
-
     popupStore.setState({ popupsMap, updateCount: updateCount + 1 })
   }
 

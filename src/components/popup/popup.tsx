@@ -22,6 +22,7 @@ export interface PopupRectType {
 }
 
 export interface PopupProps extends BaseComponentType<PopupCssVars> {
+  groupId?: string
   popupId?: string
   /** 显示状态 */
   show?: boolean
@@ -41,6 +42,8 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   /** 遮罩层动画函数配置 */
   overlayTransitionOptions?: KeyframeEffectOptions
 
+  /** content props */
+  contentProps?: ReactDivProps
   /** 弹层内容内置动画类型 */
   contentAnimationType?: AnimationTypes
   /** 弹层内容出入场动画配置 */
@@ -92,6 +95,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       className,
       cssVars,
       style,
+      groupId,
       popupId = uuid(),
       children,
       show,
@@ -107,6 +111,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       overlayTransitionConfig,
       overlayTransitionOptions,
 
+      contentProps = {},
       contentAnimationType,
       contentTransitionConfig,
       contentTransitionOptions,
@@ -114,6 +119,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       equalWidth,
       positionType,
       positionTargetElement,
+      autoFixPosition = true,
 
       onBeforeEnter,
       onEnter,
@@ -128,7 +134,11 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
     const popupClassName = useTaomuClassName(
       'popup',
       `position-${positionType || 'default'}`,
-      { 'position-absolute': !positionTargetElement, 'no-fixed': noFixed, 'background-event': backgroundEvent },
+      {
+        'position-absolute': !positionTargetElement,
+        'no-fixed': noFixed,
+        'background-event': backgroundEvent || !overlay,
+      },
       className
     )
     const popupStyle = useInlineStyle<PopupCssVars>({ zIndex: zIndex.toString(), ...cssVars }, style)
@@ -145,6 +155,39 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         }
       }
     })
+
+    useEventListener(window, 'resize', () => {
+      if (autoFixPosition) {
+        autoContentPosition()
+      }
+    })
+
+    useEventListener(document, 'scroll', () => {
+      if (autoFixPosition) {
+        autoContentPosition()
+      }
+    })
+
+    React.useEffect(() => {
+      const outsideClickClose = clickToClose && (backgroundEvent || !overlay)
+
+      if (outsideClickClose) {
+        function outsideClickCloseHandler(e: MouseEvent) {
+          if (!contentRef.current?.contains(e.target as Node)) {
+            closePopup()
+          }
+        }
+
+        setTimeout(() => {
+          document.addEventListener('click', outsideClickCloseHandler)
+        }, 0)
+        return () => {
+          document.removeEventListener('click', outsideClickCloseHandler)
+        }
+      }
+
+      return undefined
+    }, [])
 
     React.useImperativeHandle(ref, () => ({
       open: openPopup,
@@ -196,7 +239,6 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
     function handleBeforeEnter(el?: HTMLElement | null) {
       onBeforeEnter?.(el)
-      console.log('handleBeforeEnter', el, contentRef.current)
       autoContentPosition()
     }
 
@@ -209,8 +251,6 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         return
       }
 
-      console.log(positionType, { contentElement })
-
       setTargetRelativePosition(positionTargetElement, contentElement, positionType, equalWidth)
     }
 
@@ -221,6 +261,12 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       const transitionOptions: KeyframeEffectOptions = Object.assign(
         { duration: 400, easing: 'cubic-bezier(0.175, 0.82, 0.265, 1)' },
         contentTransitionOptions
+      )
+
+      contentProps.className = clsx(
+        'popup-content',
+        { 'target-relative-position': !!positionTargetElement },
+        contentProps.className
       )
 
       return (
@@ -235,7 +281,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
           onLeave={onLeave}
           onBeforeLeave={onBeforeLeave}
         >
-          <div className="popup-content">{children}</div>
+          <div {...contentProps}>{children}</div>
         </Transition>
       )
     }

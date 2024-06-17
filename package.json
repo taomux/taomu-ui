@@ -34,7 +34,7 @@
     "react-feather": "^2.0.10",
     "react-mount-node": "^0.0.1",
     "taomu-store": "^0.0.1",
-    "taomu-toolkit": "^0.0.5",
+    "taomu-toolkit": "^0.0.6",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

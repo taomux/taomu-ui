@@ -73,6 +73,12 @@ export function getGlobalStyled() {
       --ac-color-warning: ${linkCssVar('colorWarning')};
       --ac-color-error: ${linkCssVar('colorError')};
 
+      --ac-color-background: ${linkCssVar('colorBackground')};
+      --ac-color-text-title: ${linkCssVar('colorTextTitle')};
+      --ac-color-text-gray: ${linkCssVar('colorTextGray')};
+      --ac-color-text-default: ${linkCssVar('colorTextDefault')};
+      --ac-color-text-light: ${linkCssVar('colorTextLight')};
+
       --ac-color-shadow: ${linkCssVar('colorShadow')};
 
       background-color: ${linkCssVar('colorBackground')};

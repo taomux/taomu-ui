@@ -218,3 +218,67 @@ export const throughBottomFade: TransitionConfig = {
     ],
   },
 }
+
+export const moveLeft: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'translate3d(-12px, 0, 0)', opacity: 0 },
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+      { transform: 'translate3d(-12px, 0, 0)', opacity: 0 },
+    ],
+  },
+}
+
+export const moveRight: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'translate3d(12px, 0, 0)', opacity: 0 },
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+      { transform: 'translate3d(12px, 0, 0)', opacity: 0 },
+    ],
+  },
+}
+
+export const moveTop: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'translate3d(0, -12px, 0)', opacity: 0 },
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+      { transform: 'translate3d(0, -12px, 0)', opacity: 0 },
+    ],
+  },
+}
+
+export const moveBottom: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'translate3d(0, 12px, 0)', opacity: 0 },
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'translate3d(0, 0, 0)', opacity: 1 },
+      { transform: 'translate3d(0, 12px, 0)', opacity: 0 },
+    ],
+  },
+}

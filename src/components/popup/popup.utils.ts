@@ -1,5 +1,3 @@
-import { hasClassNameLoopParent } from 'taomu-toolkit'
-
 import type { AnimationTypes } from '../transition'
 import type { PopupPositionType, PopupEqualWidthUnion, PopupPositionBase, PopupRectType } from './popup'
 import { popupStore } from './popup.store'
@@ -9,11 +7,11 @@ export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetR
     switch (positionType) {
       case 'top-left':
       case 'top-right':
-        return 'slideTopFade'
+        return 'moveTop'
 
       case 'bottom-left':
       case 'bottom-right':
-        return 'slideBottomFade'
+        return 'moveBottom'
     }
   }
 
@@ -21,7 +19,7 @@ export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetR
     case 'bottom':
     case 'center-bottom':
     case 'bottom-center':
-      return 'slideBottomFade'
+      return 'moveBottom'
 
     case 'left':
     case 'left-center':
@@ -29,7 +27,7 @@ export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetR
     case 'left-top':
     case 'top-left':
     case 'bottom-left':
-      return 'slideLeftFade'
+      return 'moveLeft'
 
     case 'right':
     case 'right-center':
@@ -37,10 +35,10 @@ export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetR
     case 'right-top':
     case 'top-right':
     case 'bottom-right':
-      return 'slideRightFade'
+      return 'moveRight'
 
     default:
-      return 'slideTopFade'
+      return 'moveTop'
   }
 }
 
@@ -60,6 +58,12 @@ export function setTargetRelativePosition(
 
   function changePosition(current: PopupPositionBase, next: PopupPositionBase) {
     positionType = positionType.replace(current, next) as PopupPositionType
+  }
+
+  if (positionType === 'center-top') {
+    positionType = 'top-center'
+  } else if (positionType === 'center-bottom') {
+    positionType = 'bottom-center'
   }
 
   // 容器与目标元素等宽处理
@@ -109,7 +113,6 @@ export function setTargetRelativePosition(
 
     case 'top':
     case 'top-center':
-    case 'center-top':
       nextRect.top = targetRect.top - contentRect.height
       nextRect.left = targetRect.left + targetRect.width / 2 - contentRect.width / 2
       break
@@ -125,7 +128,6 @@ export function setTargetRelativePosition(
 
     case 'bottom':
     case 'bottom-center':
-    case 'center-bottom':
       nextRect.top = targetRect.bottom
       nextRect.left = targetRect.left + targetRect.width / 2 - contentRect.width / 2
       break
@@ -189,27 +191,6 @@ export function setCenterAbsolutePosition(contentElement: HTMLElement) {
 
   contentElement.style.top = top + 'px'
   contentElement.style.left = `calc(50% - ${leftOffset}px)`
-}
-
-const outsideClickCloseMap = new Map<string, boolean>()
-
-export function handleOutsideClickClose(modalId: string, close: Function) {
-  function outsideClickCloseHandler(event: MouseEvent) {
-    if (hasClassNameLoopParent(event.target as HTMLElement, modalId)) {
-      return // 忽略弹层内部点击
-    }
-
-    document.removeEventListener('click', outsideClickCloseHandler)
-    outsideClickCloseMap.delete(modalId)
-    close()
-  }
-
-  if (outsideClickCloseMap.has(modalId)) {
-    return
-  }
-
-  outsideClickCloseMap.set(modalId, true)
-  document.addEventListener('click', outsideClickCloseHandler)
 }
 
 export function closeAllPopups() {
