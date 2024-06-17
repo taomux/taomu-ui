@@ -33,6 +33,10 @@ export const TaomuApp: React.FC<TaomuAppProps> = ({ children }) => {
     } else {
       console.error('TaomuApp only support one instance')
     }
+
+    return () => {
+      globalInit = false
+    }
   }, [])
 
   return (
