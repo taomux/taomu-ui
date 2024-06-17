@@ -11,6 +11,8 @@ export interface TaomuAppProps {
   children: React.ReactNode
 }
 
+let globalInit = false
+
 /**
  * 初始化 TaomuApp
  *
@@ -25,10 +27,22 @@ export const TaomuApp: React.FC<TaomuAppProps> = ({ children }) => {
     document.documentElement.dataset.theme = theme
   }, [theme])
 
+  React.useEffect(() => {
+    if (!globalInit) {
+      globalInit = true
+    } else {
+      console.error('TaomuApp only support one instance')
+    }
+  }, [])
+
   return (
     <>
-      <Global styles={getGlobalStyled()} />
-      <PopupService />
+      {globalInit ? null : (
+        <>
+          <Global styles={getGlobalStyled()} />
+          <PopupService />
+        </>
+      )}
       {children}
     </>
   )
