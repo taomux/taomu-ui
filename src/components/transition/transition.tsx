@@ -111,6 +111,14 @@ export const Transition: React.FC<TransitionProps> = ({
     }
   }, [isRenderNode])
 
+  React.useEffect(() => {
+    return () => {
+      if (animationRef.current) {
+        animationRef.current.cancel()
+      }
+    }
+  }, [])
+
   if (!isRenderNode) return null
 
   return React.cloneElement(children, { ref: nodeRef })

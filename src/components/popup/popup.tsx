@@ -22,7 +22,6 @@ export interface PopupRectType {
 }
 
 export interface PopupProps extends BaseComponentType<PopupCssVars> {
-  groupId?: string
   popupId?: string
   /** 显示状态 */
   show?: boolean
@@ -68,10 +67,6 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   positionType?: PopupPositionType
   /** 动态位置修正，默认开启，仅在 positionTargetElement 存在时生效 */
   autoFixPosition?: boolean
-  /** 点击弹层外部是否关闭, 默认为 false, 此功能在 hideOverlay 时有效 */
-  outsideClickClose?: boolean
-  /** 不脱离文档流 */
-  noFixed?: boolean
 
   onBeforeEnter?: (el?: HTMLElement | null) => void
   onEnter?: (el: HTMLElement) => void
@@ -89,23 +84,23 @@ export const POPUP_DEFAULT_RECT: PopupRectType = {
   top: 0,
 }
 
+export const POPUP_ID_TEMPLATE = 'taomu-popup-xxxx-xxxx-xxxx'
+
 export const Popup = React.forwardRef<PopupRef, PopupProps>(
   (
     {
       className,
       cssVars,
       style,
-      groupId,
-      popupId = uuid(),
+      popupId = uuid(POPUP_ID_TEMPLATE),
       children,
       show,
       zIndex = 1000,
       backgroundEvent,
-      noFixed,
       escToClose = true,
       clickToClose = true,
 
-      overlay = true,
+      overlay = false,
       overlayProps = {},
       overlayAnimationType,
       overlayTransitionConfig,
@@ -136,7 +131,6 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       `position-${positionType || 'default'}`,
       {
         'position-absolute': !positionTargetElement,
-        'no-fixed': noFixed,
         'background-event': backgroundEvent || !overlay,
       },
       className
@@ -265,6 +259,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
       contentProps.className = clsx(
         'popup-content',
+        popupId,
         { 'target-relative-position': !!positionTargetElement },
         contentProps.className
       )

@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import clsx from 'clsx'
 import { uuid } from 'taomu-toolkit'
 
-import { PopupProps, PopupRef, Popup } from './popup'
+import { PopupProps, PopupRef, Popup, POPUP_ID_TEMPLATE } from './popup'
 import { popupStore } from './popup.store'
 
 export type PortalContainerType = HTMLElement
@@ -19,15 +19,21 @@ export interface PopupPortalOptions extends PopupProps {
   createContainerClass?: string
 }
 
+/**
+ * Popup 传送门
+ */
 export class PopupPortal<ContentProps extends object = any> {
-  public readonly popupId = uuid()
-
-  public createIndex = popupStore.getState().popupsMap.size + 1
+  public readonly popupId = uuid(POPUP_ID_TEMPLATE)
 
   public popupRef = React.createRef<PopupRef>()
+  public createIndex = popupStore.getState().popupsMap.size + 1
+  /** 是否进场 */
+  public isEnter = false
 
   constructor(
+    /** 内容组件 */
     public content: React.ComponentType<ContentProps>,
+    /** 选项 */
     public options: PopupPortalOptions = {}
   ) {}
 
@@ -52,8 +58,22 @@ export class PopupPortal<ContentProps extends object = any> {
     return containerElement
   }
 
+  /** 是否已打开 */
+  get isOpened() {
+    return !!this.popupRef.current
+  }
+
   public readonly render = (contentProps: ContentProps) => {
-    const { portalContainer, createContainerId, createContainerClass, zIndex = 1000, onLeave, ...popupProps } = this.options
+    const {
+      portalContainer,
+      createContainerId,
+      createContainerClass,
+      zIndex = 1000,
+      onBeforeEnter,
+      onBeforeLeave,
+      onLeave,
+      ...popupProps
+    } = this.options
 
     const Content = this.content
 
@@ -61,10 +81,17 @@ export class PopupPortal<ContentProps extends object = any> {
       <Popup
         ref={this.popupRef}
         key={this.popupId}
-        groupId={this.containerId}
         popupId={this.popupId}
         zIndex={zIndex + this.createIndex}
         show
+        onBeforeEnter={(e) => {
+          this.isEnter = true
+          onBeforeEnter?.(e)
+        }}
+        onBeforeLeave={(e) => {
+          this.isEnter = false
+          onBeforeLeave?.(e)
+        }}
         onLeave={() => {
           this.destroy()
           onLeave?.()

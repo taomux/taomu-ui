@@ -13,14 +13,12 @@ setGlobalCssVars('common', {
 })
 
 export const popupStyled = css`
-  &:not(.no-fixed) {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: ${linkCssVar('zIndex')};
-  }
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: ${linkCssVar('zIndex')};
 
   &.background-event {
     pointer-events: none;
