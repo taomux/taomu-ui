@@ -6,7 +6,13 @@ import { Transition, TransitionConfig, AnimationTypes } from '../transition'
 import { useTaomuClassName, useInlineStyle, useEventListener } from '../../hooks'
 import { popupStyled, PopupCssVars } from './popup.styled'
 import { popupStore } from './popup.store'
-import { setTargetRelativePosition, setCenterAbsolutePosition, getAbsoluteAnimation } from './popup.utils'
+import {
+  setTargetRelativePosition,
+  setCenterAbsolutePosition,
+  getAbsoluteAnimation,
+  lockBodyScroll,
+  unlockBodyScroll,
+} from './popup.utils'
 
 export type PopupPositionBase = 'left' | 'right' | 'top' | 'bottom' | 'center'
 export type PopupPositionType = PopupPositionBase | `${PopupPositionBase}-${PopupPositionBase}` | 'dialog-center'
@@ -99,6 +105,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       backgroundEvent,
       escToClose = true,
       clickToClose = true,
+      lockScroll,
 
       overlay = false,
       overlayProps = {},
@@ -162,6 +169,11 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       }
     })
 
+    React.useImperativeHandle(ref, () => ({
+      open: openPopup,
+      close: closePopup,
+    }))
+
     React.useEffect(() => {
       const outsideClickClose = clickToClose && (backgroundEvent || !overlay)
 
@@ -183,10 +195,17 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       return undefined
     }, [])
 
-    React.useImperativeHandle(ref, () => ({
-      open: openPopup,
-      close: closePopup,
-    }))
+    React.useEffect(() => {
+      if (lockScroll) {
+        lockBodyScroll()
+      }
+
+      return () => {
+        if (lockScroll) {
+          unlockBodyScroll()
+        }
+      }
+    }, [lockScroll])
 
     React.useEffect(() => {
       if (show) {

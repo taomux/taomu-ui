@@ -14,6 +14,8 @@ export interface PopupTriggerProps {
   content?: PopupPortal['content']
   /** 触发条件，默认: click  */
   trigger?: TriggerType
+  /** 弹出位置 */
+  position?: PopupPortalOptions['positionType']
   /** 传送门选项 */
   portalOptions?: PopupPortalOptions
   /** 防抖时间, 只在 trigger 为 hover 时生效 */
@@ -21,7 +23,7 @@ export interface PopupTriggerProps {
 }
 
 export const PopupTrigger: React.FC<PopupTriggerProps> = React.forwardRef<PopupPortal | void, PopupTriggerProps>(
-  ({ children, content, trigger = 'hover', portalOptions, debounceTime = 150 }, ref) => {
+  ({ children, content, trigger = 'hover', position, portalOptions, debounceTime = 150 }, ref) => {
     const popupPortalRef = React.useRef<PopupPortal | undefined>()
     const debounceRef = React.useRef(new Debounce())
     const [targetId, setTargetId] = React.useState<string | null>(null)
@@ -32,6 +34,7 @@ export const PopupTrigger: React.FC<PopupTriggerProps> = React.forwardRef<PopupP
     React.useEffect(() => {
       if (content) {
         const nextPortalOptions: PopupPortalOptions = {
+          positionType: position,
           ...portalOptions,
           clickToClose: trigger === 'click',
         }

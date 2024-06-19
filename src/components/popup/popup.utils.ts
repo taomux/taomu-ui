@@ -1,3 +1,4 @@
+import { getScrollbarWidth } from 'taomu-toolkit'
 import type { AnimationTypes } from '../transition'
 import type { PopupPositionType, PopupEqualWidthUnion, PopupPositionBase, PopupRectType } from './popup'
 import { popupStore } from './popup.store'
@@ -191,6 +192,17 @@ export function setCenterAbsolutePosition(contentElement: HTMLElement) {
 
   contentElement.style.top = top + 'px'
   contentElement.style.left = `calc(50% - ${leftOffset}px)`
+}
+
+export function lockBodyScroll() {
+  const scrollBarWidth = getScrollbarWidth()
+  document.body.style.overflow = 'hidden'
+  document.body.style.paddingRight = scrollBarWidth + 'px'
+}
+
+export function unlockBodyScroll() {
+  document.body.style.removeProperty('overflow')
+  document.body.style.removeProperty('padding-right')
 }
 
 export function closeAllPopups() {

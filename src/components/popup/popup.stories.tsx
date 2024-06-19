@@ -2,7 +2,7 @@ import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from '../button'
-import { Popup, PopupPortal, closeAllPopups, PopupProps } from './'
+import { Popup, PopupPortal, closeAllPopups, PopupProps, usePopup } from './'
 
 /** 弹层核心 */
 const meta: Meta<typeof Popup> = {
@@ -16,14 +16,14 @@ type Story = StoryObj<typeof meta>
 export default meta
 
 /**
- * 使用 `new PopupPortal()` 创建一个弹层示例，随后使用 `.open()` 打开
+ * 使用 `new PopupPortal()` 创建一个弹层实例，随后使用 `.open()` 打开
  */
 export const 函数打开: Story = {
   render: () => {
     function openPopup(positionType?: PopupProps['positionType']) {
       const demoPopup = new PopupPortal(
         () => {
-          return <div className="bg-background br-4 shadow-md p-24">okk</div>
+          return <div className="bg-background shadow-md p-24">content</div>
         },
         { positionType }
       )
@@ -39,12 +39,57 @@ export const 函数打开: Story = {
   },
 }
 
+/**
+ * 推荐
+ *
+ * 使用 `usePopup()` 是单例模式，它返回一个 `PopupPortal` 实例，但在整个组件生命周期中只初始化一次
+ *
+ * 单例模式下弹层内的 state 是独立的，你需要调用 `.dispatch()` 才能更新内部 state
+ */
+export const UsePopup: Story = {
+  render: () => {
+    const DemoPopup = () => {
+      const [count, setCount] = React.useState(0)
+
+      React.useEffect(() => {
+        popup.dispatch({ contentCount: count })
+      }, [count])
+
+      const popup = usePopup<{ contentCount: number }>(
+        ({ contentCount }) => {
+          return (
+            <div className="bg-background shadow-md p-24 br-8 border rect-1">
+              content
+              <div>contentCount: {contentCount}</div>
+            </div>
+          )
+        },
+        { positionType: 'center', clickToClose: false }
+      )
+
+      function updateCount() {
+        setCount(count + 1)
+      }
+
+      return (
+        <div className="flex gap-12">
+          <Button onClick={() => popup.open()}>open一个</Button>
+          <Button onClick={() => popup.close()}>close</Button>
+          <Button onClick={updateCount}>updateCount: {count}</Button>
+        </div>
+      )
+    }
+
+    return <DemoPopup />
+  },
+}
+
 export const 绝对位置: Story = {
   render() {
     function openPopup(positionType?: PopupProps['positionType']) {
       const demoPopup = new PopupPortal(
         () => {
-          return <div className="bg-background br-4 shadow-md p-24">okk</div>
+          return <div className="bg-background br-4 shadow-md p-24 border rect-1">content</div>
         },
         { positionType }
       )
@@ -89,8 +134,8 @@ export const 相对位置: Story = {
       const demoPopup = new PopupPortal(
         () => {
           return (
-            <div className="bg-background br-4 shadow-md p-24" style={{ height: 100 }}>
-              okk
+            <div className="bg-background br-4 shadow-md p-24 border rect-1" style={{ height: 100 }}>
+              content
             </div>
           )
         },
@@ -128,5 +173,31 @@ export const 相对位置: Story = {
         <Button onClick={(e) => openPopupRelative(e, 'bottom-right')}>bottom-right</Button>
       </div>
     )
+  },
+}
+
+export const 锁定滚动条: Story = {
+  render: () => {
+    const DemoPopup = () => {
+      const popup = usePopup<{ contentCount: number }>(
+        ({ contentCount }) => {
+          return (
+            <div className="bg-background shadow-md p-24 br-8 border rect-1">
+              content
+              <div>contentCount: {contentCount}</div>
+            </div>
+          )
+        },
+        { positionType: 'center', lockScroll: true }
+      )
+
+      return (
+        <div className="flex gap-12">
+          <Button onClick={() => popup.open()}>open一个</Button>
+        </div>
+      )
+    }
+
+    return <DemoPopup />
   },
 }

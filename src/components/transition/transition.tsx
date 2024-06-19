@@ -133,15 +133,14 @@ function createAnimation(
 ): Animation | void {
   if (typeof config === 'object') {
     const item = config[type]
-    const mergedOptions = Object.assign({}, config.options, options)
+    const mergedOptions = { ...config.options, ...options }
 
     if (typeof item === 'function') {
       const res = item(el, mergedOptions)
       if (!res?.keyframes) return
-      Object.assign(mergedOptions, res.options)
-      return new Animation(new KeyframeEffect(el, res.keyframes, mergedOptions))
+      return new Animation(new KeyframeEffect(el, res.keyframes, { ...mergedOptions, ...res.options }))
     } else if (typeof item === 'object') {
-      return new Animation(new KeyframeEffect(el, item.keyframes, mergedOptions))
+      return new Animation(new KeyframeEffect(el, item.keyframes, { ...item.options, ...mergedOptions }))
     }
   } else if (animationType) {
     if (Object.prototype.hasOwnProperty.call(animationTypes, animationType)) {

@@ -129,10 +129,13 @@ export class PopupPortal<ContentProps extends object = any> {
     Object.assign(this.options, options)
   }
 
-  // TODO 未测试
-  public updateOptions = (options: Partial<PopupPortalOptions>) => {
-    Object.assign(this.options, options)
+  /**
+   * 更新弹层内容
+   */
+  public dispatch = (contentProps?: ContentProps, options?: PopupPortalOptions) => {
     const { popupsMap } = popupStore.getState()
-    popupStore.setState({ popupsMap })
+    if (!popupsMap.has(this.popupId)) return
+    if (options) this.updateOptionsStatic(options)
+    this.open(contentProps, options)
   }
 }

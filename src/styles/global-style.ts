@@ -79,6 +79,9 @@ export function getGlobalStyled() {
       --ac-color-text-default: ${linkCssVar('colorTextDefault')};
       --ac-color-text-light: ${linkCssVar('colorTextLight')};
 
+      --ac-color-border: ${linkCssVar('colorBorder')};
+      --ac-color-border-split: ${linkCssVar('colorBorderSplit')};
+
       --ac-color-shadow: ${linkCssVar('colorShadow')};
 
       background-color: ${linkCssVar('colorBackground')};
