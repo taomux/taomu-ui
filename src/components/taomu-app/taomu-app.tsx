@@ -41,12 +41,8 @@ export const TaomuApp: React.FC<TaomuAppProps> = ({ children }) => {
 
   return (
     <>
-      {globalInit ? null : (
-        <>
-          <Global styles={getGlobalStyled()} />
-          <PopupService />
-        </>
-      )}
+      {globalInit ? null : <PopupService />}
+      <Global styles={getGlobalStyled()} />
       {children}
     </>
   )
