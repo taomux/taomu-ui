@@ -4,7 +4,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from '../button'
 import { Popup, PopupPortal, closeAllPopups, PopupProps, usePopup } from './'
 
-/** 弹层核心 */
+/**
+ * 弹层核心
+ *
+ * 只支持使用函数打开
+ *
+ * 不提供 JSX 渲染后通过状态控制是否显示的方案，我认为这种方式是愚蠢的，写 demo 也许很方便，稍微上点复杂度则很容易拉大便。
+ */
 const meta: Meta<typeof Popup> = {
   title: 'Components/Popup',
   component: Popup,
@@ -20,13 +26,11 @@ export default meta
  */
 export const 函数打开: Story = {
   render: () => {
-    function openPopup(positionType?: PopupProps['positionType']) {
-      const demoPopup = new PopupPortal(
-        () => {
-          return <div className="bg-background shadow-md p-24">content</div>
-        },
-        { positionType }
-      )
+    function openPopup() {
+      const demoPopup = new PopupPortal(() => {
+        return <div className="bg-background shadow-md p-24">content</div>
+      })
+
       demoPopup.open()
     }
 
@@ -40,7 +44,7 @@ export const 函数打开: Story = {
 }
 
 /**
- * 推荐
+ * 推荐的方案
  *
  * 使用 `usePopup()` 是单例模式，它返回一个 `PopupPortal` 实例，但在整个组件生命周期中只初始化一次
  *
@@ -73,7 +77,7 @@ export const UsePopup: Story = {
 
       return (
         <div className="flex gap-12">
-          <Button onClick={() => popup.open()}>open一个</Button>
+          <Button onClick={() => popup.open({ contentCount: count })}>open一个</Button>
           <Button onClick={() => popup.close()}>close</Button>
           <Button onClick={updateCount}>updateCount: {count}</Button>
         </div>

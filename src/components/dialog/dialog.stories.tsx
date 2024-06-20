@@ -117,3 +117,10 @@ export const 底部元素扩展: Story = {
     ],
   },
 }
+
+export const 长标题: Story = {
+  args: {
+    title: 'Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title',
+    children: 'Content',
+  },
+}

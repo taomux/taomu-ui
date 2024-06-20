@@ -89,7 +89,13 @@ export const Dialog: React.FC<DialogProps> = ({
 
   ...wrapProps
 }) => {
-  const dialogClassNames = useTaomuClassName('dialog', getShadowClassName(shadow), getBorderClassName(outerBorder), className)
+  const dialogClassNames = useTaomuClassName(
+    'dialog',
+    getShadowClassName(shadow),
+    getBorderClassName(outerBorder),
+    { 'show-close-icon': showCloseIcon },
+    className
+  )
   const dialogStyle = useInlineStyle<DialogCssVars>({ dialogWidth: width, ...cssVars }, style)
 
   const [okLoading, setOkLoading] = React.useState(false)
@@ -111,7 +117,7 @@ export const Dialog: React.FC<DialogProps> = ({
 
     return (
       <div {...headerProps}>
-        {<h2 className="dialog-title fs-16">{title}</h2>}
+        {<h2 className="dialog-title fs-16 text-ellipsis">{title}</h2>}
         <span className="flex-1"></span>
         {renderCloseIcon()}
       </div>

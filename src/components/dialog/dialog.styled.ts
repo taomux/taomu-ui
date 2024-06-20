@@ -72,6 +72,12 @@ export const dialogStyled = css`
   .dialog-footer {
     padding: 12px ${linkCssVar('dialogPadding')};
   }
+
+  &.show-close-icon {
+    .dialog-title {
+      padding-right: 22px;
+    }
+  }
 `
 
 declare global {
