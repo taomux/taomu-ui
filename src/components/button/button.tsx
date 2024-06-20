@@ -20,6 +20,8 @@ export interface ButtonProps extends BaseComponentType<BtnCssVars> {
   paddingX?: number | string
   /** 使用 flex 替换 inline-flex */
   block?: boolean
+  /** 字体大小 */
+  fontSize?: number | string
   /** 幽灵按钮 */
   ghost?: boolean
   /** 半透明 + 毛玻璃效果 */
@@ -47,6 +49,7 @@ export const Button: React.FC<ButtonProps> = ({
   width,
   height,
   paddingX,
+  fontSize,
   showOutline = true,
   ghost,
   glass,
@@ -74,7 +77,10 @@ export const Button: React.FC<ButtonProps> = ({
     },
     className
   )
-  const btnStyle = useInlineStyle({ btnWidth: width, btnHeight: height, btnPaddingX: paddingX, ...cssVars }, style)
+  const btnStyle = useInlineStyle(
+    { btnWidth: width, btnHeight: height, btnPaddingX: paddingX, btnFontSize: fontSize, ...cssVars },
+    style
+  )
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     if (isDisabled) {

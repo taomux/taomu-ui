@@ -24,6 +24,8 @@ export interface BtnCssVars {
   btnPaddingX?: number | string
   /** 按钮圆角 */
   btnRadius?: number | string
+  /** 按钮文字大小 */
+  btnFontSize?: number | string
 }
 
 setGlobalCssVars('common', {
@@ -33,8 +35,9 @@ setGlobalCssVars('common', {
   btnOutlineColor: mixinRgba('colorFrontRgb', 0.3),
   btnBorderColor: linkCssVar('colorBorder'),
   btnRadius: linkCssVar('radiusSM'),
-  btnHeight: 30,
+  btnHeight: 32,
   btnPaddingX: 16,
+  btnFontSize: 14,
 })
 
 setGlobalCssVars('light', {
@@ -62,6 +65,7 @@ export const buttonStyled = css`
   border: 1px solid ${linkCssVar('btnBorderColor')};
   padding: 0 ${linkCssVar('btnPaddingX')};
   color: ${linkCssVar('btnColor')};
+  font-size: ${linkCssVar('btnFontSize')};
 
   &[disabled]:not(.is-loading) {
     opacity: 0.6;

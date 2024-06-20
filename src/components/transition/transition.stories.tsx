@@ -43,7 +43,7 @@ export const 动态示例: Story = {
           <Button onClick={() => setShow(!show)}>show: {show + ''}</Button>
         </div>
         <Transition show={show} proxyRef={nodeRef} animationType="fade">
-          <div className="bg-background p-24 br-4 shadow-md border rect-1">Element</div>
+          <div className="bg-primary p-24 br-4 shadow-md border rect-1">Element</div>
         </Transition>
       </div>
     )
@@ -85,7 +85,7 @@ export const 自定义动画函数: Story = {
             },
           }}
         >
-          <div className="bg-background p-24 br-4 shadow-md border rect-1">Element</div>
+          <div className="bg-primary p-24 br-4 shadow-md border rect-1">Element</div>
         </Transition>
       </div>
     )

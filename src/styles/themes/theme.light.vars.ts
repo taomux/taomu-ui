@@ -7,9 +7,9 @@ export const LIGHT_GLOBAL_VARS: GlobalCssVars = {
   colorFrontRgb: '46, 52, 64',
 
   colorTextTitle: linkCssVar('colorFront'),
-  colorTextDefault: 'rgba(23, 35, 61, 0.75)',
-  colorTextGray: 'rgba(81, 90, 110, 0.75)',
-  colorTextLight: 'rgba(81, 90, 110, 0.45)',
+  colorTextDefault: 'rgba(23, 35, 61, 0.8)',
+  colorTextGray: 'rgba(81, 90, 110, 0.65)',
+  colorTextLight: 'rgba(81, 90, 110, 0.4)',
 
   colorBorder: 'rgba(0, 0, 0, 0.1)',
   colorBorderSplit: 'rgba(0, 0, 0, 0.06)',

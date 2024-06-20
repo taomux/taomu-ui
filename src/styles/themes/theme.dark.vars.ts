@@ -8,7 +8,7 @@ export const DARK_GLOBAL_VARS: GlobalCssVars = {
 
   colorTextTitle: linkCssVar('colorFront'),
   colorTextDefault: mixinRgba('colorFrontRgb', 0.9),
-  colorTextGray: mixinRgba('colorFrontRgb', 0.7),
+  colorTextGray: mixinRgba('colorFrontRgb', 0.65),
   colorTextLight: mixinRgba('colorFrontRgb', 0.4),
 
   colorBorder: mixinRgba('colorFrontRgb', 0.1),
