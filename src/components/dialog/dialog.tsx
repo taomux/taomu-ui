@@ -53,7 +53,7 @@ export interface DialogProps extends BaseComponentType<DialogCssVars> {
   /** 取消回调 (支持 Promise) */
   onCancel?: (res?: any) => void | Promise<any>
   /** 关闭回调 */
-  onClose: () => void
+  onClose?: () => void
 }
 
 export const Dialog: React.FC<DialogProps> = ({

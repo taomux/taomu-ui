@@ -11,7 +11,7 @@ export interface PopupTriggerProps {
   /** 触发元素 */
   children: JSX.Element
   /** 弹出内容 */
-  content?: PopupPortal['content']
+  content?: PopupPortal['Content']
   /** 触发条件，默认: click  */
   trigger?: TriggerType
   /** 弹出位置 */

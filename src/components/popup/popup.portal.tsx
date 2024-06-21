@@ -32,7 +32,7 @@ export class PopupPortal<ContentProps extends object = any> {
 
   constructor(
     /** 内容组件 */
-    public content: React.ComponentType<ContentProps>,
+    public Content: React.ComponentType<ContentProps>,
     /** 选项 */
     public options: PopupPortalOptions = {}
   ) {}
@@ -75,7 +75,7 @@ export class PopupPortal<ContentProps extends object = any> {
       ...popupProps
     } = this.options
 
-    const Content = this.content
+    const Content = this.Content
 
     return createPortal(
       <Popup

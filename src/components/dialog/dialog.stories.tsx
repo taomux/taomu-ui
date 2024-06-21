@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { Button } from '../button'
 import { Checkbox } from '../checkbox'
-import { Dialog } from './dialog'
+import { Dialog, DialogPortal } from './'
 
 const meta: Meta<typeof Dialog> = {
   title: 'Components/Dialog',
@@ -122,5 +122,28 @@ export const 长标题: Story = {
   args: {
     title: 'Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title Title',
     children: 'Content',
+  },
+}
+
+export const 函数打开: Story = {
+  render() {
+    function openDialog() {
+      const dialog = new DialogPortal(
+        () => {
+          return <div>dialog content</div>
+        },
+        {
+          title: 'Title',
+          children: 'Content',
+        }
+      )
+      dialog.open()
+    }
+
+    return (
+      <div>
+        <Button onClick={openDialog}>open一个</Button>
+      </div>
+    )
   },
 }
