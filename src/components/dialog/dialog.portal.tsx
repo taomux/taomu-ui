@@ -25,8 +25,18 @@ export class DialogPortal<ContentProps extends object = any> extends PopupPortal
       )
     }
 
-    super(Content, popupOptions)
+    super(Content, Object.assign(getDefaultDialogPopupOptions(), popupOptions))
 
     this.Content = Content
+  }
+}
+
+function getDefaultDialogPopupOptions(): PopupPortalOptions {
+  return {
+    positionType: 'dialog-center',
+    contentAnimationType: 'dialogZoomOut',
+    // overlay: true,
+    // clickToClose:false,
+    lockScroll: true,
   }
 }

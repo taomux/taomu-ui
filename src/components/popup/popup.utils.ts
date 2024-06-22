@@ -182,7 +182,6 @@ export function setCenterAbsolutePosition(contentElement: HTMLElement) {
   const contentRect = contentElement.getBoundingClientRect()
 
   let top = window.innerHeight / 2 - contentRect.height / 2
-  let leftOffset = contentRect.width / 2
 
   if (top < 0) {
     top = 0
@@ -191,7 +190,6 @@ export function setCenterAbsolutePosition(contentElement: HTMLElement) {
   }
 
   contentElement.style.top = top + 'px'
-  contentElement.style.left = `calc(50% - ${leftOffset}px)`
 }
 
 export function lockBodyScroll() {

@@ -282,3 +282,83 @@ export const moveBottom: TransitionConfig = {
     ],
   },
 }
+
+export const zoomIn: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'scale3d(0.5, 0.5, 0.5)', opacity: 0 },
+      { transform: 'scale3d(1, 1, 1)', opacity: 1 },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'scale3d(1, 1, 1)', opacity: 1 },
+      { transform: 'scale3d(0.5, 0.5, 0.5)', opacity: 0 },
+    ],
+  },
+}
+
+export const zoomOut: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'scale3d(1.5, 1.5, 1.5)', opacity: 0 },
+      { transform: 'scale3d(1, 1, 1)', opacity: 1 },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'scale3d(1, 1, 1)', opacity: 1 },
+      { transform: 'scale3d(1.5, 1.5, 1.5)', opacity: 0 },
+    ],
+  },
+}
+
+export const throughZoomIn: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'scale3d(0.5, 0.5, 0.5)', opacity: 0 },
+      { transform: 'scale3d(1, 1, 1)', opacity: 1 },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'scale3d(1, 1, 1)', opacity: 1 },
+      { transform: 'scale3d(1.5, 1.5, 1.5)', opacity: 0 },
+    ],
+  },
+}
+
+export const throughZoomOut: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'scale3d(1.5, 1.5, 1.5)', opacity: 0 },
+      { transform: 'scale3d(1, 1, 1)', opacity: 1 },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'scale3d(1, 1, 1)', opacity: 1 },
+      { transform: 'scale3d(0.5, 0.5, 0.5)', opacity: 0 },
+    ],
+  },
+}
+
+export const dialogZoomOut: TransitionConfig = {
+  options: defaultOptions,
+  enter: {
+    keyframes: [
+      { transform: 'translateX(-50%) scale3d(1.5, 1.5, 1.5)', opacity: 0, backdropFilter: 'blur(5px)' },
+      { transform: 'translateX(-50%) scale3d(1, 1, 1)', opacity: 1, backdropFilter: 'blur(5px)' },
+    ],
+  },
+  leave: {
+    keyframes: [
+      { transform: 'translateX(-50%) scale3d(1, 1, 1)', opacity: 1, backdropFilter: 'blur(5px)' },
+      { transform: 'translateX(-50%) scale3d(1.5, 1.5, 1.5)', opacity: 0, backdropFilter: 'blur(5px)' },
+    ],
+  },
+}

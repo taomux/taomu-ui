@@ -27,6 +27,7 @@ export const dialogStyled = css`
   background-color: ${linkCssVar('dialogBackground')};
   border-radius: ${linkCssVar('dialogRadius')};
   position: relative;
+  backdrop-filter: blur(5px);
 
   .dialog-header {
     position: sticky;

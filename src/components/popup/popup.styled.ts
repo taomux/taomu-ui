@@ -57,17 +57,15 @@ export const popupStyled = css`
       overflow-y: auto;
       overflow-x: hidden;
 
-      .vfm--overlay {
-        position: fixed;
-      }
-
-      .hro-popup-modal-content {
+      .popup-content {
         position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
       }
     }
 
     &.position-top {
-      .hro-popup-modal-content {
+      .popup-content {
         position: absolute;
         top: 0;
         width: 100vw;
@@ -75,7 +73,7 @@ export const popupStyled = css`
     }
 
     &.position-bottom {
-      .hro-popup-modal-content {
+      .popup-content {
         position: absolute;
         bottom: 0;
         width: 100vw;
@@ -83,7 +81,7 @@ export const popupStyled = css`
     }
 
     &.position-left {
-      .hro-popup-modal-content {
+      .popup-content {
         position: absolute;
         left: 0;
         height: 100vh;
@@ -91,7 +89,7 @@ export const popupStyled = css`
     }
 
     &.position-right {
-      .hro-popup-modal-content {
+      .popup-content {
         position: absolute;
         right: 0;
         height: 100vh;

@@ -179,7 +179,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
       if (outsideClickClose) {
         function outsideClickCloseHandler(e: MouseEvent) {
-          if (!contentRef.current?.contains(e.target as Node)) {
+          if (!contentRef.current?.firstChild?.contains(e.target as Node)) {
             closePopup()
           }
         }
