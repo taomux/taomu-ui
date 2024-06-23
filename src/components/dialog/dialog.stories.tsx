@@ -240,8 +240,19 @@ export const 内部定义回调: Story = {
 export const Hooks调用: Story = {
   render() {
     const dialog = useDialog(
-      () => {
-        return <div>dialog content</div>
+      ({ dialogPortalInstance }) => {
+        return (
+          <div>
+            dialog content{' '}
+            <Button
+              onClick={() => {
+                dialogPortalInstance.close()
+              }}
+            >
+              内部关闭
+            </Button>
+          </div>
+        )
       },
       {
         title: 'Title',
@@ -255,6 +266,54 @@ export const Hooks调用: Story = {
         onCancel: () => {
           console.log('onCancel')
         },
+      }
+    )
+
+    function openDialog() {
+      dialog.open()
+    }
+
+    return (
+      <div>
+        <Button onClick={openDialog}>open一个</Button>
+      </div>
+    )
+  },
+}
+
+export const 无动画: Story = {
+  render() {
+    const dialog = useDialog(
+      ({ dialogPortalInstance }) => {
+        return (
+          <div>
+            dialog content{' '}
+            <Button
+              onClick={() => {
+                dialogPortalInstance.close()
+              }}
+            >
+              内部关闭
+            </Button>
+          </div>
+        )
+      },
+      {
+        title: 'Title',
+        children: 'Content',
+        onClose: () => {
+          console.log('onClose')
+        },
+        onOk: () => {
+          console.log('onOk')
+        },
+        onCancel: () => {
+          console.log('onCancel')
+        },
+      },
+      {
+        contentAnimationType: false,
+        overlayAnimationType: false,
       }
     )
 

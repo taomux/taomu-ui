@@ -1,4 +1,5 @@
 import React from 'react'
+import { PopupPortalBaseOptions } from '../popup'
 import { DialogPortal, DialogPortalOptions, DialogComponentProps } from './dialog.portal'
 
 export interface DialogHookOptions extends DialogPortalOptions {
@@ -8,9 +9,10 @@ export interface DialogHookOptions extends DialogPortalOptions {
 
 export function useDialog<T extends DialogComponentProps>(
   content: React.ComponentType<T>,
-  { destroyOnUnmount = true, ...options }: DialogHookOptions = {}
+  { destroyOnUnmount = true, ...options }: DialogHookOptions = {},
+  baseOptions?: PopupPortalBaseOptions
 ) {
-  const dialogInsRef = React.useRef<DialogPortal<T>>(new DialogPortal<T>(content, options))
+  const dialogInsRef = React.useRef<DialogPortal<T>>(new DialogPortal<T>(content, options, baseOptions))
 
   React.useEffect(() => {
     return () => {
