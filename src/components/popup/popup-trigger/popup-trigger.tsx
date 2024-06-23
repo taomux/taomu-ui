@@ -32,6 +32,14 @@ export const PopupTrigger: React.FC<PopupTriggerProps> = React.forwardRef<PopupP
     React.useImperativeHandle(ref, () => popupPortalRef.current)
 
     React.useEffect(() => {
+      return () => {
+        if (popupPortalRef.current) {
+          popupPortalRef.current.destroy()
+        }
+      }
+    }, [])
+
+    React.useEffect(() => {
       if (content) {
         const nextPortalOptions: PopupPortalOptions = {
           positionType: position,

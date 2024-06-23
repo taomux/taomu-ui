@@ -6,19 +6,17 @@ export interface PopupHookOptions extends PopupPortalOptions {
   destroyOnUnmount?: boolean
 }
 
-export type UsePopupArgs<T extends object = any> = ConstructorParameters<typeof PopupPortal<T>>
-
 export function usePopup<T extends object = any>(
   content: React.ComponentType<T>,
   { destroyOnUnmount = true, ...options }: PopupHookOptions = {}
 ) {
-  const popupRef = React.useRef<PopupPortal<T>>(new PopupPortal<T>(content, options))
+  const popupInsRef = React.useRef<PopupPortal<T>>(new PopupPortal<T>(content, options))
 
   React.useEffect(() => {
     return () => {
-      if (destroyOnUnmount) popupRef.current.destroy()
+      if (destroyOnUnmount) popupInsRef.current.destroy()
     }
   }, [])
 
-  return popupRef.current
+  return popupInsRef.current
 }

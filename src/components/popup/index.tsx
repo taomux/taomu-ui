@@ -1,4 +1,5 @@
 export * from './popup'
+export * from './popup.portal.base'
 export * from './popup.portal'
 export * from './popup.hooks'
 export * from './popup-trigger'

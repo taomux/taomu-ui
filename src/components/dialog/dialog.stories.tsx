@@ -1,8 +1,10 @@
+import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
+import { sleep } from 'taomu-toolkit'
 
 import { Button } from '../button'
 import { Checkbox } from '../checkbox'
-import { Dialog, DialogPortal } from './'
+import { Dialog, DialogPortal, useDialog } from './'
 
 const meta: Meta<typeof Dialog> = {
   title: 'Components/Dialog',
@@ -135,8 +137,128 @@ export const 函数打开: Story = {
         {
           title: 'Title',
           children: 'Content',
+          onClose: () => {
+            console.log('onClose')
+          },
+          onOk: () => {
+            console.log('onOk')
+          },
+          onCancel: () => {
+            console.log('onCancel')
+          },
         }
       )
+      dialog.open()
+    }
+
+    return (
+      <div>
+        <Button onClick={openDialog}>open一个</Button>
+      </div>
+    )
+  },
+}
+
+export const 异步关闭: Story = {
+  render() {
+    function openDialog() {
+      const dialog = new DialogPortal(
+        () => {
+          return <div>dialog content</div>
+        },
+        {
+          title: 'Title',
+          children: 'Content',
+          onClose: () => {
+            console.log('onClose')
+          },
+          onOk: async () => {
+            await sleep(1000)
+            console.log('onOk')
+          },
+          onCancel: async () => {
+            await sleep(1000)
+            console.log('onCancel')
+            // return Promise.reject() // 中断关闭动作
+          },
+        }
+      )
+      dialog.open()
+    }
+
+    return (
+      <div>
+        <Button onClick={openDialog}>open一个</Button>
+      </div>
+    )
+  },
+}
+
+export const 内部定义回调: Story = {
+  render() {
+    function openDialog() {
+      const dialog = new DialogPortal(
+        ({ dialogPortalInstance, defineOnOk, defineOnCancel }) => {
+          React.useEffect(() => {
+            console.log(dialogPortalInstance)
+          }, [])
+
+          defineOnOk(async () => {
+            await sleep(1000)
+            return 'ok result'
+          })
+
+          defineOnCancel(async () => {
+            return 'cancel result'
+          })
+
+          return <div>dialog content</div>
+        },
+        {
+          title: 'Title',
+          children: 'Content',
+        }
+      )
+      dialog
+        .open()
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+
+    return (
+      <div>
+        <Button onClick={openDialog}>open一个</Button>
+      </div>
+    )
+  },
+}
+
+export const Hooks调用: Story = {
+  render() {
+    const dialog = useDialog(
+      () => {
+        return <div>dialog content</div>
+      },
+      {
+        title: 'Title',
+        children: 'Content',
+        onClose: () => {
+          console.log('onClose')
+        },
+        onOk: () => {
+          console.log('onOk')
+        },
+        onCancel: () => {
+          console.log('onCancel')
+        },
+      }
+    )
+
+    function openDialog() {
       dialog.open()
     }
 

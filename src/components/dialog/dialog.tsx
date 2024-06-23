@@ -6,6 +6,7 @@ import { IconX } from '../icons'
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { dialogStyled, DialogCssVars } from './dialog.styled'
 import { getShadowClassName, getBorderClassName, getFooterAlignClassName } from './dialog.utils'
+import type { DialogPortal } from './dialog.portal'
 
 export interface DialogProps extends BaseComponentType<DialogCssVars> {
   /** 对话框标题 */
@@ -48,10 +49,14 @@ export interface DialogProps extends BaseComponentType<DialogCssVars> {
   /** 无内容包裹层 */
   noContentWrapper?: boolean
 
+  dialogPortalInstance?: DialogPortal
+
   /** 确认回调 (支持 Promise) */
   onOk?: (res?: any) => void | Promise<any>
+  asyncOkCallback?: (res?: any) => void
   /** 取消回调 (支持 Promise) */
   onCancel?: (res?: any) => void | Promise<any>
+  asyncCancelCallback?: (res?: any) => void
   /** 关闭回调 */
   onClose?: () => void
 }
@@ -83,8 +88,12 @@ export const Dialog: React.FC<DialogProps> = ({
   showCloseIcon = true,
   noContentWrapper,
 
+  dialogPortalInstance,
+
   onOk,
+  asyncOkCallback,
   onCancel,
+  asyncCancelCallback,
   onClose,
 
   ...wrapProps
@@ -101,8 +110,82 @@ export const Dialog: React.FC<DialogProps> = ({
   const [okLoading, setOkLoading] = React.useState(false)
   const [cancelLoading, setCancelLoading] = React.useState(false)
 
+  React.useEffect(() => {
+    if (okLoading || cancelLoading) {
+      setCloseLock(true)
+    } else {
+      setCloseLock(false)
+    }
+  }, [okLoading, cancelLoading])
+
+  function setCloseLock(bool: boolean) {
+    if (!dialogPortalInstance?.popupRef.current?.closeLockRef) return
+    dialogPortalInstance.popupRef.current.closeLockRef.current = bool
+  }
+
   function handleClose() {
+    if (!okLoading && !cancelLoading) {
+      setCloseLock(false)
+    }
     onClose?.()
+  }
+
+  function handleOnOk() {
+    const onOkFn = dialogPortalInstance?.asyncCallbackRef?.current?.onOk || onOk
+
+    if (!onOkFn) {
+      asyncOkCallback?.()
+      handleClose()
+    }
+
+    const res = onOkFn?.()
+
+    if (res instanceof Promise) {
+      setOkLoading(true)
+      return res
+        .then((res) => {
+          asyncOkCallback?.(res)
+          handleClose()
+          return res
+        })
+        .finally(() => {
+          setOkLoading(false)
+        })
+    } else {
+      asyncOkCallback?.()
+      handleClose()
+    }
+
+    return res
+  }
+
+  function handleOncancel() {
+    const onCancelFn = dialogPortalInstance?.asyncCallbackRef?.current?.onCancel || onCancel
+
+    if (!onCancelFn) {
+      asyncCancelCallback?.()
+      handleClose()
+    }
+
+    const res = onCancelFn?.()
+
+    if (res instanceof Promise) {
+      setCancelLoading(true)
+      return res
+        .then((res) => {
+          asyncCancelCallback?.(res)
+          handleClose()
+          return res
+        })
+        .finally(() => {
+          setCancelLoading(false)
+        })
+    } else {
+      asyncCancelCallback?.()
+      handleClose()
+    }
+
+    return res
   }
 
   /** 对话框头部 */
@@ -158,7 +241,16 @@ export const Dialog: React.FC<DialogProps> = ({
       if (!cancelButtonProps.children) {
         cancelButtonProps.children = cancelButtonText
       }
-      footerNodes.push(<Button key="cancel" autoLoading={false} loading={cancelLoading} {...cancelButtonProps} />)
+      footerNodes.push(
+        <Button
+          key="cancel"
+          autoLoading={false}
+          loading={cancelLoading}
+          disabled={okLoading}
+          onClick={handleOncancel}
+          {...cancelButtonProps}
+        />
+      )
     }
 
     if (showOkButton) {
@@ -166,7 +258,17 @@ export const Dialog: React.FC<DialogProps> = ({
       if (!okButtonProps.children) {
         okButtonProps.children = okButtonText
       }
-      footerNodes.push(<Button key="ok" type="primary" autoLoading={false} loading={okLoading} {...okButtonProps} />)
+      footerNodes.push(
+        <Button
+          key="ok"
+          type="primary"
+          autoLoading={false}
+          loading={okLoading}
+          disabled={cancelLoading}
+          onClick={handleOnOk}
+          {...okButtonProps}
+        />
+      )
     }
 
     if (afterFooterNodes) {

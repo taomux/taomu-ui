@@ -178,15 +178,15 @@ export function setTargetRelativePosition(
   contentElement.style.bottom = nextRect.bottom ? nextRect.bottom + 'px' : 'unset'
 }
 
-export function setCenterAbsolutePosition(contentElement: HTMLElement) {
+export function setCenterAbsolutePosition(contentElement: HTMLElement, topOffset = 160) {
   const contentRect = contentElement.getBoundingClientRect()
 
   let top = window.innerHeight / 2 - contentRect.height / 2
 
   if (top < 0) {
     top = 0
-  } else if (top > 150) {
-    top = 150
+  } else if (top > topOffset) {
+    top = topOffset
   }
 
   contentElement.style.top = top + 'px'

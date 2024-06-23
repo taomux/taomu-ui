@@ -83,6 +83,8 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
 export interface PopupRef {
   open: () => void
   close: () => void
+  /** 控制关闭操作是否中断 */
+  closeLockRef?: React.MutableRefObject<boolean>
 }
 
 export const POPUP_DEFAULT_RECT: PopupRectType = {
@@ -132,6 +134,8 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
     ref
   ) => {
     const contentRef = React.useRef<HTMLDivElement>(null)
+    const scrollLockedRef = React.useRef(false)
+    const closeLockRef = React.useRef(false)
 
     const popupClassName = useTaomuClassName(
       'popup',
@@ -172,10 +176,15 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
     React.useImperativeHandle(ref, () => ({
       open: openPopup,
       close: closePopup,
+      closeLockRef,
     }))
 
     React.useEffect(() => {
       const outsideClickClose = clickToClose && (backgroundEvent || !overlay)
+
+      if (lockScroll) {
+        lockScrollOnce()
+      }
 
       if (outsideClickClose) {
         function outsideClickCloseHandler(e: MouseEvent) {
@@ -188,24 +197,15 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
           document.addEventListener('click', outsideClickCloseHandler)
         }, 0)
         return () => {
+          unlockScrollOnce()
           document.removeEventListener('click', outsideClickCloseHandler)
         }
       }
 
-      return undefined
-    }, [])
-
-    React.useEffect(() => {
-      if (lockScroll) {
-        lockBodyScroll()
-      }
-
       return () => {
-        if (lockScroll) {
-          unlockBodyScroll()
-        }
+        unlockScrollOnce()
       }
-    }, [lockScroll])
+    }, [])
 
     React.useEffect(() => {
       if (show) {
@@ -215,12 +215,30 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       }
     }, [show])
 
+    function lockScrollOnce() {
+      if (!scrollLockedRef.current) {
+        lockBodyScroll()
+        scrollLockedRef.current = true
+      }
+    }
+    function unlockScrollOnce() {
+      if (scrollLockedRef.current) {
+        unlockBodyScroll()
+        scrollLockedRef.current = false
+      }
+    }
+
     function openPopup() {
       setShowOverlay(true)
       setShowContent(true)
     }
 
     function closePopup() {
+      if (closeLockRef.current === true) {
+        console.warn('close action is locked')
+        return
+      }
+
       setShowOverlay(false)
       setShowContent(false)
     }
@@ -255,6 +273,13 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       autoContentPosition()
     }
 
+    function handleBeforeLeave(el: HTMLElement) {
+      onBeforeLeave?.(el)
+      if (lockScroll) {
+        unlockScrollOnce()
+      }
+    }
+
     function autoContentPosition() {
       const contentElement = contentRef.current
       if (!contentElement) return
@@ -270,7 +295,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
     function renderContent() {
       if (!children) return null
 
-      const animationType = contentAnimationType || getAbsoluteAnimation(positionType, !!positionTargetElement)
+      const animationType = contentAnimationType ?? getAbsoluteAnimation(positionType, !!positionTargetElement)
       const transitionOptions: KeyframeEffectOptions = Object.assign(
         { duration: 400, easing: 'cubic-bezier(0.175, 0.82, 0.265, 1)' },
         contentTransitionOptions
@@ -292,8 +317,8 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
           options={transitionOptions}
           onBeforeEnter={handleBeforeEnter}
           onEnter={onEnter}
+          onBeforeLeave={handleBeforeLeave}
           onLeave={onLeave}
-          onBeforeLeave={onBeforeLeave}
         >
           <div {...contentProps}>{children}</div>
         </Transition>

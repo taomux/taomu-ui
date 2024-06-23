@@ -29,7 +29,7 @@ export interface TransitionConfig {
   leave?: KeyframeEffectArgs | KeyframeEffectBuilder
 }
 
-export type AnimationTypes = keyof typeof animationTypes
+export type AnimationTypes = keyof typeof animationTypes | false
 
 export interface KeyframeEffectArgs {
   keyframes: Keyframe[] | PropertyIndexedKeyframes | null
@@ -62,9 +62,9 @@ export const Transition: React.FC<TransitionProps> = ({
 
   React.useEffect(() => {
     if (show) {
-      if (animationRef?.current?.playState === 'running') {
+      if (animationRef.current?.playState === 'running') {
         nodeRef.current!.style.visibility = 'hidden' // 防止动画重叠
-        animationRef?.current?.cancel()
+        animationRef.current?.cancel()
         setIsRenderNode(false)
         setTimeout(() => {
           setIsRenderNode(true)
@@ -81,14 +81,18 @@ export const Transition: React.FC<TransitionProps> = ({
     } else if (isRenderNode) {
       if (!nodeRef.current) return
       animationRef.current = createAnimation(nodeRef.current, config, animationType, 'leave', options)
-      if (!animationRef.current) return
 
-      onBeforeLeave?.(nodeRef.current)
-      animationRef.current.play()
+      if (animationRef.current) {
+        onBeforeLeave?.(nodeRef.current)
+        animationRef.current.play()
 
-      animationRef.current.onfinish = () => {
-        nodeRef.current!.style.display = 'none'
-        setIsRenderNode(false)
+        animationRef.current.onfinish = () => {
+          nodeRef.current!.style.display = 'none'
+          setIsRenderNode(false)
+          onLeave?.()
+        }
+      } else {
+        onBeforeLeave?.(nodeRef.current)
         onLeave?.()
       }
     }
@@ -103,10 +107,13 @@ export const Transition: React.FC<TransitionProps> = ({
       if (!nodeRef.current) return
       nodeRef.current.style.visibility = ''
       animationRef.current = createAnimation(nodeRef.current, config, animationType, 'enter', options)
-      if (!animationRef.current) return
-      animationRef.current.play()
-      animationRef.current.onfinish = () => {
-        onEnter?.(nodeRef.current!)
+      if (animationRef.current) {
+        animationRef.current.play()
+        animationRef.current.onfinish = () => {
+          onEnter?.(nodeRef.current!)
+        }
+      } else {
+        onEnter?.(nodeRef.current)
       }
     }
   }, [isRenderNode])

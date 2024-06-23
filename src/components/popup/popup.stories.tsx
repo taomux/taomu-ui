@@ -48,7 +48,9 @@ export const 函数打开: Story = {
  *
  * 使用 `usePopup()` 是单例模式，它返回一个 `PopupPortal` 实例，但在整个组件生命周期中只初始化一次
  *
- * 单例模式下弹层内的 state 是独立的，你需要调用 `.dispatch()` 才能更新内部 state
+ * 单例模式下弹层内的 state 是独立的，你需要调用 `.dispatchUpdate()` 才能更新内部 state
+ *
+ * 此用法会在组件销毁时自动销毁弹层，否则你可能需要手动关闭
  */
 export const UsePopup: Story = {
   render: () => {
@@ -56,7 +58,7 @@ export const UsePopup: Story = {
       const [count, setCount] = React.useState(0)
 
       React.useEffect(() => {
-        popup.dispatch({ contentCount: count })
+        popup.dispatchUpdate({ contentCount: count })
       }, [count])
 
       const popup = usePopup<{ contentCount: number }>(
@@ -192,7 +194,10 @@ export const 锁定滚动条: Story = {
             </div>
           )
         },
-        { positionType: 'center', lockScroll: true }
+        {
+          positionType: 'center',
+          lockScroll: true,
+        }
       )
 
       return (
@@ -203,5 +208,41 @@ export const 锁定滚动条: Story = {
     }
 
     return <DemoPopup />
+  },
+}
+
+export const 无动画: Story = {
+  render: () => {
+    function openPopup() {
+      const demoPopup = new PopupPortal(
+        () => {
+          return <div className="bg-background shadow-md p-24">content</div>
+        },
+        {
+          contentAnimationType: false,
+          overlayAnimationType: false,
+          onBeforeEnter: (el) => {
+            console.log('onBeforeEnter', el)
+          },
+          onEnter: (el) => {
+            console.log('onEnter', el)
+          },
+          onBeforeLeave: (el) => {
+            console.log('onBeforeLeave', el)
+          },
+          onLeave: () => {
+            console.log('onLeave')
+          },
+        }
+      )
+
+      demoPopup.open()
+    }
+
+    return (
+      <div className="flex gap-12">
+        <Button onClick={() => openPopup()}>open一个</Button>
+      </div>
+    )
   },
 }

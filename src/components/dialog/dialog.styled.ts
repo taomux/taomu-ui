@@ -16,7 +16,7 @@ setGlobalCssVars('common', {
   dialogBackground: mixinRgba('colorBackgroundRgb', 0.9),
   dialogTextColor: linkCssVar('colorTextDefault'),
 
-  dialogWidth: 500,
+  dialogWidth: 480,
   dialogHeaderHeight: 42,
   dialogRadius: linkCssVar('radiusMD'),
   dialogPadding: 16,

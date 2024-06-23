@@ -8,9 +8,7 @@ import { popupStore } from './popup.store'
 
 export type PortalContainerType = HTMLElement
 
-export interface PopupPortalOptions extends PopupProps {
-  // /** 允许创建多实例 */
-  // multiple?: boolean
+export interface PopupPortalBaseOptions extends PopupProps {
   /** 自定义传送目标容器, 如果为空将自动在 document.body 下创建容器 */
   portalContainer?: PortalContainerType
   /** 自动创建的容器 Id, 默认值: 'taomu-popup-container' */
@@ -22,7 +20,7 @@ export interface PopupPortalOptions extends PopupProps {
 /**
  * Popup 传送门
  */
-export class PopupPortal<ContentProps extends object = any> {
+export abstract class PopupPortalBase<ContentProps extends object = any, Options extends object = any> {
   public readonly popupId = uuid(POPUP_ID_TEMPLATE)
 
   public popupRef = React.createRef<PopupRef>()
@@ -33,16 +31,15 @@ export class PopupPortal<ContentProps extends object = any> {
   constructor(
     /** 内容组件 */
     public Content: React.ComponentType<ContentProps>,
-    /** 选项 */
-    public options: PopupPortalOptions = {}
+    public baseOptions: PopupPortalBaseOptions = {}
   ) {}
 
   get containerId() {
-    return this.options.createContainerId || 'taomu-popup-container'
+    return this.baseOptions.createContainerId || 'taomu-popup-container'
   }
 
   get container(): PortalContainerType {
-    if (this.options.portalContainer) return this.options.portalContainer
+    if (this.baseOptions.portalContainer) return this.baseOptions.portalContainer
 
     const containerId = this.containerId
     const container = document.getElementById(containerId)
@@ -50,7 +47,7 @@ export class PopupPortal<ContentProps extends object = any> {
 
     const containerElement = document.createElement('div')
     containerElement.id = containerId
-    containerElement.className = clsx('taomu-popup-container', this.options.createContainerClass)
+    containerElement.className = clsx('taomu-popup-container', this.baseOptions.createContainerClass)
     containerElement.style.width = '0'
     containerElement.style.height = '0'
     document.body.appendChild(containerElement)
@@ -73,7 +70,7 @@ export class PopupPortal<ContentProps extends object = any> {
       onBeforeLeave,
       onLeave,
       ...popupProps
-    } = this.options
+    } = this.baseOptions
 
     const Content = this.Content
 
@@ -86,15 +83,15 @@ export class PopupPortal<ContentProps extends object = any> {
         show
         onBeforeEnter={(e) => {
           this.isEnter = true
-          onBeforeEnter?.(e)
+          return onBeforeEnter?.(e)
         }}
         onBeforeLeave={(e) => {
           this.isEnter = false
-          onBeforeLeave?.(e)
+          return onBeforeLeave?.(e)
         }}
         onLeave={() => {
           this.destroy()
-          onLeave?.()
+          return onLeave?.()
         }}
         {...popupProps}
       >
@@ -105,16 +102,18 @@ export class PopupPortal<ContentProps extends object = any> {
     )
   }
 
+  abstract open: (contentProps?: ContentProps, options?: Options) => any
+
   /** 打开弹层 */
-  public open(contentProps?: ContentProps, options?: PopupPortalOptions) {
+  public baseOpen(contentProps?: ContentProps) {
     const { popupsMap, updateCount } = popupStore.getState()
-    if (options) this.updateOptionsStatic(options)
     popupsMap.set(this.popupId, [this, contentProps])
     popupStore.setState({ popupsMap, updateCount: updateCount + 1 })
   }
 
   /** 关闭弹层 */
   public close = () => {
+    if (!this.popupRef.current) return
     this.popupRef.current?.close()
   }
 
@@ -125,17 +124,15 @@ export class PopupPortal<ContentProps extends object = any> {
     popupStore.setState({ popupsMap, updateCount: updateCount + 1 })
   }
 
-  public updateOptionsStatic = (options: PopupPortalOptions) => {
-    Object.assign(this.options, options)
-  }
+  abstract updateBaseOptionsStatic: (options: PopupPortalBaseOptions) => void
 
   /**
    * 更新弹层内容
    */
-  public dispatch = (contentProps?: ContentProps, options?: PopupPortalOptions) => {
+  public dispatchUpdate = (contentProps?: ContentProps, options?: Options) => {
     const { popupsMap } = popupStore.getState()
     if (!popupsMap.has(this.popupId)) return
-    if (options) this.updateOptionsStatic(options)
-    this.open(contentProps, options)
+    if (options) this.updateBaseOptionsStatic(options)
+    this.baseOpen(contentProps)
   }
 }
