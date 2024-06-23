@@ -1,4 +1,5 @@
 import React from 'react'
+import { uuid } from 'taomu-toolkit'
 import { Global } from '@emotion/react'
 
 import 'atomic-cls'
@@ -11,7 +12,7 @@ export interface TaomuAppProps {
   children: React.ReactNode
 }
 
-let globalInit = false
+let globalInit = ''
 
 /**
  * 初始化 TaomuApp
@@ -21,6 +22,7 @@ let globalInit = false
  * 请确保全局只有一个 TaomuApp
  */
 export const TaomuApp: React.FC<TaomuAppProps> = ({ children }) => {
+  const appId = React.useRef(uuid())
   const { theme } = useThemeMedia()
 
   React.useEffect(() => {
@@ -29,19 +31,19 @@ export const TaomuApp: React.FC<TaomuAppProps> = ({ children }) => {
 
   React.useEffect(() => {
     if (!globalInit) {
-      globalInit = true
+      globalInit = appId.current
     } else {
       console.error('TaomuApp only support one instance')
     }
 
     return () => {
-      globalInit = false
+      globalInit = ''
     }
   }, [])
 
   return (
     <>
-      {globalInit ? null : <PopupService />}
+      {(!globalInit || globalInit === appId.current) && <PopupService />}
       <Global styles={getGlobalStyled()} />
       {children}
     </>

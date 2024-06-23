@@ -8,8 +8,6 @@ export const PopupService: React.FC = () => {
   const popups = React.useMemo(() => {
     const nodes: React.ReactElement[] = []
 
-    // console.log({ popupsMap })
-
     for (const [_key, [popupPortal, contentProps]] of popupsMap) {
       nodes.push(popupPortal.render(contentProps))
     }

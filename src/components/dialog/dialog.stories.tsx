@@ -328,3 +328,32 @@ export const 无动画: Story = {
     )
   },
 }
+
+export const 超出屏幕滚动: Story = {
+  render() {
+    const dialog = useDialog(
+      () => {
+        return (
+          <div>
+            {Array.from({ length: 100 }).map((_, index) => {
+              return <div key={index}>item {index}</div>
+            })}
+          </div>
+        )
+      },
+      {
+        title: '100 items',
+      }
+    )
+
+    function openDialog() {
+      dialog.open()
+    }
+
+    return (
+      <div>
+        <Button onClick={openDialog}>open一个</Button>
+      </div>
+    )
+  },
+}
