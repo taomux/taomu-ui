@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
+import { setGlobalCssVars, linkCssVar, parseCssVarDeclareStr } from '../../styles'
 
 export interface LoadingCssVars {
   /** 加载器颜色 */
@@ -17,13 +17,15 @@ export interface LoadingCssVars {
 
 setGlobalCssVars('common', {
   loadingColor: linkCssVar('colorPrimary'),
-  loadingTrackColor: mixinRgba('colorPrimaryRgb', 0.25),
 })
 
 export const loadingStyled = css`
+  ${parseCssVarDeclareStr('loadingTrackColor', `color-mix(in srgb, ${linkCssVar('loadingColor')}, transparent 80%)`)}
+
   cursor: progress;
   display: inline-block;
   overflow: hidden;
+  box-sizing: border-box;
   height: ${linkCssVar('loadingSize')};
   width: ${linkCssVar('loadingSize')};
   border-radius: 50%;

@@ -30,7 +30,6 @@ export interface BtnCssVars {
 
 setGlobalCssVars('common', {
   btnWidth: 'auto',
-  btnColor: linkCssVar('colorTextGray'),
   btnColorHover: linkCssVar('colorTextDefault'),
   btnOutlineColor: mixinRgba('colorFrontRgb', 0.3),
   btnBorderColor: linkCssVar('colorBorder'),
@@ -41,12 +40,14 @@ setGlobalCssVars('common', {
 })
 
 setGlobalCssVars('light', {
+  btnColor: linkCssVar('colorTextDefault'),
   btnBackground: '#fff',
-  btnBackgroundHover: '#f2f3f5',
-  btnOutlineColor: mixinRgba('colorFrontRgb', 0.1),
+  btnBackgroundHover: '#fafafa',
+  btnOutlineColor: mixinRgba('colorFrontRgb', 0.05),
 })
 
 setGlobalCssVars('dark', {
+  btnColor: linkCssVar('colorTextGray'),
   btnBackground: mixinRgba('colorFrontRgb', 0.1),
   btnBackgroundHover: mixinRgba('colorFrontRgb', 0.25),
 })
