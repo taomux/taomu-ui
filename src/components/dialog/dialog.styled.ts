@@ -30,15 +30,8 @@ export const dialogStyled = css`
   backdrop-filter: blur(5px);
 
   .dialog-header {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    border-radius: ${linkCssVar('dialogRadius')} ${linkCssVar('dialogRadius')} 0 0;
     height: ${linkCssVar('dialogHeaderHeight')};
     padding: 0 ${linkCssVar('dialogPadding')};
-    background-color: inherit;
-    border-radius: ${linkCssVar('dialogRadius')} ${linkCssVar('dialogRadius')} 0 0;
-    backdrop-filter: blur(5px);
   }
 
   .close-btn {
@@ -75,12 +68,24 @@ export const dialogStyled = css`
   }
 
   .dialog-footer {
-    position: sticky;
-    bottom: 0;
     padding: 12px ${linkCssVar('dialogPadding')};
-    background-color: inherit;
-    border-radius: 0 0 ${linkCssVar('dialogRadius')} ${linkCssVar('dialogRadius')};
-    backdrop-filter: blur(5px);
+  }
+
+  &.sticky-frame {
+    .dialog-header {
+      position: sticky;
+      top: 0;
+      background-color: inherit;
+      backdrop-filter: blur(5px);
+      border-radius: ${linkCssVar('dialogRadius')} ${linkCssVar('dialogRadius')} 0 0;
+    }
+    .dialog-footer {
+      position: sticky;
+      bottom: 0;
+      background-color: inherit;
+      backdrop-filter: blur(5px);
+      border-radius: 0 0 ${linkCssVar('dialogRadius')} ${linkCssVar('dialogRadius')};
+    }
   }
 
   &.show-close-icon {

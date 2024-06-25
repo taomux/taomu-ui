@@ -343,6 +343,7 @@ export const 超出屏幕滚动: Story = {
       },
       {
         title: '100 items',
+        stickyFrame: true,
       }
     )
 

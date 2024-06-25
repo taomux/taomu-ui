@@ -19,6 +19,8 @@ export interface DialogProps extends BaseComponentType<DialogCssVars> {
   splitBorder?: boolean | number
   /** 阴影 */
   shadow?: boolean | BaseSizeLevel
+  /** 框架(title/footer)是否固定 */
+  stickyFrame?: boolean
 
   /** header props */
   headerProps?: ReactDivProps
@@ -71,6 +73,7 @@ export const Dialog: React.FC<DialogProps> = ({
   outerBorder = true,
   splitBorder = true,
   shadow = true,
+  stickyFrame,
 
   headerProps = {},
   footer,
@@ -102,7 +105,7 @@ export const Dialog: React.FC<DialogProps> = ({
     'dialog',
     getShadowClassName(shadow),
     getBorderClassName(outerBorder),
-    { 'show-close-icon': showCloseIcon },
+    { 'show-close-icon': showCloseIcon, 'sticky-frame': stickyFrame },
     className
   )
   const dialogStyle = useInlineStyle<DialogCssVars>({ dialogWidth: width, ...cssVars }, style)
