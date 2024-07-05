@@ -7,7 +7,6 @@
     "sourceMap": false,
     "outDir": "dist",
     "declaration": true,
-    "declarationDir": "dist/types",
     "moduleResolution": "Node",
     "allowImportingTsExtensions": false
   },

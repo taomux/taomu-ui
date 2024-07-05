@@ -1,12 +1,12 @@
 {
   "name": "taomu-ui",
   "private": false,
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.7",
   "type": "module",
   "main": "index.js",
   "unpkg": "index.js",
   "module": "index.js",
-  "types": "types/index.d.ts",
+  "types": "index.d.ts",
   "files": [
     "*"
   ],
