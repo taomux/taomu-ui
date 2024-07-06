@@ -5,7 +5,7 @@ import clsx from 'clsx'
 // import { dropdownStyled, DropdownCssVars } from './dropdown.styled'
 import { PopupTrigger, type PopupTriggerProps, type PopupPortal, type PopupPortalOptions } from '../popup'
 import { Menu, type MenuProps, type MenuItemProps } from '../menu'
-import { dropdownAnimationTypeHandler } from './dropdown.utils'
+import { dropdownAnimationConfigHandler } from './dropdown.utils'
 
 export interface DropdownProps extends PopupTriggerProps {
   menus?: MenuProps['items']
@@ -43,7 +43,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
     <PopupTrigger
       ref={popupPortalRef}
       trigger={trigger}
-      portalOptions={{ equalWidth, popupAnimationConfigBuilder: dropdownAnimationTypeHandler, ...portalOptions }}
+      portalOptions={{ equalWidth, edgeOffset: 8, popupAnimationConfigBuilder: dropdownAnimationConfigHandler, ...portalOptions }}
       {...popupTriggerProps}
     >
       {children}

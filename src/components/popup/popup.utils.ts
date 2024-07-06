@@ -53,7 +53,7 @@ export function setTargetRelativePosition(
   contentElement?: HTMLElement | null,
   position: PopupPositionType = 'bottom-left',
   equalWidth?: PopupEqualWidthUnion,
-  edgeOffset?: number
+  edgeOffset: number = 0
 ) {
   if (!target) return
   if (!contentElement?.className.includes('target-relative-position')) return
@@ -73,27 +73,25 @@ export function setTargetRelativePosition(
     positionType = 'bottom-center'
   }
 
-  if (edgeOffset) {
-    if (positionType.startsWith('top')) {
-      contentElement.style.paddingBottom = `${edgeOffset}px`
-    } else if (positionType.startsWith('bottom')) {
-      contentElement.style.paddingTop = `${edgeOffset}px`
-    } else if (positionType.startsWith('left')) {
-      contentElement.style.paddingRight = `${edgeOffset}px`
-    } else if (positionType.startsWith('right')) {
-      contentElement.style.paddingLeft = `${edgeOffset}px`
+  // 容器与目标元素等宽处理
+  // if (equalWidth === 'equal') {
+  //   contentElement.style.width = targetRect.width + 'px'
+  // } else if (equalWidth === 'max-width') {
+  //   contentElement.style.maxWidth = targetRect.width + 'px'
+  // } else if (equalWidth === 'min-width') {
+  //   contentElement.style.minWidth = targetRect.width + 'px'
+  // }
+
+  // 解决模糊背景下圆角溢出问题，此动作平均耗时 0.03ms
+  const contentChildElement = contentElement.firstElementChild as HTMLElement | null
+  if (contentChildElement) {
+    const borderRadius = contentChildElement.computedStyleMap().get('border-radius')?.toString()
+    if (borderRadius) {
+      contentElement.style.borderRadius = borderRadius
     }
   }
 
-  // 容器与目标元素等宽处理
-  if (equalWidth === 'equal') {
-    contentElement.style.width = targetRect.width + 'px'
-  } else if (equalWidth === 'max-width') {
-    contentElement.style.maxWidth = targetRect.width + 'px'
-  } else if (equalWidth === 'min-width') {
-    contentElement.style.minWidth = targetRect.width + 'px'
-  }
-
+  // 根据当前可用空间动态修正位置
   if (positionType.startsWith('top')) {
     if (targetRect.top - contentRect.height < 0) {
       changePosition('top', 'bottom')
@@ -120,73 +118,86 @@ export function setTargetRelativePosition(
     }
   }
 
-  contentElement.classList.add(`popup-fixed-position-${positionType}`)
+  // 动态位置修正后再进行边缘偏移处理
+  // if (edgeOffset) {
+  //   if (positionType.startsWith('top')) {
+  //     contentElement.style.paddingBottom = `${edgeOffset}px`
+  //   } else if (positionType.startsWith('bottom')) {
+  //     contentElement.style.paddingTop = `${edgeOffset}px`
+  //   } else if (positionType.startsWith('left')) {
+  //     contentElement.style.paddingRight = `${edgeOffset}px`
+  //   } else if (positionType.startsWith('right')) {
+  //     contentElement.style.paddingLeft = `${edgeOffset}px`
+  //   }
+  // }
 
+  contentElement.classList.add(`popup-fixed-position-${positionType}`) // 添加定位
   contentRect = contentElement.getBoundingClientRect() // 计算定位后，重新获取元素矩形信息
 
+  // 计算最终位置
   switch (positionType) {
     case 'top-left':
-      nextRect.top = targetRect.top - contentRect.height
+      nextRect.top = targetRect.top - contentRect.height - edgeOffset
       nextRect.left = targetRect.left
       break
 
     case 'top':
     case 'top-center':
-      nextRect.top = targetRect.top - contentRect.height
+      nextRect.top = targetRect.top - contentRect.height - edgeOffset
       nextRect.left = targetRect.left + targetRect.width / 2 - contentRect.width / 2
       break
     case 'top-right':
-      nextRect.top = targetRect.top - contentRect.height
+      nextRect.top = targetRect.top - contentRect.height - edgeOffset
       nextRect.left = targetRect.right - contentRect.width
       break
 
     case 'bottom-left':
-      nextRect.top = targetRect.bottom
+      nextRect.top = targetRect.bottom + edgeOffset
       nextRect.left = targetRect.left
       break
 
     case 'bottom':
     case 'bottom-center':
-      nextRect.top = targetRect.bottom
+      nextRect.top = targetRect.bottom + edgeOffset
       nextRect.left = targetRect.left + targetRect.width / 2 - contentRect.width / 2
       break
 
     case 'bottom-right':
-      nextRect.top = targetRect.bottom
+      nextRect.top = targetRect.bottom + edgeOffset
       nextRect.left = targetRect.right - contentRect.width
       break
 
     case 'left-top':
       nextRect.top = targetRect.top
-      nextRect.left = targetRect.left - contentRect.width
+      nextRect.left = targetRect.left - contentRect.width - edgeOffset
       break
 
     case 'left-center':
     case 'left':
       nextRect.top = targetRect.top + targetRect.height / 2 - contentRect.height / 2
-      nextRect.left = targetRect.left - contentRect.width
+      nextRect.left = targetRect.left - contentRect.width - edgeOffset
       break
 
     case 'left-bottom':
       nextRect.top = targetRect.bottom - contentRect.height
-      nextRect.left = targetRect.left - contentRect.width
+      nextRect.left = targetRect.left - contentRect.width - edgeOffset
       break
 
     case 'right-top':
       nextRect.top = targetRect.top
-      nextRect.left = targetRect.right
+      nextRect.left = targetRect.right + edgeOffset
       break
 
     case 'right':
     case 'right-center':
     case 'center-right':
       nextRect.top = targetRect.top + targetRect.height / 2 - contentRect.height / 2
-      nextRect.left = targetRect.right
+      nextRect.left = targetRect.right + edgeOffset
       break
 
     case 'right-bottom':
       nextRect.top = targetRect.bottom - contentRect.height
-      nextRect.left = targetRect.right
+      nextRect.left = targetRect.right + edgeOffset
       break
   }
 

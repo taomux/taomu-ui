@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { uuid } from 'taomu-toolkit'
 
-import { Transition, type AnimationConfig, type AnimationTypes } from '../transition'
+import { Transition, type AnimationConfig } from '../transition'
 import { useTaomuClassName, useInlineStyle, useEventListener } from '../../hooks'
 import { popupStyled, type PopupCssVars } from './popup.styled'
 import { popupStore } from './popup.store'
@@ -17,7 +17,7 @@ import {
 export type PopupPositionBase = 'left' | 'right' | 'top' | 'bottom' | 'center'
 export type PopupPositionType = PopupPositionBase | `${PopupPositionBase}-${PopupPositionBase}` | 'dialog-center'
 export type PopupEqualWidthUnion = 'auto' | 'equal' | 'min-width' | 'max-width'
-export type PopupAnimationConfigBuilder = (positionType?: PopupPositionType, isTargetRelative?: boolean) => AnimationTypes
+export type PopupAnimationConfigBuilder = (positionType?: PopupPositionType, isTargetRelative?: boolean) => AnimationConfig
 
 export interface PopupRectType {
   left?: number | string

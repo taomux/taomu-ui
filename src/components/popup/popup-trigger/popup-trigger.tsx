@@ -14,7 +14,7 @@ export interface PopupTriggerProps {
   content?: PopupPortal['Content']
   /** 触发条件，默认: click  */
   trigger?: TriggerType
-  /** 弹出位置 */
+  /** 弹出位置, 默认为 'bottom-left' */
   position?: PopupPortalOptions['positionType']
   /** 传送门选项 */
   portalOptions?: PopupPortalOptions
@@ -23,9 +23,20 @@ export interface PopupTriggerProps {
 }
 
 export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerProps>(
-  ({ children, content, trigger = 'hover', position = 'bottom', portalOptions, debounceTime = 150 }, ref) => {
+  (
+    {
+      children,
+      content,
+      trigger = 'hover',
+      position = 'bottom-left', // 默认以下拉方式弹出
+      portalOptions,
+      debounceTime = 150,
+    },
+    ref
+  ) => {
     const popupPortalRef = React.useRef<PopupPortal | undefined>()
     const debounceRef = React.useRef(new Debounce())
+    const isHoverRef = React.useRef(false)
     const [targetId, setTargetId] = React.useState<string | null>(null)
     const popupTriggerClassNames = useTaomuClassName('popup-trigger', targetId, children.props?.className)
 
@@ -51,8 +62,16 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
           if (!nextPortalOptions.contentProps) {
             nextPortalOptions.contentProps = {}
           }
-          const userOnMouseLeave = nextPortalOptions.contentProps.onMouseEnter
+          const userOnMouseEnter = nextPortalOptions.contentProps.onMouseEnter
+          const userOnMouseLeave = nextPortalOptions.contentProps.onMouseLeave
+
+          nextPortalOptions.contentProps.onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+            isHoverRef.current = true
+            userOnMouseEnter?.(e)
+          }
+
           nextPortalOptions.contentProps.onMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+            isHoverRef.current = false
             userOnMouseLeave?.(e)
             if (
               popupPortalRef.current &&
@@ -60,9 +79,6 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
               hasSelectorLoopParent(e.relatedTarget as HTMLDivElement, '.' + popupPortalRef.current.popupId)
             ) {
               return
-            }
-            if (popupPortalRef.current) {
-              popupPortalRef.current.isEnter = false // WARN 不干净的操作，为了解决鼠标从内容区移出后又快速移入 target 后弹层不显示的问题
             }
             closePopup()
           }
@@ -90,6 +106,9 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
     function closePopup() {
       debounceRef.current.debounce(
         () => {
+          if (trigger === 'hover' && isHoverRef.current) {
+            return
+          }
           popupPortalRef.current?.close()
         },
         trigger === 'hover' ? debounceTime : 0
@@ -111,7 +130,11 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
       }
     } else if (trigger === 'hover') {
       addProps.onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+        isHoverRef.current = true
         children.props?.onMouseEnter?.(e)
+
+        console.log(popupPortalRef.current?.isEnter)
+
         if (popupPortalRef.current?.isEnter) {
           return // 已打开状态不重复打开
         } else if (popupPortalRef.current?.isOpened) {
@@ -121,6 +144,7 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
       }
 
       addProps.onMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        isHoverRef.current = false
         children.props?.onMouseOut?.(e)
         if (
           popupPortalRef.current &&
