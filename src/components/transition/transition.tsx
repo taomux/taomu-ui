@@ -147,6 +147,7 @@ function createAnimation(
       if (!res?.keyframes) return
       return new Animation(new KeyframeEffect(el, res.keyframes, { ...mergedOptions, ...res.options }))
     } else if (typeof item === 'object') {
+      console.log({ animationType, a: item.options, mergedOptions })
       return new Animation(new KeyframeEffect(el, item.keyframes, { ...item.options, ...mergedOptions }))
     }
   } else if (animationType) {

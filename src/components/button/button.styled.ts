@@ -34,8 +34,8 @@ setGlobalCssVars('common', {
   btnOutlineColor: mixinRgba('colorFrontRgb', 0.3),
   btnBorderColor: linkCssVar('colorBorder'),
   btnRadius: linkCssVar('radiusSM'),
-  btnHeight: 32,
-  btnPaddingX: 16,
+  btnHeight: 30,
+  btnPaddingX: 14,
   btnFontSize: 14,
 })
 

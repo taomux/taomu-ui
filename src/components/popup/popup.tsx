@@ -297,7 +297,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
       const animationType = contentAnimationType ?? getAbsoluteAnimation(positionType, !!positionTargetElement)
       const transitionOptions: KeyframeEffectOptions = Object.assign(
-        { duration: 400, easing: 'cubic-bezier(0.175, 0.82, 0.265, 1)' },
+        { duration: 300, easing: 'cubic-bezier(0.175, 0.82, 0.265, 1)' },
         contentTransitionOptions
       )
 

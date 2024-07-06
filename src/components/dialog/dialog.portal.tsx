@@ -117,7 +117,7 @@ function getDefaultDialogPopupOptions(): PopupPortalBaseOptions {
   return {
     positionType: 'dialog-center',
     contentAnimationType: 'dialogZoomOut',
-    overlay: true,
+    overlay: false,
     clickToClose: false,
     lockScroll: true,
   }

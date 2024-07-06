@@ -3,7 +3,7 @@ import { mapInlineCssVarsToString } from 'taomu-toolkit'
 
 import { ThemeMode, CssVars, GlobalStyledItem, TAOMU_PREFIX } from './defines'
 import { COMMON_GLOBAL_VARS, LIGHT_GLOBAL_VARS, DARK_GLOBAL_VARS } from './themes'
-import { linkCssVar } from './utils'
+import { linkCssVar, mixinRgba } from './utils'
 
 const globalCssVars: Record<ThemeMode, GlobalCssVars> = {
   common: { ...COMMON_GLOBAL_VARS },
@@ -84,11 +84,38 @@ export function getGlobalStyled() {
 
       --ac-color-shadow: ${linkCssVar('colorShadow')};
 
+      --base-scrollbar-size: 6px;
+      --base-scrollbar-thumb-bg: ${mixinRgba('colorFrontRgb', 0.2)};
+      --base-scrollbar-track-bg: ${mixinRgba('colorFrontRgb', 0.05)};
+      --base-scrollbar-thumb-hover-bg: ${mixinRgba('colorFrontRgb', 0.3)};
+
       background-color: ${linkCssVar('colorBackground')};
       color: ${linkCssVar('colorTextDefault')};
       font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
       font-size: ${linkCssVar('fontSize')};
       text-rendering: optimizeLegibility;
+    }
+
+    .mini-scrollbar {
+      &::-webkit-scrollbar {
+        height: var(--base-scrollbar-size);
+        width: var(--base-scrollbar-size);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        border: 1px solid var(--base-scrollbar-track-bg);
+        background-color: var(--base-scrollbar-thumb-bg);
+      }
+
+      &::-webkit-scrollbar-track {
+        // border-radius: 10px;
+        background-color: var(--base-scrollbar-track-bg);
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--base-scrollbar-thumb-hover-bg);
+      }
     }
 
     ${globalStyled}

@@ -1,17 +1,28 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../styles'
+import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
 
 export interface MenuCssVars {
-  menuColor?: string
+  menuWidth?: React.CSSProperties['width']
+  menuHeight?: React.CSSProperties['height']
+  menuBackground?: React.CSSProperties['background']
 }
 
 setGlobalCssVars('common', {
-  menuColor: linkCssVar('colorPrimary'),
+  menuWidth: 'auto',
+  menuHeight: 'auto',
+  menuBackground: mixinRgba('colorBackgroundRgb', 0.9),
 })
 
 export const menuStyled = css`
-  stroke: ${linkCssVar('menuColor')};
+  height: ${linkCssVar('menuHeight')};
+  width: ${linkCssVar('menuWidth')};
+  overflow-y: auto;
+  background: ${linkCssVar('menuBackground')};
+
+  &.background-blur {
+    backdrop-filter: blur(5px);
+  }
 `
 
 declare global {

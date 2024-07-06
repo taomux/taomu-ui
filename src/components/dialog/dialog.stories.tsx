@@ -136,7 +136,6 @@ export const 函数打开: Story = {
         },
         {
           title: 'Title',
-          children: 'Content',
           onClose: () => {
             console.log('onClose')
           },
@@ -168,7 +167,6 @@ export const 异步关闭: Story = {
         },
         {
           title: 'Title',
-          children: 'Content',
           onClose: () => {
             console.log('onClose')
           },
@@ -256,7 +254,6 @@ export const Hooks调用: Story = {
       },
       {
         title: 'Title',
-        children: 'Content',
         onClose: () => {
           console.log('onClose')
         },
@@ -300,7 +297,6 @@ export const 无动画: Story = {
       },
       {
         title: 'Title',
-        children: 'Content',
         onClose: () => {
           console.log('onClose')
         },
