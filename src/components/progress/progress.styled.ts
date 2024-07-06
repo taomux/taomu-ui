@@ -104,6 +104,7 @@ export const progressStyled = css`
         animation: ${linkCssVar('progressSpeed')} linear infinite progress-bar-stripes;
       }
     }
+
     @keyframes progress-bar-stripes {
       0% {
         background-position-x: calc(var(--progress-bar-animation-proportion) * ${linkCssVar('progressStripedSize')});

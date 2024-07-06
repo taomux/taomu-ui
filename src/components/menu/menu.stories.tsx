@@ -58,7 +58,24 @@ export const 固定高度: Story = {
       { label: '菜单3' },
       { divider: true },
       { label: '自定义属性' },
-      { label: 'iconfont 图标' },
+      { label: '自定义图标', icon: '+' },
+    ],
+  },
+}
+
+export const 边距和间距: Story = {
+  args: {
+    width: 200,
+    padding: 0,
+    gap: 0,
+    itemProps: { radius: 0 },
+    items: [
+      { label: '菜单1' },
+      { label: '菜单2' },
+      { label: '菜单-禁用', disabled: true, onClick: () => alert(3) },
+      { label: '菜单3' },
+      { divider: true },
+      { label: '自定义属性' },
       { label: '自定义图标', icon: '+' },
     ],
   },
