@@ -90,7 +90,7 @@ export const 等宽_最小宽度: Story = {
           {...args}
         />
         <div className="flex-1"></div>
-        <Dropdown position="bottom-right" menuProps={{ items: menuConfig }} {...args} />
+        <Dropdown {...args} position="bottom-right" menuProps={{ items: menuConfig }} {...args} />
       </div>
     )
   },
@@ -114,6 +114,59 @@ export const 弹出方向: Story = {
     trigger: 'hover',
     position: 'right-center',
     menuProps: { items: menuConfig },
-    children: <Button>Right</Button>,
+  },
+  render: (args) => {
+    return (
+      <div className="flex rpw gap-12 flex-wrap p-48 mb-48">
+        <Dropdown {...args} position="top">
+          <Button>Top</Button>
+        </Dropdown>
+        <Dropdown {...args} position="top-center">
+          <Button>TopCenter</Button>
+        </Dropdown>
+        <Dropdown {...args} position="top-left">
+          <Button>TopLeft</Button>
+        </Dropdown>
+        <Dropdown {...args} position="top-right">
+          <Button>TopRight</Button>
+        </Dropdown>
+        <Dropdown {...args} position="bottom">
+          <Button>Bottom</Button>
+        </Dropdown>
+        <Dropdown {...args} position="bottom-center">
+          <Button>BottomCenter</Button>
+        </Dropdown>
+        <Dropdown {...args} position="bottom-left">
+          <Button>BottomLeft</Button>
+        </Dropdown>
+        <Dropdown {...args} position="bottom-right">
+          <Button>BottomRight</Button>
+        </Dropdown>
+        <Dropdown {...args} position="left">
+          <Button>Left</Button>
+        </Dropdown>
+        <Dropdown {...args} position="left-center">
+          <Button>LeftCenter</Button>
+        </Dropdown>
+        <Dropdown {...args} position="left-top">
+          <Button>LeftTop</Button>
+        </Dropdown>
+        <Dropdown {...args} position="left-bottom">
+          <Button>LeftBottom</Button>
+        </Dropdown>
+        <Dropdown {...args} position="right">
+          <Button>Right</Button>
+        </Dropdown>
+        <Dropdown {...args} position="right-center">
+          <Button>RightCenter</Button>
+        </Dropdown>
+        <Dropdown {...args} position="right-top">
+          <Button>RightTop</Button>
+        </Dropdown>
+        <Dropdown {...args} position="right-bottom">
+          <Button>RightBottom</Button>
+        </Dropdown>
+      </div>
+    )
   },
 }

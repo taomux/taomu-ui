@@ -133,8 +133,6 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
         isHoverRef.current = true
         children.props?.onMouseEnter?.(e)
 
-        console.log(popupPortalRef.current?.isEnter)
-
         if (popupPortalRef.current?.isEnter) {
           return // 已打开状态不重复打开
         } else if (popupPortalRef.current?.isOpened) {

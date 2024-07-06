@@ -74,13 +74,13 @@ export function setTargetRelativePosition(
   }
 
   // 容器与目标元素等宽处理
-  // if (equalWidth === 'equal') {
-  //   contentElement.style.width = targetRect.width + 'px'
-  // } else if (equalWidth === 'max-width') {
-  //   contentElement.style.maxWidth = targetRect.width + 'px'
-  // } else if (equalWidth === 'min-width') {
-  //   contentElement.style.minWidth = targetRect.width + 'px'
-  // }
+  if (equalWidth === 'equal') {
+    contentElement.style.width = targetRect.width + 'px'
+  } else if (equalWidth === 'max-width') {
+    contentElement.style.maxWidth = targetRect.width + 'px'
+  } else if (equalWidth === 'min-width') {
+    contentElement.style.minWidth = targetRect.width + 'px'
+  }
 
   // 解决模糊背景下圆角溢出问题，此动作平均耗时 0.03ms
   const contentChildElement = contentElement.firstElementChild as HTMLElement | null
@@ -117,19 +117,6 @@ export function setTargetRelativePosition(
       changePosition('right', 'left')
     }
   }
-
-  // 动态位置修正后再进行边缘偏移处理
-  // if (edgeOffset) {
-  //   if (positionType.startsWith('top')) {
-  //     contentElement.style.paddingBottom = `${edgeOffset}px`
-  //   } else if (positionType.startsWith('bottom')) {
-  //     contentElement.style.paddingTop = `${edgeOffset}px`
-  //   } else if (positionType.startsWith('left')) {
-  //     contentElement.style.paddingRight = `${edgeOffset}px`
-  //   } else if (positionType.startsWith('right')) {
-  //     contentElement.style.paddingLeft = `${edgeOffset}px`
-  //   }
-  // }
 
   contentElement.classList.add(`popup-fixed-position-${positionType}`) // 添加定位
   contentRect = contentElement.getBoundingClientRect() // 计算定位后，重新获取元素矩形信息

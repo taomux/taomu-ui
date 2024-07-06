@@ -1,8 +1,5 @@
 import React from 'react'
-import clsx from 'clsx'
 
-// import { useTaomuClassName, useInlineStyle } from '../../hooks'
-// import { dropdownStyled, DropdownCssVars } from './dropdown.styled'
 import { PopupTrigger, type PopupTriggerProps, type PopupPortal, type PopupPortalOptions } from '../popup'
 import { Menu, type MenuProps, type MenuItemProps } from '../menu'
 import { dropdownAnimationConfigHandler } from './dropdown.utils'
@@ -34,10 +31,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
 
     popupTriggerProps.content = () => <Menu handleItemClick={handleItemClickH} backgroundBlur items={menus} {...restMenuProps} />
   }
-
-  // const mergeProps: ReactDivProps = {
-  //   className: clsx('taomu-dropdown-content', children.props?.className),
-  // }
 
   return (
     <PopupTrigger

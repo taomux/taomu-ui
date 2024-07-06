@@ -21,11 +21,11 @@ export const menuItemStyled = css`
   transition: background 0.25s;
 
   &:hover:not(.disabled, .active) {
-    background-color: ${mixinRgba('colorFrontRgb', 0.06)};
+    background-color: ${mixinRgba('colorFrontRgb', 0.1)};
   }
 
   &.active {
-    background-color: ${mixinRgba('colorPrimaryRgb', 0.1)};
+    background-color: ${mixinRgba('colorPrimaryRgb', 0.15)};
     color: ${linkCssVar('colorPrimary')};
   }
 
