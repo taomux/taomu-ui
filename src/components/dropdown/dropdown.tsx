@@ -1,17 +1,52 @@
 import React from 'react'
+import clsx from 'clsx'
 
-import { useTaomuClassName, useInlineStyle } from '../../hooks'
-import { dropdownStyled, DropdownCssVars } from './dropdown.styled'
+// import { useTaomuClassName, useInlineStyle } from '../../hooks'
+// import { dropdownStyled, DropdownCssVars } from './dropdown.styled'
+import { PopupTrigger, type PopupTriggerProps, type PopupPortal, type PopupPortalOptions } from '../popup'
+import { Menu, type MenuProps, type MenuItemProps } from '../menu'
+import { dropdownAnimationTypeHandler } from './dropdown.utils'
 
-export interface DropdownProps extends BaseComponentType<DropdownCssVars> {}
+export interface DropdownProps extends PopupTriggerProps {
+  menus?: MenuProps['items']
+  menuProps?: MenuProps
+  equalWidth?: PopupPortalOptions['equalWidth']
+}
 
-export const Dropdown: React.FC<DropdownProps> = ({ className, cssVars, style, ...wrapProps }) => {
-  const dropdownClassNames = useTaomuClassName('dropdown', className)
-  const dropdownStyle = useInlineStyle<DropdownCssVars>(cssVars, style)
+export const Dropdown: React.FC<DropdownProps> = ({
+  children,
+  menus,
+  menuProps = {},
+  portalOptions = {},
+  equalWidth,
+  trigger = 'click',
+  ...popupTriggerProps
+}) => {
+  const popupPortalRef = React.useRef<PopupPortal>(null)
+
+  if (popupTriggerProps.content === undefined) {
+    const { handleItemClick, ...restMenuProps } = menuProps
+
+    function handleItemClickH(item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+      handleItemClick?.(item, index, event)
+      popupPortalRef.current?.close()
+    }
+
+    popupTriggerProps.content = () => <Menu handleItemClick={handleItemClickH} backgroundBlur items={menus} {...restMenuProps} />
+  }
+
+  // const mergeProps: ReactDivProps = {
+  //   className: clsx('taomu-dropdown-content', children.props?.className),
+  // }
 
   return (
-    <div className={dropdownClassNames} style={dropdownStyle} css={dropdownStyled} {...wrapProps}>
-      <p>component dropdown is created</p>
-    </div>
+    <PopupTrigger
+      ref={popupPortalRef}
+      trigger={trigger}
+      portalOptions={{ equalWidth, popupAnimationConfigBuilder: dropdownAnimationTypeHandler, ...portalOptions }}
+      {...popupTriggerProps}
+    >
+      {children}
+    </PopupTrigger>
   )
 }

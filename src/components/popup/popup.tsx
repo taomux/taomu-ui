@@ -2,14 +2,14 @@ import React from 'react'
 import clsx from 'clsx'
 import { uuid } from 'taomu-toolkit'
 
-import { Transition, TransitionConfig, AnimationTypes } from '../transition'
+import { Transition, type AnimationConfig, type AnimationTypes } from '../transition'
 import { useTaomuClassName, useInlineStyle, useEventListener } from '../../hooks'
-import { popupStyled, PopupCssVars } from './popup.styled'
+import { popupStyled, type PopupCssVars } from './popup.styled'
 import { popupStore } from './popup.store'
 import {
   setTargetRelativePosition,
   setCenterAbsolutePosition,
-  getAbsoluteAnimation,
+  defaultPopupAnimationConfigBuilder,
   lockBodyScroll,
   unlockBodyScroll,
 } from './popup.utils'
@@ -17,6 +17,7 @@ import {
 export type PopupPositionBase = 'left' | 'right' | 'top' | 'bottom' | 'center'
 export type PopupPositionType = PopupPositionBase | `${PopupPositionBase}-${PopupPositionBase}` | 'dialog-center'
 export type PopupEqualWidthUnion = 'auto' | 'equal' | 'min-width' | 'max-width'
+export type PopupAnimationConfigBuilder = (positionType?: PopupPositionType, isTargetRelative?: boolean) => AnimationTypes
 
 export interface PopupRectType {
   left?: number | string
@@ -41,18 +42,14 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   /** 遮罩层 props */
   overlayProps?: ReactDivProps
   /** 遮罩层内置动画类型 */
-  overlayAnimationType?: AnimationTypes
-  /** 遮罩层动画配置 */
-  overlayTransitionConfig?: TransitionConfig
+  overlayAnimationConfig?: AnimationConfig
   /** 遮罩层动画函数配置 */
   overlayTransitionOptions?: KeyframeEffectOptions
 
   /** content props */
   contentProps?: ReactDivProps
   /** 弹层内容内置动画类型 */
-  contentAnimationType?: AnimationTypes
-  /** 弹层内容出入场动画配置 */
-  contentTransitionConfig?: TransitionConfig
+  contentAnimationConfig?: AnimationConfig
   /** 弹层内容动画函数配置 */
   contentTransitionOptions?: KeyframeEffectOptions
 
@@ -73,6 +70,11 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   positionType?: PopupPositionType
   /** 动态位置修正，默认开启，仅在 positionTargetElement 存在时生效 */
   autoFixPosition?: boolean
+  /** 弹出内容边缘偏移量 */
+  edgeOffset?: number
+
+  /** 动态动画类型处理函数 */
+  popupAnimationConfigBuilder?: PopupAnimationConfigBuilder
 
   onBeforeEnter?: (el?: HTMLElement | null) => void
   onEnter?: (el: HTMLElement) => void
@@ -111,19 +113,20 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
       overlay = false,
       overlayProps = {},
-      overlayAnimationType,
-      overlayTransitionConfig,
+      overlayAnimationConfig,
       overlayTransitionOptions,
 
       contentProps = {},
-      contentAnimationType,
-      contentTransitionConfig,
+      contentAnimationConfig,
       contentTransitionOptions,
 
       equalWidth,
       positionType,
       positionTargetElement,
       autoFixPosition = true,
+      edgeOffset,
+
+      popupAnimationConfigBuilder = defaultPopupAnimationConfigBuilder,
 
       onBeforeEnter,
       onEnter,
@@ -139,7 +142,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
     const popupClassName = useTaomuClassName(
       'popup',
-      `position-${positionType || 'default'}`,
+      `position-${positionType}`,
       {
         'position-absolute': !positionTargetElement,
         'background-event': backgroundEvent || !overlay,
@@ -257,12 +260,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       }
 
       return (
-        <Transition
-          show={showOverlay}
-          animationType={overlayAnimationType}
-          config={overlayTransitionConfig}
-          options={overlayTransitionOptions}
-        >
+        <Transition show={showOverlay} animationConfig={overlayAnimationConfig} options={overlayTransitionOptions}>
           <div {...overlayProps}></div>
         </Transition>
       )
@@ -289,13 +287,13 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         return
       }
 
-      setTargetRelativePosition(positionTargetElement, contentElement, positionType, equalWidth)
+      setTargetRelativePosition(positionTargetElement, contentElement, positionType, equalWidth, edgeOffset)
     }
 
     function renderContent() {
       if (!children) return null
 
-      const animationType = contentAnimationType ?? getAbsoluteAnimation(positionType, !!positionTargetElement)
+      const animationConfig = contentAnimationConfig ?? popupAnimationConfigBuilder(positionType, !!positionTargetElement)
       const transitionOptions: KeyframeEffectOptions = Object.assign(
         { duration: 300, easing: 'cubic-bezier(0.175, 0.82, 0.265, 1)' },
         contentTransitionOptions
@@ -312,8 +310,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         <Transition
           show={showContent}
           proxyRef={contentRef}
-          animationType={animationType}
-          config={contentTransitionConfig}
+          animationConfig={animationConfig}
           options={transitionOptions}
           onBeforeEnter={handleBeforeEnter}
           onEnter={onEnter}

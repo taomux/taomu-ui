@@ -308,8 +308,8 @@ export const 无动画: Story = {
         },
       },
       {
-        contentAnimationType: false,
-        overlayAnimationType: false,
+        contentAnimationConfig: false,
+        overlayAnimationConfig: false,
       }
     )
 

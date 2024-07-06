@@ -1,9 +1,14 @@
 import { getScrollbarWidth } from 'taomu-toolkit'
-import type { AnimationTypes } from '../transition'
-import type { PopupPositionType, PopupEqualWidthUnion, PopupPositionBase, PopupRectType } from './popup'
+import type {
+  PopupPositionType,
+  PopupEqualWidthUnion,
+  PopupPositionBase,
+  PopupRectType,
+  PopupAnimationConfigBuilder,
+} from './popup'
 import { popupStore } from './popup.store'
 
-export function getAbsoluteAnimation(positionType?: PopupPositionType, isTargetRelative?: boolean): AnimationTypes {
+export const defaultPopupAnimationConfigBuilder: PopupAnimationConfigBuilder = (positionType, isTargetRelative) => {
   if (isTargetRelative) {
     switch (positionType) {
       case 'top-left':
@@ -47,7 +52,8 @@ export function setTargetRelativePosition(
   target?: HTMLElement | null,
   contentElement?: HTMLElement | null,
   position: PopupPositionType = 'bottom-left',
-  equalWidth?: PopupEqualWidthUnion
+  equalWidth?: PopupEqualWidthUnion,
+  edgeOffset?: number
 ) {
   if (!target) return
   if (!contentElement?.className.includes('target-relative-position')) return
@@ -65,6 +71,18 @@ export function setTargetRelativePosition(
     positionType = 'top-center'
   } else if (positionType === 'center-bottom') {
     positionType = 'bottom-center'
+  }
+
+  if (edgeOffset) {
+    if (positionType.startsWith('top')) {
+      contentElement.style.paddingBottom = `${edgeOffset}px`
+    } else if (positionType.startsWith('bottom')) {
+      contentElement.style.paddingTop = `${edgeOffset}px`
+    } else if (positionType.startsWith('left')) {
+      contentElement.style.paddingRight = `${edgeOffset}px`
+    } else if (positionType.startsWith('right')) {
+      contentElement.style.paddingLeft = `${edgeOffset}px`
+    }
   }
 
   // 容器与目标元素等宽处理

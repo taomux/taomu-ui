@@ -22,8 +22,8 @@ export interface PopupTriggerProps {
   debounceTime?: number
 }
 
-export const PopupTrigger: React.FC<PopupTriggerProps> = React.forwardRef<PopupPortal | void, PopupTriggerProps>(
-  ({ children, content, trigger = 'hover', position, portalOptions, debounceTime = 150 }, ref) => {
+export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerProps>(
+  ({ children, content, trigger = 'hover', position = 'bottom', portalOptions, debounceTime = 150 }, ref) => {
     const popupPortalRef = React.useRef<PopupPortal | undefined>()
     const debounceRef = React.useRef(new Debounce())
     const [targetId, setTargetId] = React.useState<string | null>(null)

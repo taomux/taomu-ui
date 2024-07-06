@@ -67,7 +67,7 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
   }
 
   if (divider) {
-    return <div className="hro-menu-item-divider border split bottom-1" />
+    return <div className="taomu-menu-item-divider border split bottom-1" />
   }
 
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
@@ -80,7 +80,7 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
   function renderLabel() {
     const labelNode = children || label
     if (!labelNode) return null
-    labelProps.className = clsx('hro-menu-item-label flex-1', { 'text-ellipsis': ellipsis }, labelProps.className)
+    labelProps.className = clsx('taomu-menu-item-label flex-1', { 'text-ellipsis': ellipsis }, labelProps.className)
     return (
       <div {...labelProps} title={ellipsis ? title : undefined}>
         {labelNode}

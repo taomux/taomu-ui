@@ -116,7 +116,7 @@ export class DialogPortal<
 function getDefaultDialogPopupOptions(): PopupPortalBaseOptions {
   return {
     positionType: 'dialog-center',
-    contentAnimationType: 'dialogZoomOut',
+    contentAnimationConfig: 'dialogZoomOut',
     overlay: false,
     clickToClose: false,
     lockScroll: true,

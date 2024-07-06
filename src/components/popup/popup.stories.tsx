@@ -182,6 +182,55 @@ export const 相对位置: Story = {
   },
 }
 
+export const 边缘偏移: Story = {
+  render() {
+    function openPopupRelative(e: React.MouseEvent<Element>, positionType?: PopupProps['positionType']) {
+      const demoPopup = new PopupPortal(
+        () => {
+          return (
+            <div className="bg-background br-4 shadow-md p-24 border rect-1" style={{ height: 50 }}>
+              content
+            </div>
+          )
+        },
+        {
+          overlay: false,
+          positionType,
+          positionTargetElement: e.currentTarget as HTMLElement,
+          autoFixPosition: true,
+          edgeOffset: 8,
+        }
+      )
+      demoPopup.open()
+    }
+
+    return (
+      <div className="flex gap-12 flex-wrap" style={{ padding: 100 }}>
+        <Button onClick={(e) => openPopupRelative(e)}>default</Button>
+        <Button disabled>center(不支持)</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'center-top')}>center-top</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'center-bottom')}>center-bottom</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'left')}>left</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'left-center')}>left-center</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'left-top')}>left-top</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'left-bottom')}>left-bottom</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'right')}>right</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'right-center')}>right-center</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'right-top')}>right-top</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'right-bottom')}>right-bottom</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'top')}>top</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'top-center')}>top-center</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'top-left')}>top-left</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'top-right')}>top-right</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'bottom')}>bottom</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'bottom-center')}>bottom-center</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'bottom-left')}>bottom-left</Button>
+        <Button onClick={(e) => openPopupRelative(e, 'bottom-right')}>bottom-right</Button>
+      </div>
+    )
+  },
+}
+
 export const 锁定滚动条: Story = {
   render: () => {
     const DemoPopup = () => {
@@ -219,8 +268,8 @@ export const 无动画: Story = {
           return <div className="bg-background shadow-md p-24">content</div>
         },
         {
-          contentAnimationType: false,
-          overlayAnimationType: false,
+          contentAnimationConfig: false,
+          overlayAnimationConfig: false,
           onBeforeEnter: (el) => {
             console.log('onBeforeEnter', el)
           },

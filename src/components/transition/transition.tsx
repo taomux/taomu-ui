@@ -2,16 +2,16 @@ import React from 'react'
 
 import * as animationTypes from './animation-types'
 
+export type AnimationConfig = AnimationTypes | TransitionConfig
+
 export interface TransitionProps {
   children: React.ReactElement
   /** children 的 ref 代理 */
   proxyRef?: React.MutableRefObject<HTMLElement | null>
   /** 外部控制的状态，决定 children 是否进场 */
   show?: boolean
-  /** 内置动画类型 */
-  animationType?: AnimationTypes
   /** 动画配置 */
-  config?: TransitionConfig
+  animationConfig?: AnimationConfig
   /** 动画函数选项，高优先级 */
   options?: KeyframeEffectOptions
   onBeforeEnter?: (el?: HTMLElement | null) => void
@@ -48,9 +48,8 @@ export const Transition: React.FC<TransitionProps> = ({
   children,
   proxyRef,
   show,
-  config,
   options,
-  animationType = 'fade',
+  animationConfig = 'fade',
   onBeforeEnter,
   onEnter,
   onBeforeLeave,
@@ -80,7 +79,7 @@ export const Transition: React.FC<TransitionProps> = ({
       }
     } else if (isRenderNode) {
       if (!nodeRef.current) return
-      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'leave', options)
+      animationRef.current = createAnimation(nodeRef.current, animationConfig, 'leave', options)
 
       if (animationRef.current) {
         onBeforeLeave?.(nodeRef.current)
@@ -106,7 +105,7 @@ export const Transition: React.FC<TransitionProps> = ({
     if (isRenderNode) {
       if (!nodeRef.current) return
       nodeRef.current.style.visibility = ''
-      animationRef.current = createAnimation(nodeRef.current, config, animationType, 'enter', options)
+      animationRef.current = createAnimation(nodeRef.current, animationConfig, 'enter', options)
       if (animationRef.current) {
         animationRef.current.play()
         animationRef.current.onfinish = () => {
@@ -133,11 +132,15 @@ export const Transition: React.FC<TransitionProps> = ({
 
 function createAnimation(
   el: HTMLElement,
-  config?: TransitionConfig,
-  animationType?: AnimationTypes,
+  // config?: TransitionConfig,
+  animationType?: AnimationTypes | TransitionConfig,
   type: 'enter' | 'leave' = 'enter',
   options?: KeyframeEffectOptions
 ): Animation | void {
+  if (animationType === false) return
+
+  const config = typeof animationType === 'string' ? animationTypes[animationType] : animationType
+
   if (typeof config === 'object') {
     const item = config[type]
     const mergedOptions = { ...config.options, ...options }
@@ -149,9 +152,7 @@ function createAnimation(
     } else if (typeof item === 'object') {
       return new Animation(new KeyframeEffect(el, item.keyframes, { ...item.options, ...mergedOptions }))
     }
-  } else if (animationType) {
-    if (Object.prototype.hasOwnProperty.call(animationTypes, animationType)) {
-      return createAnimation(el, animationTypes[animationType], undefined, type, options)
-    }
+  } else {
+    console.warn('createAnimation Error: invalid animationConfig', { animationType, config })
   }
 }
