@@ -109,6 +109,9 @@ export abstract class PopupPortalBase<ContentProps extends object = any, Options
     const { popupsMap, updateCount } = popupStore.getState()
     popupsMap.set(this.popupId, [this, contentProps])
     popupStore.setState({ popupsMap, updateCount: updateCount + 1 })
+    if (this.isOpened) {
+      this.popupRef.current?.open()
+    }
   }
 
   /** 关闭弹层 */
@@ -130,9 +133,11 @@ export abstract class PopupPortalBase<ContentProps extends object = any, Options
    * 更新弹层内容
    */
   public dispatchUpdate = (contentProps?: ContentProps, options?: Options) => {
-    const { popupsMap } = popupStore.getState()
+    const { popupsMap, updateCount } = popupStore.getState()
     if (!popupsMap.has(this.popupId)) return
     if (options) this.updateBaseOptionsStatic(options)
-    this.baseOpen(contentProps)
+
+    popupsMap.set(this.popupId, [this, contentProps])
+    popupStore.setState({ popupsMap, updateCount: updateCount + 1 })
   }
 }

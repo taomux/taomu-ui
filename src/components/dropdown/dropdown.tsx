@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PopupTrigger, type PopupTriggerProps, type PopupPortal, type PopupPortalOptions } from '../popup'
+import { PopupTrigger, type PopupTriggerProps, type PopupTriggerRef, type PopupPortalOptions } from '../popup'
 import { Menu, type MenuProps, type MenuItemProps } from '../menu'
 import { dropdownAnimationConfigHandler } from './dropdown.utils'
 
@@ -10,50 +10,64 @@ export interface DropdownProps<ContentProps = MenuProps> extends PopupTriggerPro
   equalWidth?: PopupPortalOptions['equalWidth']
 }
 
-export const Dropdown: React.FC<DropdownProps> = ({
-  children,
-  menus,
-  menuProps = {},
-  portalOptions = {},
-  equalWidth,
-  trigger = 'click',
-  contentProps = {},
-  ...popupTriggerProps
-}) => {
-  const popupTriggerRef = React.useRef<PopupPortal>(null)
+export interface DropdownRef extends PopupTriggerRef {}
 
-  React.useEffect(() => {
-    return () => {
-      if (popupTriggerRef.current) {
-        popupTriggerRef.current.destroy()
+export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
+  (
+    {
+      children,
+      menus,
+      menuProps = {},
+      portalOptions = {},
+      equalWidth,
+      trigger = 'click',
+      contentProps = {},
+      ...popupTriggerProps
+    },
+    ref
+  ) => {
+    const popupTriggerRef = React.useRef<PopupTriggerRef>(null)
+
+    React.useImperativeHandle(ref, () => popupTriggerRef.current || undefined)
+
+    React.useEffect(() => {
+      return () => {
+        if (popupTriggerRef.current) {
+          popupTriggerRef.current.closePopup()
+        }
+      }
+    }, [])
+
+    if (popupTriggerProps.content === undefined) {
+      const { handleItemClick, ...restMenuProps } = menuProps
+
+      function handleItemClickH(item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        popupTriggerRef.current?.closePopup()
+        handleItemClick?.(item, index, event)
+      }
+
+      popupTriggerProps.content = (menuProps: MenuProps) => {
+        return <Menu handleItemClick={handleItemClickH} backgroundBlur {...menuProps} {...restMenuProps} />
       }
     }
-  }, [])
 
-  if (popupTriggerProps.content === undefined) {
-    const { handleItemClick, ...restMenuProps } = menuProps
+    contentProps.items = menus
 
-    function handleItemClickH(item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-      popupTriggerRef.current?.close()
-      handleItemClick?.(item, index, event)
-    }
-
-    popupTriggerProps.content = (menuProps: MenuProps) => {
-      return <Menu handleItemClick={handleItemClickH} backgroundBlur {...menuProps} {...restMenuProps} />
-    }
+    return (
+      <PopupTrigger
+        ref={popupTriggerRef}
+        trigger={trigger}
+        contentProps={contentProps}
+        portalOptions={{
+          equalWidth,
+          edgeOffset: 8,
+          popupAnimationConfigBuilder: dropdownAnimationConfigHandler,
+          ...portalOptions,
+        }}
+        {...popupTriggerProps}
+      >
+        {children}
+      </PopupTrigger>
+    )
   }
-
-  contentProps.items = menus
-
-  return (
-    <PopupTrigger
-      ref={popupTriggerRef}
-      trigger={trigger}
-      contentProps={contentProps}
-      portalOptions={{ equalWidth, edgeOffset: 8, popupAnimationConfigBuilder: dropdownAnimationConfigHandler, ...portalOptions }}
-      {...popupTriggerProps}
-    >
-      {children}
-    </PopupTrigger>
-  )
-}
+)

@@ -23,6 +23,30 @@ export const 基础示例: Story = {
   },
 }
 
+export const 聚焦自动打开: Story = {
+  args: {
+    placeholder: '请选择',
+    openOnFocus: true,
+    options: [
+      { label: '选项1', value: '1' },
+      { label: '选项2', value: '2' },
+    ],
+  },
+
+  render: (args) => {
+    return (
+      <div className="grid col-3 gap-12">
+        <Select {...args} />
+        <Select {...args} />
+        <Select {...args} />
+        <Select {...args} />
+        <Select {...args} />
+        <Select {...args} />
+      </div>
+    )
+  },
+}
+
 export const 数据刷新: Story = {
   args: {
     placeholder: '请选择',
@@ -46,5 +70,16 @@ export const 数据刷新: Story = {
     }, [])
 
     return <Select {...args} options={options} />
+  },
+}
+
+export const 加载中: Story = {
+  args: {
+    placeholder: '请选择',
+    loading: true,
+    options: [
+      { label: '选项1', value: '1' },
+      { label: '选项2', value: '2' },
+    ],
   },
 }

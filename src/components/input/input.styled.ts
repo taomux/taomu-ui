@@ -42,6 +42,10 @@ export const inputWrapperStyled = css`
     stroke: ${linkCssVar('colorTextLight')};
   }
 
+  &:hover:not(.disabled):not(.focused) {
+    border-color: color-mix(in srgb, transparent, ${linkCssVar('inputMainColor')} 45%);
+  }
+
   &.disabled {
     cursor: not-allowed;
     opacity: 0.8;

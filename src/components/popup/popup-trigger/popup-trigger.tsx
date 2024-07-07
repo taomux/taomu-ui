@@ -5,7 +5,7 @@ import { useTaomuClassName } from '../../../hooks'
 
 import { PopupPortal, PopupPortalOptions } from '../popup.portal'
 
-export type TriggerType = 'click' | 'hover'
+export type TriggerType = 'click' | 'hover' | 'none'
 
 export interface PopupTriggerProps<ContentProps = any> {
   /** 触发元素 */
@@ -24,7 +24,13 @@ export interface PopupTriggerProps<ContentProps = any> {
   debounceTime?: number
 }
 
-export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerProps>(
+export interface PopupTriggerRef {
+  openPopup: (el: HTMLElement | null) => void
+  closePopup: () => void
+  popupPortal?: PopupPortal
+}
+
+export const PopupTrigger = React.forwardRef<PopupTriggerRef, PopupTriggerProps>(
   (
     {
       children,
@@ -43,7 +49,13 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
     const [targetId, setTargetId] = React.useState<string | null>(null)
     const popupTriggerClassNames = useTaomuClassName('popup-trigger', targetId, children.props?.className)
 
-    React.useImperativeHandle(ref, () => popupPortalRef.current)
+    React.useImperativeHandle(ref, () => {
+      return {
+        openPopup,
+        closePopup,
+        popupPortal: popupPortalRef.current,
+      }
+    })
 
     React.useEffect(() => {
       return () => {
@@ -97,7 +109,7 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
       }
     }, [content, portalOptions, trigger, contentProps])
 
-    function openPopup(el?: HTMLElement | null) {
+    function openPopup(el: HTMLElement | null) {
       if (!popupPortalRef.current) {
         return console.warn('PopupPortal instance not found')
       }
