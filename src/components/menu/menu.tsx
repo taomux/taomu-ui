@@ -14,8 +14,14 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   height?: React.CSSProperties['height']
   /** group 边距 */
   padding?: React.CSSProperties['padding']
+  /** group 圆角 */
+  radius?: React.CSSProperties['borderRadius']
   /** item 间距 */
   gap?: number
+  /** 显示外边框 */
+  bordered?: boolean
+  /** 显示阴影 */
+  shadow?: BaseSizeLevel
   /** 背景色 */
   background?: React.CSSProperties['background']
   /** 背景模糊 */
@@ -38,6 +44,9 @@ export const Menu: React.FC<MenuProps> = ({
   height,
   padding = 4,
   gap = 4,
+  radius,
+  bordered = true,
+  shadow = 'md',
   background,
   backgroundBlur,
   itemProps,
@@ -46,12 +55,14 @@ export const Menu: React.FC<MenuProps> = ({
   ...wrapProps
 }) => {
   const menuClassNames = useTaomuClassName(
-    `menu-group flex col gap-${gap} p-4 shadow-md border rect-1 br-4 mini-scrollbar`,
-    { 'background-blur': backgroundBlur, 'disable-user-select': disableUserSelect },
+    'menu-group',
+    `flex col gap-${gap} p-4 mini-scrollbar`,
+    `shadow-${shadow}`,
+    { 'background-blur': backgroundBlur, 'disable-user-select': disableUserSelect, 'border rect-1': bordered },
     className
   )
   const menuStyle = useInlineStyle<MenuCssVars>(
-    { menuWidth: width, menuHeight: height, menuBackground: background, menuPadding: padding, ...cssVars },
+    { menuWidth: width, menuHeight: height, menuBackground: background, menuPadding: padding, menuRadius: radius, ...cssVars },
     style
   )
 

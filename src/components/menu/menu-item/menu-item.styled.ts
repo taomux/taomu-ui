@@ -11,7 +11,7 @@ export interface MenuItemCssVars {
 setGlobalCssVars('common', {
   menuItemPaddingX: 8,
   menuItemPaddingY: 6,
-  menuItemRadius: 4,
+  menuItemRadius: linkCssVar('radiusSM'),
 })
 
 export const menuItemStyled = css`

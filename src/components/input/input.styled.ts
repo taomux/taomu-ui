@@ -20,10 +20,10 @@ setGlobalCssVars('common', {
   inputBorderColor: linkCssVar('colorBorder'),
   inputIconColor: linkCssVar('colorTextGray'),
   inputBackground: 'transparent',
+  inputRadius: linkCssVar('radiusSM'),
   // inputWidth: '100%',
   // inputHeight: 32,
   // inputPadding: '0 8px',
-  // inputRadius: 3,
 })
 
 export const inputWrapperStyled = css`

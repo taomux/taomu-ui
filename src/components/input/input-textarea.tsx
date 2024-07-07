@@ -25,10 +25,7 @@ export interface InputTextareaRef {
 }
 
 export const InputTextarea = React.forwardRef<InputTextareaRef, InputTextareaProps>(
-  (
-    { className, style, cssVars, status, width, height, padding = '6px 8px', resize = 'vertical', radius = 3, ...wrapProps },
-    ref
-  ) => {
+  ({ className, style, cssVars, status, width, height, padding = '6px 8px', resize = 'vertical', radius, ...wrapProps }, ref) => {
     const textareaRef = React.useRef<HTMLTextAreaElement>(null)
 
     const inputWrapClassNames = useTaomuClassName('input-textarea', `status-${status}`, className)

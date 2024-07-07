@@ -7,6 +7,7 @@ export interface MenuCssVars {
   menuHeight?: React.CSSProperties['height']
   menuBackground?: React.CSSProperties['background']
   menuPadding?: React.CSSProperties['padding']
+  menuRadius?: React.CSSProperties['borderRadius']
 }
 
 setGlobalCssVars('common', {
@@ -14,14 +15,17 @@ setGlobalCssVars('common', {
   menuHeight: 'auto',
   menuBackground: mixinRgba('colorBackgroundRgb', 0.9),
   menuPadding: 4,
+  menuRadius: linkCssVar('radiusMD'),
 })
 
 export const menuStyled = css`
+  overflow-y: auto;
+
   height: ${linkCssVar('menuHeight')};
   width: ${linkCssVar('menuWidth')};
-  overflow-y: auto;
   background: ${linkCssVar('menuBackground')};
   padding: ${linkCssVar('menuPadding')};
+  border-radius: ${linkCssVar('menuRadius')};
 
   &.background-blur {
     backdrop-filter: blur(5px);

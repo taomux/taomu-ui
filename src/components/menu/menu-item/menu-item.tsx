@@ -56,7 +56,7 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
     ...wrapProps
   } = itemProps
 
-  const menuItemClassNames = useTaomuClassName('menu-item flex row center-v gap-4', { active, disabled }, className)
+  const menuItemClassNames = useTaomuClassName('menu-item', 'flex row center-v gap-4', { active, disabled }, className)
   const menuItemStyle = useInlineStyle<MenuItemCssVars>(
     { menuItemPaddingX: paddingX, menuItemPaddingY: paddingY, menuItemRadius: radius, ...cssVars },
     style

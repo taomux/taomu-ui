@@ -53,7 +53,7 @@ export const Input = React.forwardRef<InputRef, InputProps>(
       width = '100%',
       height = 32,
       padding = '0 8px',
-      radius = 3,
+      radius,
       status = 'default',
       leftNode,
       rightNode,
