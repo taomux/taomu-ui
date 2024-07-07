@@ -7,11 +7,13 @@ import { PopupPortal, PopupPortalOptions } from '../popup.portal'
 
 export type TriggerType = 'click' | 'hover'
 
-export interface PopupTriggerProps {
+export interface PopupTriggerProps<ContentProps = any> {
   /** 触发元素 */
   children: JSX.Element
   /** 弹出内容 */
   content?: PopupPortal['Content']
+  /** 弹出内容 props 用于更新弹层内部数据 */
+  contentProps?: ContentProps
   /** 触发条件，默认: click  */
   trigger?: TriggerType
   /** 弹出位置, 默认为 'bottom-left' */
@@ -31,6 +33,7 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
       position = 'bottom-left', // 默认以下拉方式弹出
       portalOptions,
       debounceTime = 150,
+      contentProps = {},
     },
     ref
   ) => {
@@ -44,9 +47,7 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
 
     React.useEffect(() => {
       return () => {
-        if (popupPortalRef.current) {
-          popupPortalRef.current.destroy()
-        }
+        popupPortalRef.current?.destroy()
       }
     }, [])
 
@@ -59,18 +60,18 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
         }
 
         if (trigger === 'hover') {
-          if (!nextPortalOptions.contentProps) {
-            nextPortalOptions.contentProps = {}
+          if (!nextPortalOptions.contentWrapperProps) {
+            nextPortalOptions.contentWrapperProps = {}
           }
-          const userOnMouseEnter = nextPortalOptions.contentProps.onMouseEnter
-          const userOnMouseLeave = nextPortalOptions.contentProps.onMouseLeave
+          const userOnMouseEnter = nextPortalOptions.contentWrapperProps.onMouseEnter
+          const userOnMouseLeave = nextPortalOptions.contentWrapperProps.onMouseLeave
 
-          nextPortalOptions.contentProps.onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+          nextPortalOptions.contentWrapperProps.onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
             isHoverRef.current = true
             userOnMouseEnter?.(e)
           }
 
-          nextPortalOptions.contentProps.onMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+          nextPortalOptions.contentWrapperProps.onMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
             isHoverRef.current = false
             userOnMouseLeave?.(e)
             if (
@@ -84,12 +85,17 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
           }
         }
 
-        popupPortalRef.current = new PopupPortal(content, nextPortalOptions)
+        if (popupPortalRef.current) {
+          popupPortalRef.current.dispatchUpdate(contentProps, nextPortalOptions)
+        } else {
+          popupPortalRef.current = new PopupPortal(content, nextPortalOptions)
+        }
+
         setTargetId(popupPortalRef.current.popupId)
       } else {
         popupPortalRef.current = undefined
       }
-    }, [content, portalOptions, trigger])
+    }, [content, portalOptions, trigger, contentProps])
 
     function openPopup(el?: HTMLElement | null) {
       if (!popupPortalRef.current) {
@@ -97,7 +103,7 @@ export const PopupTrigger = React.forwardRef<PopupPortal | void, PopupTriggerPro
       }
       debounceRef.current.debounce(
         () => {
-          popupPortalRef?.current?.open(portalOptions?.contentProps, { positionTargetElement: el, ...portalOptions })
+          popupPortalRef?.current?.open(contentProps, { positionTargetElement: el, ...portalOptions })
         },
         trigger === 'hover' ? debounceTime : 0
       )

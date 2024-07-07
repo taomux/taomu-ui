@@ -49,28 +49,28 @@ function getAnimationConfig(type: 'top' | 'right' | 'bottom' | 'left') {
 
   switch (type) {
     case 'top':
-      xyzEnter1 = '0, -12px, 0'
+      xyzEnter1 = '0, -8px, 0'
       xyzEnter2 = '0, 0, 0'
       xyzLeave1 = '0, 0, 0'
-      xyzLeave2 = '0, -12px, 0'
+      xyzLeave2 = '0, -8px, 0'
       break
     case 'right':
-      xyzEnter1 = '12px, 0, 0'
+      xyzEnter1 = '8px, 0, 0'
       xyzEnter2 = '0, 0, 0'
       xyzLeave1 = '0, 0, 0'
-      xyzLeave2 = '12px, 0, 0'
+      xyzLeave2 = '8px, 0, 0'
       break
     case 'bottom':
-      xyzEnter1 = '0, 12px, 0'
+      xyzEnter1 = '0, 8px, 0'
       xyzEnter2 = '0, 0, 0'
       xyzLeave1 = '0, 0, 0'
-      xyzLeave2 = '0, 12px, 0'
+      xyzLeave2 = '0, 8px, 0'
       break
     case 'left':
-      xyzEnter1 = '-12px, 0, 0'
+      xyzEnter1 = '-8px, 0, 0'
       xyzEnter2 = '0, 0, 0'
       xyzLeave1 = '0, 0, 0'
-      xyzLeave2 = '-12px, 0, 0'
+      xyzLeave2 = '-8px, 0, 0'
       break
   }
 

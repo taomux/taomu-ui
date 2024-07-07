@@ -15,6 +15,7 @@ const files = {
       `import React from 'react'`,
       ``,
       `import { useTaomuClassName, useInlineStyle } from '../../hooks'`,
+      ``,
       `import { ${nameX}Styled, ${nameH}CssVars } from './${nameR}.styled'`,
       ``,
       `export interface ${nameH}Props extends BaseComponentType<${nameH}CssVars> {}`,

@@ -69,9 +69,9 @@ export const Menu: React.FC<MenuProps> = ({
   return (
     <div className={menuClassNames} style={menuStyle} css={menuStyled} {...wrapProps}>
       {children ||
-        items?.map(({ onClick, ...restItemProps }, index) => (
+        items?.map(({ onClick, key, ...restItemProps }, index) => (
           <MenuItem
-            key={restItemProps.key || index}
+            key={key || index}
             {...itemProps}
             {...restItemProps}
             onClick={(item, e) => {

@@ -46,8 +46,8 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   /** 遮罩层动画函数配置 */
   overlayTransitionOptions?: KeyframeEffectOptions
 
-  /** content props */
-  contentProps?: ReactDivProps
+  /** contentWrapperProps */
+  contentWrapperProps?: ReactDivProps
   /** 弹层内容内置动画类型 */
   contentAnimationConfig?: AnimationConfig
   /** 弹层内容动画函数配置 */
@@ -116,7 +116,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       overlayAnimationConfig,
       overlayTransitionOptions,
 
-      contentProps = {},
+      contentWrapperProps = {},
       contentAnimationConfig,
       contentTransitionOptions,
 
@@ -176,11 +176,13 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       }
     })
 
-    React.useImperativeHandle(ref, () => ({
-      open: openPopup,
-      close: closePopup,
-      closeLockRef,
-    }))
+    React.useImperativeHandle(ref, () => {
+      return {
+        open: openPopup,
+        close: closePopup,
+        closeLockRef,
+      }
+    })
 
     React.useEffect(() => {
       const outsideClickClose = clickToClose && (backgroundEvent || !overlay)
@@ -299,11 +301,11 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         contentTransitionOptions
       )
 
-      contentProps.className = clsx(
+      contentWrapperProps.className = clsx(
         'popup-content',
         popupId,
         { 'target-relative-position': !!positionTargetElement },
-        contentProps.className
+        contentWrapperProps.className
       )
 
       return (
@@ -317,7 +319,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
           onBeforeLeave={handleBeforeLeave}
           onLeave={onLeave}
         >
-          <div {...contentProps}>{children}</div>
+          <div {...contentWrapperProps}>{children}</div>
         </Transition>
       )
     }

@@ -9,7 +9,7 @@ import { Popup, PopupPortal, closeAllPopups, PopupProps, usePopup } from './'
  *
  * 只支持使用函数打开
  *
- * 不提供 JSX 渲染后通过状态控制是否显示的方案，我认为这种方式是愚蠢的，写 demo 也许很方便，稍微上点复杂度则很容易拉大便。
+ * 不提供 JSX 渲染后通过状态控制是否显示的方案。
  */
 const meta: Meta<typeof Popup> = {
   title: 'Components/Popup',
