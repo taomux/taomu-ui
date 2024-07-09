@@ -13,11 +13,13 @@ import { IconSearch, IconChevronUp, IconChevronDown } from '../icons'
 
 import { selectStyled, SelectCssVars } from './select.styled'
 
+type DefaultValueType = string | number
+
 export interface SelectOptionItem extends MenuItemProps {
-  value: string | number
+  value: DefaultValueType
 }
 
-export interface SelectProps<ValueType = string | number, ItemType = SelectOptionItem>
+export interface SelectProps<ValueType = DefaultValueType, ItemType = SelectOptionItem>
   extends Omit<BaseComponentType<SelectCssVars>, 'children'> {
   /** 状态 */
   status?: InputStatus
@@ -35,8 +37,7 @@ export interface SelectProps<ValueType = string | number, ItemType = SelectOptio
   leftNode?: React.ReactNode
   /** 右侧扩展元素 */
   rightNode?: React.ReactNode
-  /** 默认值 */
-  defaultValue?: ValueType
+
   /** 占位符 */
   placeholder?: string
   /** 支持搜索 */
@@ -55,7 +56,9 @@ export interface SelectProps<ValueType = string | number, ItemType = SelectOptio
   closeOnBlur?: boolean
   /** 值 */
   value?: ValueType
-  onChange?: (value: ValueType, item: ItemType) => void
+  /** 默认值 */
+  defaultValue?: ValueType
+  onChange?: (value?: ValueType, item?: ItemType) => void
   onFocus?: (e: React.FocusEvent<HTMLInputElement, Element>) => void
   onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
@@ -83,7 +86,6 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       radius,
       leftNode,
       rightNode,
-      defaultValue,
       showSearch,
       options,
       loading,
@@ -93,7 +95,6 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
 
       dropdownProps = {},
 
-      value,
       onChange,
       onFocus,
       onBlur,
@@ -106,6 +107,12 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
     const dropdownRef = React.useRef<DropdownRef>(null)
     const [focused, setFocused] = React.useState(false)
     const [opened, setOpened] = React.useState(defaultOpened)
+    const [selectIndex, setSelectIndex] = React.useState<number>()
+
+    const [value, setValue] = useMergedState<DefaultValueType | undefined>(wrapProps.defaultValue, {
+      value: wrapProps.value,
+      onChange: handleOnChange,
+    })
 
     const selectClassNames = useTaomuClassName('select', 'flex row center-v gap-6', `status-${status}`, { focused }, className)
     const selectStyle = useInlineStyle<SelectCssVars>(
@@ -135,6 +142,11 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
     }, [opened])
 
     React.useEffect(() => {
+      const index = options?.findIndex((item) => item.value === value)
+      setSelectIndex(index)
+    }, [value])
+
+    React.useEffect(() => {
       if (focused) {
         inputRef.current?.focus()
       } else {
@@ -147,10 +159,15 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       return options.map(({ key, value, ...rests }, index) => {
         return {
           key: (key || value) ?? index,
+          active: selectIndex === value,
           ...rests,
         }
       })
-    }, [options])
+    }, [options, selectIndex])
+
+    function handleOnChange(value?: DefaultValueType) {
+      setValue(value)
+    }
 
     function openOptionList() {
       setOpened(true)
@@ -187,14 +204,26 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
     function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
       onKeyDown?.(e)
 
-      if (e.key === 'Escape') {
-        closeOptionList()
-      } else if (e.key === 'Enter') {
-        if (opened) {
-          // close()
-        } else {
-          openOptionList()
-        }
+      switch (e.key) {
+        case 'Escape':
+          closeOptionList()
+          break
+        case 'Enter':
+          if (opened) {
+            handleOnChange(selectIndex)
+          } else {
+            openOptionList()
+          }
+          break
+        case 'ArrowDown':
+          if (opened) {
+            // const currentIndex = selectIndex
+            const nextIndex = selectIndex === undefined ? 0 : (selectIndex + 1) % menuItems.length
+            setSelectIndex(nextIndex)
+          } else {
+            openOptionList()
+          }
+          break
       }
     }
 
