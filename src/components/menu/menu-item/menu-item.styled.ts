@@ -18,7 +18,9 @@ export const menuItemStyled = css`
   padding: ${linkCssVar('menuItemPaddingY')} ${linkCssVar('menuItemPaddingX')};
   border-radius: ${linkCssVar('menuItemRadius')};
   cursor: default;
-  transition: background 0.25s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 
   &:hover:not(.disabled, .active) {
     background-color: ${mixinRgba('colorFrontRgb', 0.1)};

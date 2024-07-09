@@ -31,7 +31,7 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   /** 禁止文本选中 */
   disableUserSelect?: boolean
   /** 处理菜单组点击事件 */
-  handleItemClick?: (item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement>) => void
+  onMenuItemClick?: (item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement>) => void
 }
 
 export const Menu: React.FC<MenuProps> = ({
@@ -51,7 +51,7 @@ export const Menu: React.FC<MenuProps> = ({
   backgroundBlur,
   itemProps,
   disableUserSelect = true,
-  handleItemClick,
+  onMenuItemClick,
   ...wrapProps
 }) => {
   const menuClassNames = useTaomuClassName(
@@ -76,7 +76,7 @@ export const Menu: React.FC<MenuProps> = ({
             {...restItemProps}
             onClick={(item, e) => {
               onClick?.(item, e)
-              handleItemClick?.(item, index, e)
+              onMenuItemClick?.(item, index, e)
             }}
           />
         ))}

@@ -15,7 +15,7 @@ setGlobalCssVars('common', {
   menuHeight: 'auto',
   menuBackground: mixinRgba('colorBackgroundRgb', 0.9),
   menuPadding: 4,
-  menuRadius: linkCssVar('radiusMD'),
+  menuRadius: linkCssVar('radiusSM'),
 })
 
 export const menuStyled = css`

@@ -16,6 +16,8 @@ import { selectStyled, SelectCssVars } from './select.styled'
 type DefaultValueType = string | number
 
 export interface SelectOptionItem extends MenuItemProps {
+  [key: string]: any
+  label: string | number
   value: DefaultValueType
 }
 
@@ -54,6 +56,14 @@ export interface SelectProps<ValueType = DefaultValueType, ItemType = SelectOpti
   openOnFocus?: boolean
   /** 失去焦点时关闭 */
   closeOnBlur?: boolean
+
+  /** label 字段映射 */
+  labelProp?: string
+  /** value 字段映射 */
+  valueProp?: string
+  /** 搜索字段映射 */
+  filterProp?: string | string[]
+
   /** 值 */
   value?: ValueType
   /** 默认值 */
@@ -92,8 +102,10 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       defaultOpened = false,
       openOnFocus,
       closeOnBlur = true,
-
       dropdownProps = {},
+      labelProp = 'label',
+      valueProp = 'value',
+      filterProp = 'label',
 
       onChange,
       onFocus,
@@ -108,10 +120,11 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
     const [focused, setFocused] = React.useState(false)
     const [opened, setOpened] = React.useState(defaultOpened)
     const [selectIndex, setSelectIndex] = React.useState<number>()
+    const [searchText, setSearchText] = React.useState('')
 
     const [value, setValue] = useMergedState<DefaultValueType | undefined>(wrapProps.defaultValue, {
       value: wrapProps.value,
-      onChange: handleOnChange,
+      onChange: handleOnChangeValue,
     })
 
     const selectClassNames = useTaomuClassName('select', 'flex row center-v gap-6', `status-${status}`, { focused }, className)
@@ -142,11 +155,6 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
     }, [opened])
 
     React.useEffect(() => {
-      const index = options?.findIndex((item) => item.value === value)
-      setSelectIndex(index)
-    }, [value])
-
-    React.useEffect(() => {
       if (focused) {
         inputRef.current?.focus()
       } else {
@@ -154,26 +162,80 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       }
     }, [focused])
 
-    const menuItems: MenuItemProps[] = React.useMemo(() => {
-      if (!options?.length) return []
-      return options.map(({ key, value, ...rests }, index) => {
-        return {
-          key: (key || value) ?? index,
-          active: selectIndex === value,
-          ...rests,
+    React.useEffect(() => {
+      if (showSearch) {
+        const item = options?.find((item) => item[valueProp] === value)
+        if (item) {
+          setSearchText(item?.label?.toString() || '')
         }
-      })
-    }, [options, selectIndex])
+      }
+    }, [value, showSearch, valueProp])
 
-    function handleOnChange(value?: DefaultValueType) {
-      setValue(value)
+    const menuItems = React.useMemo(() => {
+      const menuOptions: SelectOptionItem[] = []
+      if (!options?.length) return menuOptions
+
+      for (let index = 0; index < options.length; index++) {
+        const item = options[index]
+
+        if (showSearch && searchText) {
+          const filterProps = typeof filterProp === 'string' ? [filterProp] : filterProp
+          let isIncluded = false
+          for (let filterIndex = 0; filterIndex < filterProps.length; filterIndex++) {
+            const filterKey = filterProps[filterIndex]
+            if (item[filterKey]?.includes(searchText)) {
+              isIncluded = true
+              break
+            }
+          }
+          if (!isIncluded) continue
+        }
+
+        menuOptions.push({
+          key: (item.key || item[valueProp]) ?? index,
+          active: selectIndex === index,
+          ...item,
+        })
+      }
+
+      return menuOptions
+    }, [options, selectIndex, searchText, filterProp])
+
+    const displayLabel = React.useMemo(() => {
+      if (showSearch) return searchText
+      if (!value) return ''
+
+      const item = options?.find((item) => item[valueProp] === value)
+      const label = item?.[labelProp]
+
+      return label || value
+    }, [value, options, labelProp, valueProp, searchText, showSearch])
+
+    function handleOnChangeValue(value?: DefaultValueType) {
+      const index = options?.findIndex((item) => item.value === value)
+      if (index === undefined || index < 0) return
+      const item = options?.[index]
+      setSelectIndex(index)
+      onChange?.(item?.[valueProp], item)
+    }
+
+    function handleOnChangeIndex(index: number = 0) {
+      const item = menuItems?.[index < 0 ? 0 : index]
+      if (!item) return
+      setValue(item[valueProp])
+      onChange?.(item[valueProp], item)
+      closeOptionList()
     }
 
     function openOptionList() {
+      const index = options?.findIndex((item) => item[valueProp] === value)
+      setSelectIndex(index)
       setOpened(true)
     }
 
     function closeOptionList() {
+      const index = options?.findIndex((item) => item[valueProp] === value)
+      setSelectIndex(index)
       setOpened(false)
     }
 
@@ -210,20 +272,34 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
           break
         case 'Enter':
           if (opened) {
-            handleOnChange(selectIndex)
+            handleOnChangeIndex(selectIndex)
           } else {
             openOptionList()
           }
           break
         case 'ArrowDown':
           if (opened) {
-            // const currentIndex = selectIndex
+            e.preventDefault()
             const nextIndex = selectIndex === undefined ? 0 : (selectIndex + 1) % menuItems.length
             setSelectIndex(nextIndex)
-          } else {
-            openOptionList()
           }
           break
+        case 'ArrowUp':
+          if (opened) {
+            e.preventDefault()
+            const nextIndex =
+              selectIndex === undefined ? menuItems.length - 1 : (selectIndex - 1 + menuItems.length) % menuItems.length
+            setSelectIndex(nextIndex)
+          }
+          break
+      }
+    }
+
+    function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+      if (!showSearch) return
+      setSearchText(e.target.value)
+      if (!dropdownRef.current?.popupPortal?.isEnter && inputRef.current) {
+        dropdownRef.current?.openPopup(inputRef.current.parentElement)
       }
     }
 
@@ -247,6 +323,9 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
         trigger="none"
         equalWidth="equal"
         menus={menuItems}
+        onMenuItemClick={(_, index) => {
+          handleOnChangeIndex(index)
+        }}
         {...dropdownProps}
         portalOptions={{ escToClose: true, ...dropdownProps?.portalOptions }}
       >
@@ -264,9 +343,11 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
             css={inputStyled}
             readOnly={!showSearch}
             placeholder={placeholder}
+            value={displayLabel}
             className={clsx({ cud: !showSearch })}
             onFocus={handleOnFocus}
             onBlur={handleOnBlur}
+            onChange={handleSearch}
           />
           {renderRightNode()}
         </div>

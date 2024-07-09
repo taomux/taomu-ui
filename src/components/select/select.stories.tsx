@@ -1,6 +1,7 @@
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { Button } from '../button'
 import { Select, SelectOptionItem } from './select'
 
 const meta: Meta<typeof Select> = {
@@ -28,8 +29,8 @@ export const 聚焦自动打开: Story = {
     placeholder: '请选择',
     openOnFocus: true,
     options: [
-      { label: '选项1', value: '1' },
-      { label: '选项2', value: '2' },
+      { label: '选项1', value: 1 },
+      { label: '选项2', value: 2 },
     ],
   },
 
@@ -44,6 +45,21 @@ export const 聚焦自动打开: Story = {
         <Select {...args} />
       </div>
     )
+  },
+}
+
+export const 支持搜索: Story = {
+  args: {
+    placeholder: '请选择',
+    showSearch: true,
+    options: [
+      { label: '选项1', value: '1' },
+      { label: '选项2', value: '2' },
+      { label: '选项3', value: '3' },
+      { label: '选项4', value: '4' },
+      { label: '选项5', value: '5' },
+      { label: '选项6', value: '6' },
+    ],
   },
 }
 
@@ -76,9 +92,30 @@ export const 数据刷新: Story = {
 export const 加载中: Story = {
   args: {
     placeholder: '请选择',
-    loading: true,
     options: [
       { label: '选项1', value: '1' },
+      { label: '选项2', value: '2' },
+    ],
+  },
+
+  render: (args) => {
+    const [loading, setLoading] = React.useState(true)
+
+    return (
+      <div className="flex col gap-12">
+        <Button onClick={() => setLoading(!loading)}>loading: {loading + ''}</Button>
+        <Select {...args} loading={loading} />
+      </div>
+    )
+  },
+}
+
+export const 受控组件: Story = {
+  args: {
+    placeholder: '请选择',
+    value: '1',
+    options: [
+      { label: '选项1, value 固定为1', value: '1' },
       { label: '选项2', value: '2' },
     ],
   },

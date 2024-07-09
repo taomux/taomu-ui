@@ -8,6 +8,7 @@ export interface DropdownProps<ContentProps = MenuProps> extends PopupTriggerPro
   menus?: MenuProps['items']
   menuProps?: MenuProps
   equalWidth?: PopupPortalOptions['equalWidth']
+  onMenuItemClick?: (item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement>) => void
 }
 
 export interface DropdownRef extends PopupTriggerRef {}
@@ -22,6 +23,7 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
       equalWidth,
       trigger = 'click',
       contentProps = {},
+      onMenuItemClick,
       ...popupTriggerProps
     },
     ref
@@ -39,19 +41,26 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
     }, [])
 
     if (popupTriggerProps.content === undefined) {
-      const { handleItemClick, ...restMenuProps } = menuProps
-
-      function handleItemClickH(item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-        popupTriggerRef.current?.closePopup()
-        handleItemClick?.(item, index, event)
-      }
-
       popupTriggerProps.content = (menuProps: MenuProps) => {
-        return <Menu handleItemClick={handleItemClickH} backgroundBlur {...menuProps} {...restMenuProps} />
+        const { onMenuItemClick, ...restMenuProps } = menuProps
+
+        return (
+          <Menu
+            onMenuItemClick={(item, index, event) => {
+              console.log({ item, index, event, onMenuItemClick })
+              onMenuItemClick?.(item, index, event)
+              popupTriggerRef.current?.closePopup()
+            }}
+            backgroundBlur
+            {...menuProps}
+            {...restMenuProps}
+          />
+        )
       }
     }
 
     contentProps.items = menus
+    contentProps.onMenuItemClick = onMenuItemClick
 
     return (
       <PopupTrigger
