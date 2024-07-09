@@ -201,6 +201,10 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       return menuOptions
     }, [options, selectIndex, searchText, filterProp])
 
+    React.useEffect(() => {
+      fixSelectIndex()
+    }, [value, searchText])
+
     const displayLabel = React.useMemo(() => {
       if (showSearch) return searchText
       if (!value) return ''
@@ -227,15 +231,18 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       closeOptionList()
     }
 
-    function openOptionList() {
+    function fixSelectIndex() {
       const index = options?.findIndex((item) => item[valueProp] === value)
       setSelectIndex(index)
+    }
+
+    function openOptionList() {
+      fixSelectIndex()
       setOpened(true)
     }
 
     function closeOptionList() {
-      const index = options?.findIndex((item) => item[valueProp] === value)
-      setSelectIndex(index)
+      fixSelectIndex()
       setOpened(false)
     }
 
