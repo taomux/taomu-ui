@@ -78,14 +78,14 @@ function getAnimationConfig(type: 'top' | 'right' | 'bottom' | 'left') {
     options: { duration: 300, easing: 'ease-out' },
     enter: {
       keyframes: [
-        { transform: `translate3d(${xyzEnter1})`, opacity: 0, backdropFilter: 'blur(5px)' },
-        { transform: `translate3d(${xyzEnter2})`, opacity: 1, backdropFilter: 'blur(5px)' },
+        { transform: `translate3d(${xyzEnter1})`, opacity: 0 },
+        { transform: `translate3d(${xyzEnter2})`, opacity: 1 },
       ],
     },
     leave: {
       keyframes: [
-        { transform: `translate3d(${xyzLeave1})`, opacity: 1, backdropFilter: 'blur(5px)' },
-        { transform: `translate3d(${xyzLeave2})`, opacity: 0, backdropFilter: 'blur(5px)' },
+        { transform: `translate3d(${xyzLeave1})`, opacity: 1 },
+        { transform: `translate3d(${xyzLeave2})`, opacity: 0 },
       ],
     },
   }

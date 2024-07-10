@@ -51,7 +51,6 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
               onMenuItemClick?.(item, index, event)
               popupTriggerRef.current?.closePopup()
             }}
-            backgroundBlur
             {...menuProps}
             {...restMenuProps}
           />

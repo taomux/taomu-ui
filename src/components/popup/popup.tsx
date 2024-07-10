@@ -80,6 +80,8 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   onEnter?: (el: HTMLElement) => void
   onBeforeLeave?: (el: HTMLElement) => void
   onLeave?: () => void
+  onBackgroundClickClose?: () => void
+  onEscClose?: () => void
 }
 
 export interface PopupRef {
@@ -132,6 +134,10 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       onEnter,
       onBeforeLeave,
       onLeave,
+
+      onBackgroundClickClose,
+      onEscClose,
+
       ...wrapProps
     },
     ref
@@ -160,6 +166,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         const lastKey = Array.from(popupsMap.keys()).pop()
         if (lastKey === popupId) {
           closePopup()
+          onEscClose?.()
         }
       }
     })
@@ -195,6 +202,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         function outsideClickCloseHandler(e: MouseEvent) {
           if (!contentRef.current?.firstChild?.contains(e.target as Node)) {
             closePopup()
+            onBackgroundClickClose?.()
           }
         }
 

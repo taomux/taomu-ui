@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
+import { setGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface MenuCssVars {
   menuWidth?: React.CSSProperties['width']
@@ -13,7 +13,7 @@ export interface MenuCssVars {
 setGlobalCssVars('common', {
   menuWidth: 'auto',
   menuHeight: 'auto',
-  menuBackground: mixinRgba('colorBackgroundRgb', 0.9),
+  menuBackground: linkCssVar('colorBackground'),
   menuPadding: 4,
   menuRadius: linkCssVar('radiusSM'),
 })
@@ -26,10 +26,6 @@ export const menuStyled = css`
   background: ${linkCssVar('menuBackground')};
   padding: ${linkCssVar('menuPadding')};
   border-radius: ${linkCssVar('menuRadius')};
-
-  &.background-blur {
-    backdrop-filter: blur(5px);
-  }
 
   &.disable-user-select {
     user-select: none;

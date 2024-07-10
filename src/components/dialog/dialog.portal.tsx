@@ -79,21 +79,41 @@ export class DialogPortal<
     this.asyncCallbackRef.current.onCancel = fn
   }
 
-  public open = (contentProps?: ContentProps, dialogOptions: DialogPortalOptions = {}, baseOptions?: PopupPortalBaseOptions) => {
+  public open = (
+    contentProps?: ContentProps,
+    dialogOptions: DialogPortalOptions = {},
+    baseOptions: PopupPortalBaseOptions = {}
+  ) => {
     return new Promise<OpenResult>((resolve, reject) => {
       const nextOptions = { ...dialogOptions }
 
-      const userAsyncOkCallback = dialogOptions.asyncOkCallback
-      const userAsyncCancelCallback = dialogOptions.asyncCancelCallback
+      const asyncCallback = dialogOptions.asyncCallback
 
-      nextOptions.asyncOkCallback = (result) => {
-        userAsyncOkCallback?.(result)
-        resolve(result)
+      nextOptions.asyncCallback = (type, res) => {
+        asyncCallback?.(type, res)
+        if (type === 'ok') {
+          resolve(res)
+        } else {
+          reject(res)
+        }
       }
 
-      nextOptions.asyncCancelCallback = (result) => {
-        userAsyncCancelCallback?.(result)
-        reject(result)
+      // nextOptions.asyncCancelCallback = (result) => {
+      //   userAsyncCancelCallback?.(result)
+      //   reject(result)
+      // }
+
+      const userOnBackgroundClickClose = baseOptions.onBackgroundClickClose
+      const userOnEscClose = baseOptions.onEscClose
+
+      baseOptions.onBackgroundClickClose = () => {
+        userOnBackgroundClickClose?.()
+        reject()
+      }
+
+      baseOptions.onEscClose = () => {
+        userOnEscClose?.()
+        reject()
       }
 
       this.updateDialogOptionsStatic(nextOptions)

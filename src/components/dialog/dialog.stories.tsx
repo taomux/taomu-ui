@@ -194,7 +194,7 @@ export const 异步关闭: Story = {
 
 export const 内部定义回调: Story = {
   render() {
-    function openDialog() {
+    async function openDialog() {
       const dialog = new DialogPortal(
         ({ dialogPortalInstance, defineOnOk, defineOnCancel }) => {
           React.useEffect(() => {
@@ -215,9 +215,10 @@ export const 内部定义回调: Story = {
         {
           title: 'Title',
           children: 'Content',
-        }
+        },
+        { clickToClose: true }
       )
-      dialog
+      return dialog
         .open()
         .then((res) => {
           console.log(res)

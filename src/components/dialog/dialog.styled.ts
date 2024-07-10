@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
+import { setGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface DialogCssVars {
   dialogBackground?: string
@@ -13,7 +13,7 @@ export interface DialogCssVars {
 }
 
 setGlobalCssVars('common', {
-  dialogBackground: mixinRgba('colorBackgroundRgb', 0.9),
+  dialogBackground: linkCssVar('colorBackground'),
   dialogTextColor: linkCssVar('colorTextDefault'),
 
   dialogWidth: 480,
@@ -27,7 +27,6 @@ export const dialogStyled = css`
   background-color: ${linkCssVar('dialogBackground')};
   border-radius: ${linkCssVar('dialogRadius')};
   position: relative;
-  backdrop-filter: blur(5px);
 
   .dialog-header {
     height: ${linkCssVar('dialogHeaderHeight')};
@@ -76,14 +75,12 @@ export const dialogStyled = css`
       position: sticky;
       top: 0;
       background-color: inherit;
-      backdrop-filter: blur(5px);
       border-radius: ${linkCssVar('dialogRadius')} ${linkCssVar('dialogRadius')} 0 0;
     }
     .dialog-footer {
       position: sticky;
       bottom: 0;
       background-color: inherit;
-      backdrop-filter: blur(5px);
       border-radius: 0 0 ${linkCssVar('dialogRadius')} ${linkCssVar('dialogRadius')};
     }
   }

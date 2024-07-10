@@ -8,6 +8,9 @@ import { dialogStyled, DialogCssVars } from './dialog.styled'
 import { getShadowClassName, getBorderClassName, getFooterAlignClassName } from './dialog.utils'
 import type { DialogPortal } from './dialog.portal'
 
+type DialogAsyncCallbackType = 'ok' | 'ok:error' | 'cancel' | 'close'
+type DialogAsyncCallback = (type: DialogAsyncCallbackType, res?: any) => void
+
 export interface DialogProps extends BaseComponentType<DialogCssVars> {
   /** 对话框标题 */
   title?: React.ReactNode | false
@@ -55,12 +58,12 @@ export interface DialogProps extends BaseComponentType<DialogCssVars> {
 
   /** 确认回调 (支持 Promise) */
   onOk?: (res?: any) => void | Promise<any>
-  asyncOkCallback?: (res?: any) => void
   /** 取消回调 (支持 Promise) */
   onCancel?: (res?: any) => void | Promise<any>
-  asyncCancelCallback?: (res?: any) => void
   /** 关闭回调 */
   onClose?: () => void
+  /** 异步回调 */
+  asyncCallback?: DialogAsyncCallback
 }
 
 export const Dialog: React.FC<DialogProps> = ({
@@ -94,10 +97,9 @@ export const Dialog: React.FC<DialogProps> = ({
   dialogPortalInstance,
 
   onOk,
-  asyncOkCallback,
   onCancel,
-  asyncCancelCallback,
   onClose,
+  asyncCallback,
 
   ...wrapProps
 }) => {
@@ -126,10 +128,12 @@ export const Dialog: React.FC<DialogProps> = ({
     dialogPortalInstance.popupRef.current.closeLockRef.current = bool
   }
 
-  function handleClose() {
+  function handleClose(type: DialogAsyncCallbackType, res?: any) {
     if (!okLoading && !cancelLoading) {
       setCloseLock(false)
     }
+    asyncCallback?.(type, res)
+    if (type === 'ok:error') return
     onClose?.()
   }
 
@@ -137,8 +141,7 @@ export const Dialog: React.FC<DialogProps> = ({
     const onOkFn = dialogPortalInstance?.asyncCallbackRef?.current?.onOk || onOk
 
     if (!onOkFn) {
-      asyncOkCallback?.()
-      handleClose()
+      handleClose('ok')
     }
 
     const res = onOkFn?.()
@@ -147,16 +150,17 @@ export const Dialog: React.FC<DialogProps> = ({
       setOkLoading(true)
       return res
         .then((res) => {
-          asyncOkCallback?.(res)
-          handleClose()
+          handleClose('ok', res)
           return res
+        })
+        .catch((err) => {
+          handleClose('ok:error', err)
         })
         .finally(() => {
           setOkLoading(false)
         })
     } else {
-      asyncOkCallback?.()
-      handleClose()
+      handleClose('ok')
     }
 
     return res
@@ -166,8 +170,7 @@ export const Dialog: React.FC<DialogProps> = ({
     const onCancelFn = dialogPortalInstance?.asyncCallbackRef?.current?.onCancel || onCancel
 
     if (!onCancelFn) {
-      asyncCancelCallback?.()
-      handleClose()
+      handleClose('cancel')
     }
 
     const res = onCancelFn?.()
@@ -176,16 +179,18 @@ export const Dialog: React.FC<DialogProps> = ({
       setCancelLoading(true)
       return res
         .then((res) => {
-          asyncCancelCallback?.(res)
-          handleClose()
+          handleClose('cancel', res)
           return res
+        })
+        .catch((err) => {
+          handleClose('cancel', err)
+          return err
         })
         .finally(() => {
           setCancelLoading(false)
         })
     } else {
-      asyncCancelCallback?.()
-      handleClose()
+      handleClose('cancel')
     }
 
     return res
@@ -217,7 +222,12 @@ export const Dialog: React.FC<DialogProps> = ({
     }
 
     return (
-      <span className={clsx('close-btn', { disabled: okLoading || cancelLoading })} onClick={handleClose}>
+      <span
+        className={clsx('close-btn', { disabled: okLoading || cancelLoading })}
+        onClick={() => {
+          handleClose('close')
+        }}
+      >
         <IconX size={17} />
       </span>
     )

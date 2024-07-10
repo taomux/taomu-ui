@@ -24,8 +24,6 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   shadow?: BaseSizeLevel
   /** 背景色 */
   background?: React.CSSProperties['background']
-  /** 背景模糊 */
-  backgroundBlur?: boolean
   /** 附加到 MenuItem 组件的 props */
   itemProps?: MenuItemProps
   /** 禁止文本选中 */
@@ -48,7 +46,6 @@ export const Menu: React.FC<MenuProps> = ({
   bordered = true,
   shadow = 'md',
   background,
-  backgroundBlur,
   itemProps,
   disableUserSelect = true,
   onMenuItemClick,
@@ -56,9 +53,9 @@ export const Menu: React.FC<MenuProps> = ({
 }) => {
   const menuClassNames = useTaomuClassName(
     'menu-group',
-    `flex col gap-${gap} p-4 mini-scrollbar`,
+    `flex col gap-${gap} p-4`,
     `shadow-${shadow}`,
-    { 'background-blur': backgroundBlur, 'disable-user-select': disableUserSelect, 'border rect-1': bordered },
+    { 'disable-user-select': disableUserSelect, 'border rect-1': bordered },
     className
   )
   const menuStyle = useInlineStyle<MenuCssVars>(

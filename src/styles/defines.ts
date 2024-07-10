@@ -33,6 +33,8 @@ declare global {
     colorBackground?: string
     /** 背景色 RGB */
     colorBackgroundRgb?: string
+    /** 底层背景色 */
+    colorBackgroundRoot?: string
     /** 前景色 */
     colorFront?: string
     /** 前景色 RGB */
