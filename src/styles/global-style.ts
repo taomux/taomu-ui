@@ -84,11 +84,6 @@ export function getGlobalStyled() {
 
       --ac-color-shadow: ${linkCssVar('colorShadow')};
 
-      --base-scrollbar-size: 6px;
-      --base-scrollbar-thumb-bg: ${mixinRgba('colorFrontRgb', 0.2)};
-      --base-scrollbar-track-bg: ${mixinRgba('colorFrontRgb', 0.05)};
-      --base-scrollbar-thumb-hover-bg: ${mixinRgba('colorFrontRgb', 0.3)};
-
       background-color: ${linkCssVar('colorBackground')};
       color: ${linkCssVar('colorTextDefault')};
       font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -97,24 +92,29 @@ export function getGlobalStyled() {
     }
 
     .mini-scrollbar {
+      --scrollbar-size: 6px;
+      --scrollbar-thumb-bg: ${mixinRgba('colorFrontRgb', 0.2)};
+      --scrollbar-track-bg: ${mixinRgba('colorFrontRgb', 0.05)};
+      --scrollbar-thumb-hover-bg: ${mixinRgba('colorFrontRgb', 0.3)};
+
       &::-webkit-scrollbar {
-        height: var(--base-scrollbar-size);
-        width: var(--base-scrollbar-size);
+        height: var(--scrollbar-size);
+        width: var(--scrollbar-size);
       }
 
       &::-webkit-scrollbar-thumb {
         border-radius: 10px;
-        border: 1px solid var(--base-scrollbar-track-bg);
-        background-color: var(--base-scrollbar-thumb-bg);
+        border: 1px solid var(--scrollbar-track-bg);
+        background-color: var(--scrollbar-thumb-bg);
       }
 
       &::-webkit-scrollbar-track {
         // border-radius: 10px;
-        background-color: var(--base-scrollbar-track-bg);
+        background-color: var(--scrollbar-track-bg);
       }
 
       &::-webkit-scrollbar-thumb:hover {
-        background-color: var(--base-scrollbar-thumb-hover-bg);
+        background-color: var(--scrollbar-thumb-hover-bg);
       }
     }
 
