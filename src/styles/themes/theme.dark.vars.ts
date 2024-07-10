@@ -2,7 +2,8 @@ import { mixinRgba, linkCssVar } from '../'
 
 export const DARK_GLOBAL_VARS: GlobalCssVars = {
   colorBackground: `rgb(${linkCssVar('colorBackgroundRgb')})`,
-  colorBackgroundRgb: '35, 41, 51',
+  colorBackgroundRgb: '25, 29, 36',
+  // colorBackgroundRgb: '35, 41, 51',
   colorFront: `rgb(${linkCssVar('colorFrontRgb')})`,
   colorFrontRgb: '255, 255, 255',
 
