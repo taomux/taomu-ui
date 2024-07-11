@@ -12,12 +12,16 @@ master:
     - docker:
         image: node:20
     - stages:
-      - name: install dependencies
-        script: npm i
-      - name: build doc
-        script: npm run build:docs && ls storybook-static
-
-
+        - name: install dependencies
+          script: npm i
+        - name: build doc
+          script:
+            - echo "node -v"
+            - node -v
+            - echo "npm -v"
+            - npm -v
+            - npm run build:docs
+            - ls storybook-static
 # 这个案例描述的流程如下：
 
 # 1. 声明了在 master 分支在收到 push 事件时（即有新的 Commit 推送到 master 分支）的时候
