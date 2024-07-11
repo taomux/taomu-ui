@@ -10,7 +10,7 @@
 master:
   push:
     - docker:
-        image: node:22
+        image: node:22-alpine
     - stages:
       - name: install dependencies
         script: npm i
