@@ -150,7 +150,6 @@ export const PopupTrigger = React.forwardRef<PopupTriggerRef, PopupTriggerProps>
       addProps.onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
         isHoverRef.current = true
         children.props?.onMouseEnter?.(e)
-
         if (popupPortalRef.current?.isEnter) {
           return // 已打开状态不重复打开
         } else if (popupPortalRef.current?.isOpened) {
