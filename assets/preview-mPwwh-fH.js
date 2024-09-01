@@ -1,0 +1,5 @@
+import{j as t,a as o}from"./emotion-react-jsx-runtime.browser.esm-BmIFEm2U.js";import{c as m,l as i,G as p}from"./mini-scrollbar-DUVypj3v.js";import"./index-CEcHYTAW.js";import"./button-DXEHRL-y.js";import"./index-Ct6AoaM2.js";import"./index-B7c9_jvv.js";import"./index-CTghhhKo.js";import"./index-B888oYOY.js";import"./index-BXaX6dLG.js";import"./dropdown-CGK3jTFE.js";import{T as s}from"./taomu-app-DbsmA5By.js";import"./jsx-runtime-DWbWqHZ-.js";import"./index-l2PZgWEW.js";import"./switch-cBz-fZpm.js";import"./use-taomu-classname-BHBGss1S.js";import"./loading-DEh7TbkL.js";import"./radio-CBWbMfsd.js";import"./titlebar-TRKJBHf1.js";import"./checkbox-0VPT8jCQ.js";import"./dialog-41DE-mic.js";import"./index-CE9T9n2a.js";import"./popup-trigger-BnUp-N6y.js";import"./index-6lph7OXq.js";import"./popup.store-CruYBn8Q.js";import"./menu-DCOHPR0s.js";import"./menu-item-KQygMNP2.js";const z={parameters:{controls:{matchers:{color:/(background|color)$/i,date:/Date$/i}}}},a=m`
+  .sbdocs .docs-story {
+    /* background-color: ${i("colorBackground")}; */
+  }
+`,E=[r=>t(s,{children:[o(p,{styles:a}),o(r,{})]})];export{E as decorators,z as default};

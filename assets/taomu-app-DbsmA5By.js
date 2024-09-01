@@ -1,0 +1,5 @@
+import{a as u,F as c,j as i}from"./emotion-react-jsx-runtime.browser.esm-BmIFEm2U.js";import{R as r}from"./index-l2PZgWEW.js";import{Q as l,u as _,g as f,G as y}from"./mini-scrollbar-DUVypj3v.js";import{p as g}from"./popup.store-CruYBn8Q.js";const s=()=>{const{popupsMap:e,updateCount:p}=g.useStore(["popupsMap","updateCount"]),t=r.useMemo(()=>{const a=[];for(const[h,[m,d]]of e)a.push(m.render(d));return a},[e,p]);return u(c,{children:t})};try{s.displayName="PopupService",s.__docgenInfo={description:"",displayName:"PopupService",props:{}}}catch{}let o="";const n=({children:e})=>{const p=r.useRef(l()),{theme:t}=_();return r.useEffect(()=>{document.documentElement.dataset.theme=t},[t]),r.useEffect(()=>(o?console.error("TaomuApp only support one instance"):o=p.current,()=>{o=""}),[]),i(c,{children:[(!o||o===p.current)&&u(s,{}),u(y,{styles:f()}),e]})};try{n.displayName="TaomuApp",n.__docgenInfo={description:`初始化 TaomuApp
+
+包裹根节点
+
+请确保全局只有一个 TaomuApp`,displayName:"TaomuApp",props:{}}}catch{}export{n as T};
