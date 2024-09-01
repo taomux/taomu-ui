@@ -1,7 +1,7 @@
 import { linkCssVar } from '../'
 
 export const LIGHT_GLOBAL_VARS: GlobalCssVars = {
-  colorBackgroundRoot: 'linear-gradient(45deg, #fefffe, #fbfffd)',
+  colorBackgroundRoot: 'linear-gradient(75deg, #fefffe, #fbfffd)',
   colorBackground: 'linear-gradient(-35deg, #fefffe, #fbfffd)',
   colorBackgroundRgb: '255, 255, 255',
   colorFront: `rgb(${linkCssVar('colorFrontRgb')})`,
