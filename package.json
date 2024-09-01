@@ -1,7 +1,7 @@
 {
   "name": "taomu-ui",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "main": "index.js",
   "unpkg": "index.js",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
-    "atomic-cls": "^0.0.4",
+    "atomic-cls": "^0.0.6",
     "clsx": "^2.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
