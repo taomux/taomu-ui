@@ -24,7 +24,7 @@ setGlobalCssVars('common', {
 
 export const dialogStyled = css`
   width: ${linkCssVar('dialogWidth')};
-  background-color: ${linkCssVar('dialogBackground')};
+  background: ${linkCssVar('dialogBackground')};
   border-radius: ${linkCssVar('dialogRadius')};
   position: relative;
 

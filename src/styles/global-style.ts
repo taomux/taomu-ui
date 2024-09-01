@@ -84,7 +84,7 @@ export function getGlobalStyled() {
 
       --ac-color-shadow: ${linkCssVar('colorShadow')};
 
-      background-color: ${linkCssVar('colorBackgroundRoot')};
+      /* background-color: ${linkCssVar('colorBackgroundRoot')}; */
       color: ${linkCssVar('colorTextDefault')};
       font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
       font-size: ${linkCssVar('fontSize')};
