@@ -17,7 +17,7 @@ const preview: Preview = {
 
 const storybookStyled = css`
   .sbdocs .docs-story {
-    /* background-color: ${linkCssVar('colorBackground')}; */
+    background: ${linkCssVar('colorBackgroundRoot')};
   }
 `
 

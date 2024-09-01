@@ -56,7 +56,7 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
       }
     }
 
-    contentProps.items = menus
+    contentProps.items = menus || menuProps.items
     contentProps.onMenuItemClick = onMenuItemClick
 
     return (

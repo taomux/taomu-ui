@@ -37,7 +37,7 @@ export const popupStyled = css`
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    background-color: ${linkCssVar('overlayBackground')};
+    background: ${linkCssVar('overlayBackground')};
   }
 
   .popup-content {

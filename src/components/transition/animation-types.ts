@@ -358,7 +358,7 @@ export const dialogZoomOut: TransitionConfig = {
   leave: {
     keyframes: [
       { transform: 'translateX(-50%) scale3d(1, 1, 1)', opacity: 1 },
-      { transform: 'translateX(-50%) scale3d(0.78, 0.78, 0.78)', opacity: 0 },
+      { transform: 'translateX(-50%) scale3d(1.28, 1.28, 1.28)', opacity: 0 },
     ],
   },
 }
