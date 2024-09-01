@@ -95,7 +95,7 @@ export abstract class PopupPortalBase<ContentProps extends object = any, Options
         }}
         {...popupProps}
       >
-        <Content {...contentProps} />
+        <Content {...(contentProps as any)} />
       </Popup>,
       this.container,
       this.popupId

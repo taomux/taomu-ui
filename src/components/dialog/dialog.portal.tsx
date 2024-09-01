@@ -44,7 +44,7 @@ export class DialogPortal<
 
     super((contentProps) => {
       const Content = this.#DialogContent
-      return <Content {...contentProps} />
+      return <Content {...(contentProps as any)} />
     }, baseOptions)
 
     this.Content = this.#DialogContent
@@ -56,7 +56,7 @@ export class DialogPortal<
     return (
       <Dialog {...this.dialogOptions} onClose={this.close} dialogPortalInstance={this as unknown as DialogPortal}>
         <DialogContent
-          {...contentProps}
+          {...(contentProps as any)}
           dialogPortalInstance={this}
           defineOnOk={this.defineOnOk}
           defineOnCancel={this.defineOnCancel}
