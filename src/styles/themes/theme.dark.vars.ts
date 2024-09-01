@@ -1,6 +1,9 @@
 import { mixinRgba, linkCssVar } from '../'
 
 export const DARK_GLOBAL_VARS: GlobalCssVars = {
+  colorPrimary: '#768c2e',
+  colorPrimaryRgb: '118, 140, 46',
+
   colorBackgroundRoot: 'linear-gradient(45deg, #202020, #181e20)',
   colorBackground: 'linear-gradient(-35deg, #202020, #181e20)',
   colorBackgroundRgb: '25, 29, 36',
