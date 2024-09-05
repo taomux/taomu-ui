@@ -8,6 +8,7 @@ export type ThemeMode = 'light' | 'dark' | 'common'
 export type RgbColorKeys = keyof Pick<
   GlobalCssVars,
   | 'colorPrimaryRgb'
+  | 'colorPrimaryDarkRgb'
   | 'colorBackgroundRgb'
   | 'colorFrontRgb'
   | 'colorSuccessRgb'
@@ -29,6 +30,10 @@ declare global {
     colorPrimary?: string
     /** 主题色 RGB */
     colorPrimaryRgb?: string
+    /** 深色主题色 */
+    colorPrimaryDark?: string
+    /** 深色主题色 RGB */
+    colorPrimaryDarkRgb?: string
     /** 背景色 */
     colorBackground?: string
     /** 背景色 RGB */

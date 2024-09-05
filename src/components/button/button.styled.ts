@@ -92,9 +92,9 @@ export const buttonStyled = css`
   }
 
   &.btn-primary {
-    ${parseCssVarDeclareStr('btnBackground', linkCssVar('colorPrimary'))};
-    ${parseCssVarDeclareStr('btnOutlineColor', mixinRgba('colorPrimaryRgb', 0.3))};
-    ${parseCssVarDeclareStr('btnBackgroundHover', mixinRgba('colorPrimaryRgb', 0.75))};
+    ${parseCssVarDeclareStr('btnBackground', linkCssVar('colorPrimaryDark'))};
+    ${parseCssVarDeclareStr('btnOutlineColor', mixinRgba('colorPrimaryDarkRgb', 0.3))};
+    ${parseCssVarDeclareStr('btnBackgroundHover', mixinRgba('colorPrimaryDarkRgb', 0.75))};
     ${parseCssVarDeclareStr('btnColor', '#fff')};
     ${parseCssVarDeclareStr('btnColorHover', '#fff')};
   }

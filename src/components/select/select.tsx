@@ -143,26 +143,12 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
     })
 
     React.useEffect(() => {
-      console.log({ opened })
-
-      if (opened) {
-        if (inputRef.current?.parentElement) {
-          dropdownRef.current?.openPopup(inputRef.current.parentElement)
-        } else {
-          console.warn('Select open field: element not found')
-        }
+      if (focused) {
+        inputRef.current?.focus()
       } else {
-        dropdownRef.current?.closePopup()
+        inputRef.current?.blur()
       }
-    }, [opened])
-
-    // React.useEffect(() => {
-    //   if (focused) {
-    //     inputRef.current?.focus()
-    //   } else {
-    //     inputRef.current?.blur()
-    //   }
-    // }, [focused])
+    }, [focused])
 
     React.useEffect(() => {
       if (showSearch) {
@@ -240,53 +226,38 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
 
     function openOptionList() {
       fixSelectIndex()
-      setOpened(true)
+      if (inputRef.current?.parentElement) {
+        setOpened(true)
+        dropdownRef.current?.openPopup(inputRef.current.parentElement)
+      } else {
+        console.warn('Select open field: element not found')
+      }
     }
 
     function closeOptionList() {
-      console.log('closeOptionList')
-
       fixSelectIndex()
       setOpened(false)
+      dropdownRef.current?.closePopup()
     }
 
     function handleOnFocus(e: React.FocusEvent<HTMLInputElement, Element>) {
       setFocused(true)
       onFocus?.(e)
 
-      console.log('handleOnFocus')
-
-      // setTimeout(() => {
-      //   console.log('handleOnFocus', opened, dropdownRef.current?.popupPortal)
-      //   console.log({ openOnFocus })
-
       setTimeout(() => {
-        console.log({ openOnFocus, opened, isEnter: dropdownRef.current?.popupPortal?.isEnter })
         if (openOnFocus && !opened && !dropdownRef.current?.popupPortal?.isEnter) {
           openOptionList()
         }
-      }, 20)
-
-      // }, 120)
+      }, 120)
     }
 
     function handleOnBlur(e: React.FocusEvent<HTMLInputElement, Element>) {
       setFocused(false)
       onBlur?.(e)
-      console.log('handleOnBlur')
-
       if (closeOnBlur) {
         closeOptionList()
       }
     }
-
-    // function handleOnMouseDown() {
-    //   if (!opened) {
-    //     openOptionList()
-    //   } else if (dropdownRef.current?.popupPortal?.isEnter && opened) {
-    //     closeOptionList()
-    //   }
-    // }
 
     function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
       onKeyDown?.(e)
@@ -358,7 +329,6 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
           className={selectClassNames}
           style={selectStyle}
           css={[inputWrapperStyled, inputOutlineStyled, selectStyled]}
-          // onMouseDown={handleOnMouseDown}
           onKeyDown={handleOnKeyDown}
           {...wrapProps}
         >

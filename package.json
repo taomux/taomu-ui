@@ -20,12 +20,14 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "atomic-cls": "^0.0.6",
     "clsx": "^2.1.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
     "react-feather": "^2.0.10",
     "react-mount-node": "^0.0.1",
     "taomu-store": "^0.0.1",
@@ -42,10 +44,12 @@
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "storybook": "^8.2.9",
     "typedoc": "^0.26.6",
     "typescript": "^5.5.4",
-    "vite": "^5.4.2"
+    "vite": "^5.4.3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

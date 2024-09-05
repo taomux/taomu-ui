@@ -3,6 +3,8 @@ import { linkCssVar, mixinRgba } from '../'
 export const COMMON_GLOBAL_VARS: GlobalCssVars = {
   colorPrimary: '#a2c339',
   colorPrimaryRgb: '162, 195, 57',
+  colorPrimaryDark: '#a2c339',
+  colorPrimaryDarkRgb: '162, 195, 57',
 
   colorSuccess: '#52c41a',
   colorSuccessRgb: '82, 196, 26',
