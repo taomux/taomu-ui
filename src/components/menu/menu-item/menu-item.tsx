@@ -2,6 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 
 import { useTaomuClassName, useInlineStyle } from '../../../hooks'
+import { MenuContext } from '../menu.ctx'
 import { menuItemStyled, MenuItemCssVars } from './menu-item.styled'
 
 export interface MenuItemProps extends Omit<BaseComponentType<MenuItemCssVars>, 'onClick'> {
@@ -61,6 +62,9 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
     { menuItemPaddingX: paddingX, menuItemPaddingY: paddingY, menuItemRadius: radius, ...cssVars },
     style
   )
+  const { currentIndex, prevIndex } = React.useContext(MenuContext)
+
+  console.log({ currentIndex, prevIndex })
 
   if (!visible) {
     return null

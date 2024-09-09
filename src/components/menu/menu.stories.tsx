@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { IconActivity } from '../icons'
 import { Menu } from './menu'
+import { MenuItemProps } from './menu-item'
 
 const meta: Meta<typeof Menu> = {
   title: 'Components/Menu',
@@ -12,6 +13,24 @@ const meta: Meta<typeof Menu> = {
 
 type Story = StoryObj<typeof meta>
 export default meta
+
+const testMenus: MenuItemProps[] = [
+  { label: '菜单1' },
+  { label: '菜单2' },
+  { label: '菜单-禁用', disabled: true },
+  { label: '菜单-选中', active: true },
+  { label: '菜单3' },
+  { label: '不可见', visible: false },
+  { divider: true },
+  { label: '自定义属性' },
+  { label: '自定义图标', icon: <IconActivity size={16} /> },
+  { label: '超长文本超长文本超长文本超长文本超长文本超长文本超长文本超长文本' },
+  {
+    label: '超出省略超出省略超出省略超出省略超出省略超出省略超出省略超出省略',
+    ellipsis: true,
+    title: '超出省略 hover title 需要手动传入',
+  },
+]
 
 export const 基础示例: Story = {
   args: {
@@ -78,5 +97,19 @@ export const 边距和间距: Story = {
       { label: '自定义属性' },
       { label: '自定义图标', icon: '+' },
     ],
+  },
+}
+
+export const 横向排列: Story = {
+  args: {
+    items: testMenus,
+    direction: 'horizontal',
+  },
+}
+
+export const 单选模式: Story = {
+  args: {
+    items: testMenus,
+    mode: 'radio',
   },
 }

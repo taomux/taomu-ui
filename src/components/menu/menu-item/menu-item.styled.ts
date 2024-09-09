@@ -23,12 +23,14 @@ export const menuItemStyled = css`
     color 0.2s;
 
   &:hover:not(.disabled, .active) {
-    background-color: ${mixinRgba('colorFrontRgb', 0.1)};
+    background: ${mixinRgba('colorFrontRgb', 0.1)};
   }
 
   &.active {
-    background-color: ${mixinRgba('colorPrimaryRgb', 0.15)};
-    color: ${linkCssVar('colorPrimary')};
+    background: ${mixinRgba('colorPrimaryRgb', 0.75)};
+    /* background: ${linkCssVar('colorPrimaryDark')}; */
+    /* color: ${linkCssVar('colorPrimary')}; */
+    color: #fff;
   }
 
   &.disabled {
