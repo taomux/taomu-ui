@@ -64,7 +64,7 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
   const { prevIndex, currentIndex, direction } = React.useContext(MenuContext)
   const menuItemClassNames = useTaomuClassName(
     'menu-item',
-    'flex row center-v gap-4',
+    'flex flex-none row center-v gap-4',
     `style-mode-${styleMode}`,
     { active, disabled },
     className

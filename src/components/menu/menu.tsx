@@ -27,6 +27,8 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   radius?: React.CSSProperties['borderRadius']
   /** item 间距 */
   gap?: number
+  /** 超出换行 */
+  overflowBreak?: boolean
   /** 显示外边框 */
   bordered?: boolean
   /** 显示阴影 */
@@ -60,6 +62,7 @@ export const Menu: React.FC<MenuProps> = ({
   defaultIndex,
   mode = 'none',
   direction = 'vertical',
+  overflowBreak,
   styleMode,
   onMenuItemClick,
   ...wrapProps
@@ -69,7 +72,7 @@ export const Menu: React.FC<MenuProps> = ({
     `flex flex-inline gap-${gap} p-4`,
     direction === 'vertical' ? 'col' : 'row',
     `shadow-${shadow}`,
-    { 'disable-user-select': disableUserSelect, 'border rect-1': bordered },
+    { 'disable-user-select': disableUserSelect, 'border rect-1': bordered, 'flex-wrap': overflowBreak },
     className
   )
   const menuStyle = useInlineStyle<MenuCssVars>(
