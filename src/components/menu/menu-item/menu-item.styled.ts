@@ -18,24 +18,48 @@ export const menuItemStyled = css`
   padding: ${linkCssVar('menuItemPaddingY')} ${linkCssVar('menuItemPaddingX')};
   border-radius: ${linkCssVar('menuItemRadius')};
   cursor: default;
+  position: relative;
+  overflow: hidden;
   transition:
     background 0.2s,
     color 0.2s;
 
-  &:hover:not(.disabled, .active) {
+  &:hover:not(.disabled) {
     background: ${mixinRgba('colorFrontRgb', 0.1)};
   }
 
-  &.active {
-    background: ${mixinRgba('colorPrimaryRgb', 0.75)};
-    /* background: ${linkCssVar('colorPrimaryDark')}; */
-    /* color: ${linkCssVar('colorPrimary')}; */
-    color: #fff;
+  &.style-mode-default {
+    &.active {
+      background: ${mixinRgba('colorPrimaryRgb', 0.75)};
+      color: #fff;
+    }
   }
 
   &.disabled {
     opacity: 0.45;
     cursor: not-allowed;
+  }
+
+  .taomu-menu-item-active-block {
+    --size: 3px;
+    background-color: ${linkCssVar('colorPrimary')};
+    position: absolute;
+    width: var(--size);
+    height: 50%;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    border-radius: 5px;
+
+    &.horizontal {
+      transform: translateX(-50%);
+      height: var(--size);
+      width: 50%;
+      left: 50%;
+      top: 0;
+      top: unset;
+      bottom: 0;
+    }
   }
 `
 

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { IconActivity } from '../icons'
+import { IconActivity, IconAlertCircle, IconAlertTriangle, IconAlignLeft, IconSave } from '../icons'
 import { Menu } from './menu'
 import { MenuItemProps } from './menu-item'
 
@@ -15,21 +15,11 @@ type Story = StoryObj<typeof meta>
 export default meta
 
 const testMenus: MenuItemProps[] = [
-  { label: '菜单1' },
-  { label: '菜单2' },
-  { label: '菜单-禁用', disabled: true },
-  { label: '菜单-选中', active: true },
-  { label: '菜单3' },
-  { label: '不可见', visible: false },
-  { divider: true },
-  { label: '自定义属性' },
-  { label: '自定义图标', icon: <IconActivity size={16} /> },
-  { label: '超长文本超长文本超长文本超长文本超长文本超长文本超长文本超长文本' },
-  {
-    label: '超出省略超出省略超出省略超出省略超出省略超出省略超出省略超出省略',
-    ellipsis: true,
-    title: '超出省略 hover title 需要手动传入',
-  },
+  { icon: <IconActivity size={16} />, label: '选项1' },
+  { icon: <IconAlertCircle size={16} />, label: '选项2' },
+  { icon: <IconAlertTriangle size={16} />, label: '选项3' },
+  { icon: <IconAlignLeft size={16} />, label: '选项4' },
+  { icon: <IconSave size={16} />, label: '选项5' },
 ]
 
 export const 基础示例: Story = {
@@ -111,5 +101,57 @@ export const 单选模式: Story = {
   args: {
     items: testMenus,
     mode: 'radio',
+  },
+}
+
+export const 多选模式: Story = {
+  args: {
+    items: testMenus,
+    mode: 'checkbox',
+    width: 200,
+  },
+}
+
+export const Windows风格: Story = {
+  args: {
+    items: testMenus,
+    mode: 'radio',
+    styleMode: 'windows',
+    width: 200,
+  },
+}
+
+export const Windows风格_仅图标: Story = {
+  args: {
+    items: testMenus.map((item) => ({ icon: item.icon })),
+    mode: 'radio',
+    styleMode: 'windows',
+  },
+}
+
+export const Windows风格_横向: Story = {
+  args: {
+    items: testMenus,
+    mode: 'radio',
+    styleMode: 'windows',
+    direction: 'horizontal',
+  },
+}
+
+export const Windows风格_横向_仅图标: Story = {
+  args: {
+    items: testMenus.map((item) => ({ icon: item.icon })),
+    mode: 'radio',
+    styleMode: 'windows',
+    direction: 'horizontal',
+  },
+}
+
+export const Windows风格_多选: Story = {
+  args: {
+    items: testMenus,
+    mode: 'checkbox',
+    styleMode: 'windows',
+    width: 200,
   },
 }

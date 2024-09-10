@@ -2,11 +2,15 @@ import React from 'react'
 import clsx from 'clsx'
 
 import { useTaomuClassName, useInlineStyle } from '../../../hooks'
+import { Transition } from '../../transition'
 import { MenuContext } from '../menu.ctx'
+import { getMenuActiveBlockAnimationConfig } from '../menu.utils'
 import { menuItemStyled, MenuItemCssVars } from './menu-item.styled'
 
 export interface MenuItemProps extends Omit<BaseComponentType<MenuItemCssVars>, 'onClick'> {
   key?: string | number
+  /** 菜单风格 */
+  styleMode?: 'default' | 'windows'
   /** 菜单标题 */
   label?: React.ReactNode
   /** 标题基础 Props */
@@ -53,18 +57,25 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
     paddingX,
     paddingY,
     radius,
+    styleMode = 'default',
     onClick,
     ...wrapProps
   } = itemProps
-
-  const menuItemClassNames = useTaomuClassName('menu-item', 'flex row center-v gap-4', { active, disabled }, className)
+  const { prevIndex, currentIndex, direction } = React.useContext(MenuContext)
+  const menuItemClassNames = useTaomuClassName(
+    'menu-item',
+    'flex row center-v gap-4',
+    `style-mode-${styleMode}`,
+    { active, disabled },
+    className
+  )
   const menuItemStyle = useInlineStyle<MenuItemCssVars>(
     { menuItemPaddingX: paddingX, menuItemPaddingY: paddingY, menuItemRadius: radius, ...cssVars },
     style
   )
-  const { currentIndex, prevIndex } = React.useContext(MenuContext)
 
-  console.log({ currentIndex, prevIndex })
+  // 额外的内部标记，确保激活状态在动画函数变更后生效
+  const [isActive, setIsActive] = React.useState(active)
 
   if (!visible) {
     return null
@@ -73,6 +84,12 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
   if (divider) {
     return <div className="taomu-menu-item-divider border split bottom-1" />
   }
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setIsActive(active)
+    }, 0)
+  }, [active])
 
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     if (disabled) {
@@ -92,8 +109,25 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
     )
   }
 
+  function renderActiveBlock() {
+    switch (styleMode) {
+      case 'windows':
+        return (
+          <Transition
+            show={isActive}
+            animationConfig={getMenuActiveBlockAnimationConfig(prevIndex, currentIndex?.[0], direction)}
+          >
+            <div className={clsx('taomu-menu-item-active-block', { horizontal: direction === 'horizontal' })} />
+          </Transition>
+        )
+      default:
+        return null
+    }
+  }
+
   return (
     <div className={menuItemClassNames} style={menuItemStyle} css={menuItemStyled} {...wrapProps} onClick={handleClick}>
+      {renderActiveBlock()}
       {icon}
       {renderLabel()}
     </div>

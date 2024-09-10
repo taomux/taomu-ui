@@ -11,8 +11,10 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   direction?: 'horizontal' | 'vertical'
   /** 交互模式 */
   mode?: 'radio' | 'checkbox' | 'none'
+  /** 菜单风格 */
+  styleMode?: 'default' | 'windows'
   /** 默认选中项 */
-  defaultIndex?: number
+  defaultIndex?: number[]
   /** 菜单配置 */
   items?: MenuItemProps[]
   /** 宽度 默认 auto */
@@ -58,12 +60,13 @@ export const Menu: React.FC<MenuProps> = ({
   defaultIndex,
   mode = 'none',
   direction = 'vertical',
+  styleMode,
   onMenuItemClick,
   ...wrapProps
 }) => {
   const menuClassNames = useTaomuClassName(
     'menu-group',
-    `flex gap-${gap} p-4 flex-wrap`,
+    `flex flex-inline gap-${gap} p-4`,
     direction === 'vertical' ? 'col' : 'row',
     `shadow-${shadow}`,
     { 'disable-user-select': disableUserSelect, 'border rect-1': bordered },
@@ -75,23 +78,36 @@ export const Menu: React.FC<MenuProps> = ({
   )
 
   const [prevIndex, setPrevIndex] = React.useState<number>()
-  const [currentIndex, setCurrentIndex] = React.useState(defaultIndex)
+  const [currentIndex, setCurrentIndex] = React.useState(defaultIndex || [])
 
   React.useEffect(() => {
     return () => {
-      setPrevIndex(currentIndex)
+      if (mode === 'radio' && currentIndex.length === 1) {
+        setPrevIndex(currentIndex[0])
+      }
     }
-  }, [currentIndex])
+  }, [currentIndex, mode])
 
-  function handleItemClick(item: MenuItemProps, index: number) {
-    console.log('handleItemClick', item, index)
+  React.useEffect(() => {
+    if (mode !== 'radio') {
+      setPrevIndex(undefined)
+    }
+  }, [mode])
 
+  function handleItemClick(index: number) {
     switch (mode) {
       case 'radio':
-        setCurrentIndex(index)
+        if (currentIndex[0] === index) break
+        setCurrentIndex([index])
         break
       case 'checkbox':
-        // TODO
+        setCurrentIndex((prev) => {
+          if (prev?.includes(index)) {
+            return prev?.filter((i) => i !== index)
+          } else {
+            return [...(prev || []), index]
+          }
+        })
         break
       default:
         break
@@ -99,21 +115,25 @@ export const Menu: React.FC<MenuProps> = ({
   }
 
   return (
-    <MenuContext.Provider value={{ prevIndex, currentIndex }}>
+    <MenuContext.Provider value={{ prevIndex, currentIndex, direction }}>
       <div className={menuClassNames} style={menuStyle} css={menuStyled} {...wrapProps}>
         {children ||
-          items?.map(({ onClick, key, ...restItemProps }, index) => (
-            <MenuItem
-              key={key || index}
-              {...itemProps}
-              {...restItemProps}
-              onClick={(item, e) => {
-                handleItemClick(item, index)
-                onClick?.(item, e)
-                onMenuItemClick?.(item, index, e)
-              }}
-            />
-          ))}
+          items?.map(({ onClick, key, active, styleMode: itemStyleMode, ...restItemProps }, index) => {
+            return (
+              <MenuItem
+                key={key || index}
+                active={active || currentIndex.includes(index)}
+                styleMode={itemStyleMode || styleMode}
+                {...itemProps}
+                {...restItemProps}
+                onClick={(item, e) => {
+                  handleItemClick(index)
+                  onClick?.(item, e)
+                  onMenuItemClick?.(item, index, e)
+                }}
+              />
+            )
+          })}
       </div>
     </MenuContext.Provider>
   )

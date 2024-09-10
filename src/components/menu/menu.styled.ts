@@ -20,7 +20,6 @@ setGlobalCssVars('common', {
 
 export const menuStyled = css`
   overflow-y: auto;
-
   height: ${linkCssVar('menuHeight')};
   width: ${linkCssVar('menuWidth')};
   background: ${linkCssVar('menuBackground')};
