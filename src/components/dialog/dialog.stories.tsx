@@ -158,6 +158,30 @@ export const 函数打开: Story = {
   },
 }
 
+export const 事件穿透: Story = {
+  render() {
+    function openDialog() {
+      const dialog = new DialogPortal(
+        () => {
+          return <div>dialog content</div>
+        },
+        { title: 'Title' },
+        {
+          overlay: false,
+          backgroundEvent: true,
+        }
+      )
+      dialog.open()
+    }
+
+    return (
+      <div>
+        <Button onClick={openDialog}>open一个</Button>
+      </div>
+    )
+  },
+}
+
 export const 异步关闭: Story = {
   render() {
     function openDialog() {

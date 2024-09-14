@@ -209,12 +209,33 @@ export function setCenterAbsolutePosition(contentElement: HTMLElement, topOffset
 }
 
 export function lockBodyScroll() {
+  if (document.body.style.overflow === 'hidden') {
+    return // 已经锁定
+  }
+
   const scrollBarWidth = getScrollbarWidth()
   document.body.style.overflow = 'hidden'
   document.body.style.paddingRight = scrollBarWidth + 'px'
 }
 
 export function unlockBodyScroll() {
+  const { popupsMap } = popupStore.getState()
+
+  console.log('unlockBodyScroll')
+
+  let lockScrollCount = 0
+
+  for (const [, [popupPortal]] of popupsMap) {
+    popupPortal.baseOptions
+    if (popupPortal.baseOptions.lockScroll) {
+      lockScrollCount += 1
+    }
+    if (lockScrollCount > 1) {
+      // 有未关闭的锁定弹窗
+      return
+    }
+  }
+
   document.body.style.removeProperty('overflow')
   document.body.style.removeProperty('padding-right')
 }

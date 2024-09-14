@@ -234,6 +234,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         scrollLockedRef.current = true
       }
     }
+
     function unlockScrollOnce() {
       if (scrollLockedRef.current) {
         unlockBodyScroll()
