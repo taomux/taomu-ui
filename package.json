@@ -1,7 +1,7 @@
 {
   "name": "taomu-ui",
   "private": false,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "main": "index.js",
   "unpkg": "index.js",
@@ -31,7 +31,7 @@
     "react-feather": "^2.0.10",
     "react-mount-node": "^0.0.1",
     "taomu-store": "^0.0.1",
-    "taomu-toolkit": "^0.1.1"
+    "taomu-toolkit": "^0.1.5"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.3.2",
