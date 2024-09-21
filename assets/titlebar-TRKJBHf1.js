@@ -1,3 +1,0 @@
-import{a as r}from"./emotion-react-jsx-runtime.browser.esm-BmIFEm2U.js";import{s as m,l as a,c as n}from"./mini-scrollbar-DUVypj3v.js";import{u as p,a as b}from"./use-taomu-classname-BHBGss1S.js";import"./index-l2PZgWEW.js";m("common",{titlebarColor:a("colorPrimary")});const d=n`
-  stroke: ${a("titlebarColor")};
-`,s=({className:t,cssVars:e,style:o,...l})=>{const i=p("titlebar",t),c=b(e,o);return r("div",{className:i,style:c,css:d,...l,children:r("p",{children:"component titlebar is created"})})};try{s.displayName="Titlebar",s.__docgenInfo={description:"",displayName:"Titlebar",props:{}}}catch{}export{s as T};

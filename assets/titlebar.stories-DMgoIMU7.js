@@ -1,3 +1,0 @@
-import{T as a}from"./titlebar-TRKJBHf1.js";import"./emotion-react-jsx-runtime.browser.esm-BmIFEm2U.js";import"./jsx-runtime-DWbWqHZ-.js";import"./index-l2PZgWEW.js";import"./mini-scrollbar-DUVypj3v.js";import"./use-taomu-classname-BHBGss1S.js";const d={title:"Components/Titlebar",component:a,tags:["autodocs"],argTypes:{}},r={args:{}};var o,t,e;r.parameters={...r.parameters,docs:{...(o=r.parameters)==null?void 0:o.docs,source:{originalSource:`{
-  args: {}
-}`,...(e=(t=r.parameters)==null?void 0:t.docs)==null?void 0:e.source}}};const g=["基础示例"];export{g as __namedExportsOrder,d as default,r as 基础示例};

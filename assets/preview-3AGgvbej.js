@@ -1,0 +1,5 @@
+import{c as t,l as i,j as m,a as o,G as p}from"./mini-scrollbar-Bq2Cewqh.js";import"./_getTag-Dgi2y9Uc.js";import"./index-wbaSbNrY.js";import"./index-zbzXvoZu.js";import"./index-lbEMpsy5.js";import"./index-DfD08_1O.js";import"./button-PSsLmA4n.js";import"./index-CP3qstbJ.js";import"./index-BQis2MRJ.js";import"./index-C2CWwJEy.js";import"./dropdown-B-J418dP.js";import{T as s}from"./taomu-app-BeFSRTyP.js";import"./index-l2PZgWEW.js";import"./switch-xz65V0ef.js";import"./use-taomu-classname-Bo7IX2bY.js";import"./loading-BYHYPpAm.js";import"./radio-_VbcH_MC.js";import"./titlebar-CbOE_iqG.js";import"./checkbox-DWEE05yV.js";import"./dialog-DVl1Ysre.js";import"./index-CE9T9n2a.js";import"./popup-trigger-DAfQrFfm.js";import"./index-BtTJd_qj.js";import"./popup.store-CTuOgDEi.js";import"./menu-DJ5Dr7V0.js";import"./menu-item-Dp48SuEn.js";const q={parameters:{controls:{matchers:{color:/(background|color)$/i,date:/Date$/i}}}},a=t`
+  .sbdocs .docs-story {
+    background: ${i("colorBackgroundRoot")};
+  }
+`,z=[r=>m(s,{children:[o(p,{styles:a}),o(r,{})]})];export{z as decorators,q as default};
