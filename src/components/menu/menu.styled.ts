@@ -8,6 +8,7 @@ export interface MenuCssVars {
   menuBackground?: React.CSSProperties['background']
   menuPadding?: React.CSSProperties['padding']
   menuRadius?: React.CSSProperties['borderRadius']
+  menuGap?: React.CSSProperties['gap']
 }
 
 setGlobalCssVars('common', {
@@ -25,6 +26,7 @@ export const menuStyled = css`
   background: ${linkCssVar('menuBackground')};
   padding: ${linkCssVar('menuPadding')};
   border-radius: ${linkCssVar('menuRadius')};
+  gap: ${linkCssVar('menuGap')};
 
   &.disable-user-select {
     user-select: none;

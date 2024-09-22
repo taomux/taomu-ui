@@ -6,6 +6,7 @@ export interface MenuItemCssVars {
   menuItemPaddingX?: number | string
   menuItemPaddingY?: number | string
   menuItemRadius?: number | string
+  menuItemGap?: number | string
 }
 
 setGlobalCssVars('common', {
@@ -21,6 +22,7 @@ export const menuItemStyled = css`
   position: relative;
   overflow: hidden;
   color: ${linkCssVar('colorTextDefault')};
+  gap: ${linkCssVar('menuItemGap')};
 
   &:hover:not(.disabled) {
     background: ${mixinRgba('colorFrontRgb', 0.1)};
