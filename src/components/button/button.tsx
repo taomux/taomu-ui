@@ -27,7 +27,7 @@ export interface ButtonProps extends BaseComponentType<BtnCssVars> {
   /** 半透明 + 毛玻璃效果 */
   glass?: boolean
   /** 原生按钮类型 */
-  htmlType?: ButtonHtmlType
+  htmltype?: ButtonHtmlType
   /** 是否禁用 */
   disabled?: boolean
   /** 显示外轮廓 */

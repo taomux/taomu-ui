@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useTaomuClassName, useInlineStyle, useMergedState } from '../../hooks'
+import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { inputWrapperStyled, inputStyled, inputOutlineStyled, type InputCssVars } from './input.styled'
 
 import { IconXCircle } from '../icons'
@@ -8,8 +8,7 @@ import { IconXCircle } from '../icons'
 export type InputType = 'email' | 'number' | 'password' | 'search' | 'tel' | 'text' | 'url'
 export type InputStatus = 'error' | 'warning' | 'success' | 'default'
 
-export interface InputProps<V = string | undefined>
-  extends Omit<React.TextareaHTMLAttributes<HTMLInputElement>, 'type' | 'children' | 'onChange' | 'defaultValue' | 'value'> {
+export interface InputProps extends Omit<React.TextareaHTMLAttributes<HTMLInputElement>, 'type' | 'children'> {
   cssVars?: InputCssVars
   /** 输入框类型 */
   type?: InputType
@@ -31,19 +30,14 @@ export interface InputProps<V = string | undefined>
   rightNode?: React.ReactNode
   /** 包裹层 props */
   wrapProps?: ReactDivProps
-  /** 默认值 */
-  defaultValue?: V
-  /** 值 */
-  value?: V
-  onChange?: (value: V, prevValue: V) => void
+  // /** 默认值 */
+  // defaultValue?: V
+  // /** 值 */
+  // value?: V
+  // onChange?: (e: React.ChangeEvent<HTMLInputElement>, value: V) => void
 }
 
-export interface InputRef {
-  input: HTMLInputElement | null
-  setFocused: (state: boolean) => void
-}
-
-export const Input = React.forwardRef<InputRef, InputProps>(
+export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
   (
     {
       className,
@@ -58,22 +52,23 @@ export const Input = React.forwardRef<InputRef, InputProps>(
       leftNode,
       rightNode,
       wrapProps = {},
-      onFocus,
-      onBlur,
       disabled,
       allowClear,
+      value,
       onChange,
-      onInput,
+      onFocus,
+      onBlur,
       ...inputProps
     },
     ref
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null)
+    const [isEmpty, setEmpty] = React.useState(true)
 
-    const [value, setValue] = useMergedState(inputProps.defaultValue || '', {
-      value: inputProps.value,
-      onChange,
-    })
+    // const [value, setValue] = useMergedState(inputProps.defaultValue || '', {
+    //   value: inputProps.value,
+    //   onChange,
+    // })
 
     const [focused, setFocused] = React.useState(false)
 
@@ -101,21 +96,20 @@ export const Input = React.forwardRef<InputRef, InputProps>(
     }, [focused])
 
     React.useImperativeHandle(ref, () => {
-      return {
-        input: inputRef.current,
-        setFocused,
-      }
+      return inputRef.current as HTMLInputElement
     })
 
     function renderClearButton() {
-      if (!allowClear || !value?.length) return null
+      if (!allowClear || isEmpty) return null
 
       return (
         <IconXCircle
           size={14}
           className="cup icon-x"
           onClick={() => {
-            setValue('')
+            if (!inputRef.current) return
+            inputRef.current.value = ''
+            onChange?.({ target: inputRef.current } as any)
           }}
         />
       )
@@ -132,15 +126,17 @@ export const Input = React.forwardRef<InputRef, InputProps>(
           disabled={disabled}
           onFocus={(e) => {
             setFocused(true)
-            onFocus?.(e)
+            return onFocus?.(e)
           }}
           onBlur={(e) => {
             setFocused(false)
-            onBlur?.(e)
+            return onBlur?.(e)
           }}
-          onInput={(e) => {
-            setValue(e.currentTarget.value)
-            onInput?.(e)
+          onChange={(e) => {
+            if (allowClear) {
+              setEmpty(!e.target.value)
+            }
+            onChange?.(e)
           }}
           {...inputProps}
         />

@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { IconActivity } from '../icons'
@@ -60,6 +61,24 @@ export const 多行文本输入: Story = {
         <InputTextarea width={500} rows={5} placeholder="success" status="success" />
         <InputTextarea width={500} rows={5} placeholder="warning" status="warning" />
         <InputTextarea width={500} rows={5} placeholder="error" status="error" />
+      </div>
+    )
+  },
+}
+
+export const Ref: Story = {
+  args: {},
+
+  render: (args) => {
+    const inputRef = React.useRef<HTMLInputElement>(null)
+
+    React.useEffect(() => {
+      console.log(inputRef)
+    }, [])
+
+    return (
+      <div className="flex col gap-12">
+        <Input {...args} ref={inputRef} />
       </div>
     )
   },
