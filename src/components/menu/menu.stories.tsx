@@ -150,13 +150,3 @@ export const Windows风格_多选: Story = {
     width: 200,
   },
 }
-
-export const 精简模式: Story = {
-  args: {
-    items: testMenus,
-    mode: 'radio',
-    styleMode: 'windows',
-    width: 200,
-    defaultIndex: [1],
-  },
-}
