@@ -29,4 +29,6 @@ export const COMMON_GLOBAL_VARS: GlobalCssVars = {
   boxShadowMD: `0px 3px 8px 0px ${linkCssVar('colorShadow')}`,
   boxShadowLG: `1px 6px 12px 0px ${linkCssVar('colorShadow')}`,
   boxShadowXL: `2px 8px 16px 0px ${linkCssVar('colorShadow')}`,
+
+  commonTransition: 'all 0.1s',
 }

@@ -23,6 +23,7 @@ export const menuItemStyled = css`
   overflow: hidden;
   color: ${linkCssVar('colorTextDefault')};
   gap: ${linkCssVar('menuItemGap')};
+  transition: ${linkCssVar('commonTransition')};
 
   &:hover:not(.disabled) {
     background: ${mixinRgba('colorFrontRgb', 0.1)};

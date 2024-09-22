@@ -100,9 +100,7 @@ export const textareaStyled = css`
 `
 
 export const inputOutlineStyled = css`
-  transition:
-    outline 0.3s cubic-bezier(0.175, 0.82, 0.265, 1),
-    border-color 0.3s;
+  transition: ${linkCssVar('commonTransition')};
   outline: transparent solid 6px;
   outline-offset: -2px;
 

@@ -103,6 +103,9 @@ declare global {
     scrollbarTrackColor?: string
     /** 滚动条滑块悬停颜色 */
     scrollbarThumbHoveColor?: string
+
+    /** 通用过度动画 */
+    commonTransition?: string
   }
 
   type GlobalCssVarsNames = keyof GlobalCssVars

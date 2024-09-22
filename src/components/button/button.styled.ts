@@ -54,10 +54,10 @@ setGlobalCssVars('dark', {
 
 export const buttonStyled = css`
   user-select: none;
-  transition: all 0.25s;
   outline: transparent solid 0;
   overflow: hidden;
   position: relative;
+  transition: ${linkCssVar('commonTransition')};
 
   width: ${linkCssVar('btnWidth')};
   height: ${linkCssVar('btnHeight')};
