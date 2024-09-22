@@ -15,11 +15,11 @@ type Story = StoryObj<typeof meta>
 export default meta
 
 const testMenus: MenuItemProps[] = [
-  { icon: <IconActivity size={16} />, label: '选项1' },
-  { icon: <IconAlertCircle size={16} />, label: '选项2' },
-  { icon: <IconAlertTriangle size={16} />, label: '选项3' },
-  { icon: <IconAlignLeft size={16} />, label: '选项4' },
-  { icon: <IconSave size={16} />, label: '选项5' },
+  { key: 'menu1', icon: <IconActivity size={16} />, label: '选项1' },
+  { key: 'menu2', icon: <IconAlertCircle size={16} />, label: '选项2' },
+  { key: 'menu3', icon: <IconAlertTriangle size={16} />, label: '选项3', disabled: true },
+  { key: 'menu4', icon: <IconAlignLeft size={16} />, label: '选项4' },
+  { key: 'menu5', icon: <IconSave size={16} />, label: '选项5' },
 ]
 
 const testMenus2: MenuItemProps[] = [
@@ -112,6 +112,7 @@ export const Windows风格: Story = {
     mode: 'radio',
     styleMode: 'windows',
     width: 200,
+    defaultIndex: [1],
   },
 }
 

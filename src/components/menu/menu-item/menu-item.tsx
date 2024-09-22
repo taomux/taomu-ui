@@ -7,8 +7,10 @@ import { MenuContext } from '../menu.ctx'
 import { getMenuActiveBlockAnimationConfig } from '../menu.utils'
 import { menuItemStyled, MenuItemCssVars } from './menu-item.styled'
 
+export type MenuItemKey = string | number
+
 export interface MenuItemProps extends Omit<BaseComponentType<MenuItemCssVars>, 'onClick'> {
-  key?: string | number
+  key?: MenuItemKey
   /** 菜单风格 */
   styleMode?: 'default' | 'windows'
   /** 菜单标题 */

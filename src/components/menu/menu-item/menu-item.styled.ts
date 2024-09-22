@@ -20,12 +20,11 @@ export const menuItemStyled = css`
   cursor: default;
   position: relative;
   overflow: hidden;
-  transition:
-    background 0.2s,
-    color 0.2s;
+  color: ${linkCssVar('colorTextDefault')};
 
   &:hover:not(.disabled) {
     background: ${mixinRgba('colorFrontRgb', 0.1)};
+    color: ${linkCssVar('colorTextTitle')};
   }
 
   &.style-mode-default {

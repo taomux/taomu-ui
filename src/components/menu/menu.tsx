@@ -13,8 +13,8 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   mode?: 'radio' | 'checkbox' | 'none'
   /** 菜单风格 */
   styleMode?: 'default' | 'windows'
-  /** 默认选中项 */
-  defaultIndex?: number[]
+  /** 默认选中项索引 */
+  defaultIndex?: number | number[]
   /** 菜单配置 */
   items?: MenuItemProps[]
   /** 宽度 默认 auto */
@@ -81,7 +81,7 @@ export const Menu: React.FC<MenuProps> = ({
   )
 
   const [prevIndex, setPrevIndex] = React.useState<number>()
-  const [currentIndex, setCurrentIndex] = React.useState(defaultIndex || [])
+  const [currentIndex, setCurrentIndex] = React.useState(typeof defaultIndex === 'number' ? [defaultIndex] : defaultIndex || [])
 
   React.useEffect(() => {
     return () => {

@@ -12,7 +12,7 @@ export const DARK_GLOBAL_VARS: GlobalCssVars = {
   colorFrontRgb: '255, 255, 255',
 
   colorTextTitle: linkCssVar('colorFront'),
-  colorTextDefault: mixinRgba('colorFrontRgb', 0.9),
+  colorTextDefault: mixinRgba('colorFrontRgb', 0.8),
   colorTextGray: mixinRgba('colorFrontRgb', 0.65),
   colorTextLight: mixinRgba('colorFrontRgb', 0.4),
 
