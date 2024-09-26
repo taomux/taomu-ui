@@ -29,6 +29,7 @@
     "atomic-cls": "^0.0.6",
     "clsx": "^2.1.1",
     "react-feather": "^2.0.10",
+    "react-hook-form": "^7.53.0",
     "react-mount-node": "^0.0.1",
     "taomu-store": "^0.0.1",
     "taomu-toolkit": "^0.1.5"
@@ -37,7 +38,6 @@
     "@storybook/addon-essentials": "^8.3.2",
     "@storybook/addon-interactions": "^8.3.2",
     "@storybook/addon-links": "^8.3.2",
-    "@storybook/addon-onboarding": "^8.3.2",
     "@storybook/blocks": "^8.3.2",
     "@storybook/react": "^8.3.2",
     "@storybook/react-vite": "^8.3.2",
