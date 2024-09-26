@@ -1,4 +1,5 @@
 import React from 'react'
+import { useForm } from 'react-hook-form'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 
@@ -14,17 +15,17 @@ export interface FormProps<FieldValues extends Record<string, any> = Record<stri
   onSubmit?: <V extends FieldValues>(values: V) => any
 }
 
-export const Form: React.FC<FormProps> & { Item: typeof FormItem } = ({
-  children,
-  className,
-  cssVars,
-  style,
-  formInstance,
-  onSubmit,
-  ...wrapProps
-}) => {
+export const Form: React.FC<FormProps> & {
+  Item: typeof FormItem
+  useForm: typeof useForm
+  useFormContext: typeof React.useContext
+} = ({ children, className, cssVars, style, formInstance, onSubmit, ...wrapProps }) => {
   const formClassNames = useTaomuClassName('form', className)
   const formStyle = useInlineStyle<FormCssVars>(cssVars, style)
+
+  // console.log('ooooooo', formInstance.getFieldState('name'))
+  // console.log('zzzzzzzzzzzzzzzzz');
+  
 
   return (
     <form
@@ -41,3 +42,5 @@ export const Form: React.FC<FormProps> & { Item: typeof FormItem } = ({
 }
 
 Form.Item = FormItem
+Form.useForm = useForm
+Form.useFormContext = React.useContext

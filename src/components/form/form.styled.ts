@@ -2,17 +2,13 @@ import { css } from '@emotion/react'
 
 import { setGlobalCssVars, linkCssVar } from '../../styles'
 
-export interface FormCssVars {
-  formColor?: string
-}
+export interface FormCssVars {}
 
 setGlobalCssVars('common', {
-  formColor: linkCssVar('colorPrimary'),
+  formMarginBottom: 24,
 })
 
-export const formStyled = css`
-  stroke: ${linkCssVar('formColor')};
-`
+export const formStyled = css``
 
 declare global {
   interface GlobalCssVars extends FormCssVars {}

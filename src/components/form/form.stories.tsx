@@ -19,7 +19,7 @@ export default meta
 
 export const 基础示例: Story = {
   render: () => {
-    const { formInstance } = useForm()
+    const formInstance = Form.useForm()
 
     return (
       <Form
@@ -32,8 +32,14 @@ export const 基础示例: Story = {
         <Form.Item
           label="姓名"
           name="name"
-          // required
-          // pattern={/^.{2,4}$/}
+          required={{ value: true, message: '姓名必填' }}
+          pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+        >
+          <Input allowClear placeholder="请输入" />
+        </Form.Item>
+        <Form.Item
+          label="姓名2"
+          name="name2"
           required={{ value: true, message: '姓名必填' }}
           pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
         >

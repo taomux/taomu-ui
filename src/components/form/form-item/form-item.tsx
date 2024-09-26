@@ -1,7 +1,6 @@
 import React from 'react'
-import { RegisterOptions } from 'react-hook-form'
+import { RegisterOptions, type FieldError } from 'react-hook-form'
 
-import { Transition } from '../../transition'
 import { useTaomuClassName, useInlineStyle } from '../../../hooks'
 
 import { formItemStyled, FormItemCssVars } from './form-item.styled'
@@ -12,6 +11,7 @@ export type FormItemProps = Omit<BaseComponentType<FormItemCssVars>, 'children' 
     name?: string
     label?: string
     children?: React.ReactElement
+    marginBottom?: string
   }
 
 export const FormItem: React.FC<FormItemProps> = ({
@@ -22,6 +22,7 @@ export const FormItem: React.FC<FormItemProps> = ({
   style,
   name,
   label,
+  marginBottom,
   ...registerOptions
 }) => {
   const { formInstance } = React.useContext(FormContext)
@@ -31,13 +32,11 @@ export const FormItem: React.FC<FormItemProps> = ({
   }
 
   const formItemClassNames = useTaomuClassName('form-item', className)
-  const formItemStyle = useInlineStyle<FormItemCssVars>(cssVars, style)
+  const formItemStyle = useInlineStyle<FormItemCssVars>({ formMarginBottom: marginBottom, ...cssVars }, style)
 
-  // const value = formInstance.watch(name!)
-
-  // const errorStatus = React.useMemo(() => {
-  //   return formInstance.getFieldState(name!)
-  // }, [value, name])
+  const errorStatus = React.useMemo(() => {
+    return formInstance.formState.errors[name!] as FieldError | void
+  }, [formInstance.formState.errors[name!]])
 
   const addChildrenProps = React.useMemo(() => {
     const addProps: any = {}
@@ -48,14 +47,12 @@ export const FormItem: React.FC<FormItemProps> = ({
       console.warn('FormItem: name is not exist.')
     }
 
-    // console.log(registerOptions)
+    if (errorStatus) {
+      addProps.status = 'error'
+    }
 
     return addProps
-  }, [name])
-
-  console.log(formInstance.formState.errors)
-
-  const fieldState = name ? formInstance.getFieldState(name) : undefined
+  }, [name, errorStatus])
 
   if (!children) {
     return null
@@ -66,9 +63,7 @@ export const FormItem: React.FC<FormItemProps> = ({
       <div className="form-item-label">{label}</div>
       <div className="form-item-content">
         {React.cloneElement(children, addChildrenProps)}
-        <Transition animationConfig="moveTop" show={!!fieldState?.error}>
-          <div>{fieldState?.error?.message}</div>
-        </Transition>
+        {errorStatus ? <div className="form-item-msg color-error fs-12">{errorStatus?.message}</div> : null}
       </div>
     </div>
   )
