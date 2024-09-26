@@ -4,6 +4,9 @@ import { setGlobalCssVars, linkCssVar } from '../../../styles'
 
 export interface FormItemCssVars {
   formMarginBottom?: number | string
+  formLabelWidth?: number | string
+
+  formItemGap?: number | string
 }
 
 // setGlobalCssVars('common', {
@@ -12,23 +15,42 @@ export interface FormItemCssVars {
 
 export const formItemStyled = css`
   position: relative;
-  .form-item-msg {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    background-color: ${linkCssVar('colorError')};
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 4px 4px 0 0;
+  margin-bottom: ${linkCssVar('formMarginBottom')};
 
-    /* transition: ${linkCssVar()}; */
+  &.form-item-layout-horizontal {
+    display: flex;
+    align-items: center;
+    gap: ${linkCssVar('formItemGap')};
+    .form-item-label {
+      flex: none;
+      width: ${linkCssVar('formLabelWidth')};
+      text-align: right;
+    }
+    .form-item-content {
+      flex: 1;
+    }
   }
 
-  &:hover {
-    .form-item-msg {
-      opacity: 0.2;
+  &.form-item-layout-inline {
+    display: flex;
+    align-items: center;
+    gap: ${linkCssVar('formItemGap')};
+    .form-item-label {
+      margin-bottom: 2px;
     }
+  }
+
+  &.form-item-layout-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: ${linkCssVar('formItemGap')};
+  }
+
+  .form-item-msg {
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    position: absolute;
   }
 `
 
