@@ -37,6 +37,8 @@ export interface MenuItemProps extends Omit<BaseComponentType<MenuItemCssVars>, 
   paddingY?: string | number
   /** 自定义圆角 */
   radius?: string | number
+  /** 间距 */
+  gap?: string | number
   /** 点击事件 */
   onClick?: (item: MenuItemProps, event: React.MouseEvent<HTMLDivElement>) => void
 }
@@ -59,6 +61,7 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
     paddingX,
     paddingY,
     radius,
+    gap = 4,
     styleMode = 'default',
     onClick,
     ...wrapProps
@@ -66,13 +69,13 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
   const { prevIndex, currentIndex, direction } = React.useContext(MenuContext)
   const menuItemClassNames = useTaomuClassName(
     'menu-item',
-    'flex flex-none row center-v gap-4',
+    'flex flex-none row center-v',
     `style-mode-${styleMode}`,
     { active, disabled },
     className
   )
   const menuItemStyle = useInlineStyle<MenuItemCssVars>(
-    { menuItemPaddingX: paddingX, menuItemPaddingY: paddingY, menuItemRadius: radius, ...cssVars },
+    { menuItemPaddingX: paddingX, menuItemPaddingY: paddingY, menuItemRadius: radius, menuItemGap: gap, ...cssVars },
     style
   )
 

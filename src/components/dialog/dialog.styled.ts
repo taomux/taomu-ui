@@ -35,9 +35,9 @@ export const dialogStyled = css`
 
   .close-btn {
     border-radius: 4px;
-    transition: background 0.2s;
     position: absolute;
     z-index: 10;
+    transition: ${linkCssVar('commonTransition')};
     right: calc(${linkCssVar('dialogPadding')} - 6px);
     padding: 3px;
     top: 9px;
@@ -45,7 +45,7 @@ export const dialogStyled = css`
     svg {
       display: block;
       stroke: ${linkCssVar('colorTextGray')};
-      transition: stroke 0.2s;
+      transition: ${linkCssVar('commonTransition')};
     }
 
     &:hover:not(.disabled) {

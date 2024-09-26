@@ -69,14 +69,22 @@ export const Menu: React.FC<MenuProps> = ({
 }) => {
   const menuClassNames = useTaomuClassName(
     'menu-group',
-    `flex flex-inline gap-${gap} p-4`,
+    `flex flex-inline p-4`,
     direction === 'vertical' ? 'col' : 'row',
     `shadow-${shadow}`,
     { 'disable-user-select': disableUserSelect, 'border rect-1': bordered, 'flex-wrap': overflowBreak },
     className
   )
   const menuStyle = useInlineStyle<MenuCssVars>(
-    { menuWidth: width, menuHeight: height, menuBackground: background, menuPadding: padding, menuRadius: radius, ...cssVars },
+    {
+      menuWidth: width,
+      menuHeight: height,
+      menuBackground: background,
+      menuPadding: padding,
+      menuRadius: radius,
+      menuGap: gap,
+      ...cssVars,
+    },
     style
   )
 
