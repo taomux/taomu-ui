@@ -58,6 +58,7 @@ export const Button: React.FC<ButtonProps> = ({
   autoLoading = true,
   autoFocus = true,
   onClick,
+  htmltype = 'button', // 默认值设为 'button'，如果不指定则在 form 中的所有 button 元素默认为 'submit'
   ...wrapProps
 }) => {
   const btnRef = React.useRef<HTMLButtonElement>(null)
@@ -111,6 +112,7 @@ export const Button: React.FC<ButtonProps> = ({
       style={btnStyle}
       disabled={isDisabled}
       onClick={handleClick}
+      type={htmltype}
       {...wrapProps}
     >
       {children}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { RegisterOptions, type FieldError } from 'react-hook-form'
+import { RegisterOptions, type FieldError, Controller } from 'react-hook-form'
 
 import { useTaomuClassName, useInlineStyle } from '../../../hooks'
 
@@ -21,6 +21,8 @@ export type FormItemProps = Omit<BaseComponentType<FormItemCssVars>, 'children' 
     noStyle?: boolean
     /** 显示冒号 `:` */
     colon?: boolean
+    /** 是否使用状态控制器，默认为 `true`, 设为 `false` 可提高性能 */
+    useController?: boolean
   }
 
 export type FormItemTransferProps = Pick<FormItemProps, 'layout' | 'marginBottom' | 'labelWidth'>
@@ -38,6 +40,7 @@ export const FormItem: React.FC<FormItemProps> = ({
   noStyle,
   labelWidth,
   colon = true,
+  useController = true,
   ...registerOptions
 }) => {
   const {
@@ -67,22 +70,6 @@ export const FormItem: React.FC<FormItemProps> = ({
     return formInstance.formState.errors[name] as FieldError | void
   }, [formInstance.formState.errors[name!]])
 
-  const addChildrenProps = React.useMemo(() => {
-    const addProps: any = {}
-
-    if (name) {
-      Object.assign(addProps, formInstance.register(name, { ...registerOptions }))
-    } else {
-      console.warn('FormItem: name is not exist.')
-    }
-
-    if (errorStatus) {
-      addProps.status = 'error'
-    }
-
-    return addProps
-  }, [name, errorStatus])
-
   if (!children) {
     return null
   }
@@ -102,11 +89,47 @@ export const FormItem: React.FC<FormItemProps> = ({
     return <div className="form-item-msg color-error fs-12">{errorStatus?.message}</div>
   }
 
+  function renderController() {
+    if (!children) return
+
+    if (!name || !formInstance) {
+      return children
+    }
+
+    console.log('renderController')
+
+    const addProps: any = {}
+
+    if (name) {
+      Object.assign(addProps, formInstance.register(name, { ...registerOptions }))
+    } else {
+      // console.warn('FormItem: name is not exist.')
+    }
+
+    if (errorStatus) {
+      addProps.status = 'error'
+    }
+
+    if (!useController) {
+      return React.cloneElement(children, addProps)
+    }
+
+    return (
+      <Controller
+        name={name!}
+        control={formInstance.control}
+        render={({ field }) => {
+          return React.cloneElement(children, { addProps, ...field })
+        }}
+      />
+    )
+  }
+
   return (
     <div id={id} className={formItemClassNames} style={formItemStyle} css={formItemStyled}>
       {renderLabel()}
       <div className="form-item-content">
-        {React.cloneElement(children, addChildrenProps)}
+        {renderController()}
         {renderMessage()}
       </div>
     </div>

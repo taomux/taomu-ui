@@ -87,6 +87,10 @@ export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
       style
     )
 
+    React.useImperativeHandle(ref, () => {
+      return inputRef.current as HTMLInputElement
+    })
+
     React.useEffect(() => {
       if (focused) {
         inputRef.current?.focus()
@@ -95,9 +99,10 @@ export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
       }
     }, [focused])
 
-    React.useImperativeHandle(ref, () => {
-      return inputRef.current as HTMLInputElement
-    })
+    React.useEffect(() => {
+      console.log('input value', value);
+      
+    }, [value])
 
     function renderClearButton() {
       if (!allowClear || isEmpty) return null

@@ -20,51 +20,68 @@ export default meta
 
 export const 基础示例: Story = {
   render: () => {
-    const formInstance = Form.useForm()
+    const formInstance = Form.useForm<any>({ defaultValues: { name: '张三', length: 11, select: '2' } })
 
     return (
-      <Form
-        formInstance={formInstance}
-        onSubmit={(values) => {
-          console.log(values)
-          alert(JSON.stringify(values))
-        }}
-      >
-        <Form.Item
-          label="姓名"
-          name="name"
-          required={{ value: true, message: '姓名必填' }}
-          pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+      <div>
+        <Form
+          formInstance={formInstance}
+          onSubmit={(values) => {
+            console.log(values)
+            alert(JSON.stringify(values))
+          }}
         >
-          <Input allowClear placeholder="请输入" />
-        </Form.Item>
-        <Form.Item
-          label="尺寸"
-          name="length"
-          min={{ value: 1, message: '最小为1' }}
-          max={{ value: 20, message: '最大为20' }}
-          pattern={{ value: /^[0-9]{1,2}$/, message: '1-20的整数' }}
-        >
-          <Input allowClear placeholder="请输入0-20的整数" />
-        </Form.Item>
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            label="尺寸"
+            name="length"
+            min={{ value: 1, message: '最小为1' }}
+            max={{ value: 20, message: '最大为20' }}
+            pattern={{ value: /^[0-9]{1,2}$/, message: '1-20的整数' }}
+          >
+            <Input allowClear placeholder="请输入0-20的整数" />
+          </Form.Item>
 
-        <Form.Item label="选择器" name="select" required>
-          <Select
-            placeholder="请选择"
-            options={[
-              { label: '选项1', value: 1 },
-              { label: '选项2', value: 2 },
-            ]}
-            allowClear
-          />
-        </Form.Item>
+          <Form.Item label="选择器" name="select" required>
+            <Select
+              placeholder="请选择"
+              options={[
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+              ]}
+              allowClear
+            />
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmltype="submit">
-            提交
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item>
+            <div className="flex gap-12">
+              <Button type="primary" htmltype="submit">
+                提交
+              </Button>
+              <Button type="default" htmltype="reset">
+                重置
+              </Button>
+              <Button
+                type="default"
+                onClick={() => {
+                  formInstance.setValue('name', '11')
+                  formInstance.setValue('length', '22')
+                  formInstance.setValue('select', 1)
+                }}
+              >
+                清空
+              </Button>
+            </div>
+          </Form.Item>
+        </Form>
+      </div>
     )
   },
 }

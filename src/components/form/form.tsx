@@ -21,7 +21,18 @@ export const Form: React.FC<FormProps> & {
   Item: typeof FormItem
   useForm: typeof useForm
   useFormContext: typeof React.useContext
-} = ({ children, className, cssVars, style, formInstance, onSubmit, marginBottom, layout = 'horizontal', ...wrapProps }) => {
+} = ({
+  children,
+  className,
+  cssVars,
+  style,
+  formInstance,
+  onSubmit,
+  onReset,
+  marginBottom,
+  layout = 'horizontal',
+  ...wrapProps
+}) => {
   const formClassNames = useTaomuClassName('form', `form-layout-${layout}`, className)
   const formStyle = useInlineStyle<FormCssVars>({ formMarginBottom: marginBottom, ...cssVars }, style)
 
@@ -32,6 +43,11 @@ export const Form: React.FC<FormProps> & {
       css={formStyled}
       autoComplete="off"
       onSubmit={onSubmit ? formInstance.handleSubmit(onSubmit) : undefined}
+      onReset={(e, ...rest) => {
+        e.preventDefault()
+        formInstance.reset()
+        onReset?.(e, ...rest)
+      }}
       {...wrapProps}
     >
       <FormContext.Provider value={{ formInstance, marginBottom, layout }}>{children}</FormContext.Provider>
