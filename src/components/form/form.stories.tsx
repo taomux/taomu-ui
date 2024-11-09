@@ -24,7 +24,7 @@ export default meta
 export const 基础示例: Story = {
   render: () => {
     const { formInstance, clearFormAllValues } = Form.useForm<any>({
-      defaultValues: { name: '张三', length: '11', select: '2', checkbox: true },
+      defaultValues: { name: '张三', length: '11', select: '2', checkbox: [2] },
     })
 
     return (
@@ -65,8 +65,14 @@ export const 基础示例: Story = {
             />
           </Form.Item>
 
-          <Form.Item label="多选框" name="checkbox">
-            <Checkbox>多选框</Checkbox>
+          <Form.Item label="多选框" name="checkbox" required>
+            <Checkbox.Group
+              options={[
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+                { label: '选项3', value: 3 },
+              ]}
+            />
           </Form.Item>
 
           <Form.Item>

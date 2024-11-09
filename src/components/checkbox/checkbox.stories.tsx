@@ -72,7 +72,7 @@ export const 受控状态: Story = {
           <Button onClick={() => setChecked(!checked)}>checked: {checked + ''}</Button>
         </div>
 
-        <Checkbox label="controlled" value={checked} onChange={setChecked} />
+        <Checkbox label="controlled" value={checked} onChange={(e) => setChecked(e.target.checked)} />
       </div>
     )
   },
