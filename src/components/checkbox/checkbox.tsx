@@ -20,37 +20,58 @@ export interface CheckboxProps extends BaseComponentType<CheckboxCssVars> {
   onChange?: (value: boolean, e: React.ChangeEvent) => void
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({
-  children,
-  className,
-  cssVars,
-  style,
-  label,
-  size,
-  color,
-  radius,
-  showOutline = true,
-  value,
-  disabled,
-  onChange,
-  ...wrapProps
-}) => {
-  const checkboxClassName = useTaomuClassName('checkbox', 'checkbox-label', { disabled, 'show-outline': showOutline }, className)
-  const checkboxStyle = useInlineStyle<CheckboxCssVars>(
-    { checkboxSize: size, checkboxColor: color, checkboxRadius: radius, ...cssVars },
-    style
-  )
+export const Checkbox = React.forwardRef<HTMLInputElement | null, CheckboxProps>(
+  (
+    {
+      children,
+      className,
+      cssVars,
+      style,
+      label,
+      size,
+      color,
+      radius,
+      showOutline = true,
+      value,
+      disabled,
+      onChange,
+      ...wrapProps
+    },
+    ref
+  ) => {
+    const inputRef = React.useRef<HTMLInputElement>(null)
 
-  return (
-    <label className={checkboxClassName} style={checkboxStyle} css={checkboxStyled} {...wrapProps}>
-      <input
-        className="checkbox-box"
-        type="checkbox"
-        disabled={disabled}
-        checked={value}
-        onChange={(e) => onChange?.(e.target.checked, e)}
-      />
-      {children || label}
-    </label>
-  )
-}
+    const checkboxClassName = useTaomuClassName(
+      'checkbox',
+      'checkbox-label',
+      { disabled, 'show-outline': showOutline },
+      className
+    )
+    const checkboxStyle = useInlineStyle<CheckboxCssVars>(
+      { checkboxSize: size, checkboxColor: color, checkboxRadius: radius, ...cssVars },
+      style
+    )
+
+    React.useImperativeHandle(ref, () => {
+      return inputRef.current as HTMLInputElement
+    })
+
+    function emitOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+      onChange?.(e.target.checked, e)
+    }
+
+    return (
+      <label className={checkboxClassName} style={checkboxStyle} css={checkboxStyled} {...wrapProps}>
+        <input
+          ref={inputRef}
+          className="checkbox-box"
+          type="checkbox"
+          disabled={disabled}
+          checked={value}
+          onChange={emitOnChange}
+        />
+        {children || label}
+      </label>
+    )
+  }
+)

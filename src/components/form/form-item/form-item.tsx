@@ -96,8 +96,6 @@ export const FormItem: React.FC<FormItemProps> = ({
       return children
     }
 
-    console.log('renderController')
-
     const addProps: any = {}
 
     if (name) {
@@ -119,7 +117,7 @@ export const FormItem: React.FC<FormItemProps> = ({
         name={name!}
         control={formInstance.control}
         render={({ field }) => {
-          return React.cloneElement(children, { addProps, ...field })
+          return React.cloneElement(children, { ...addProps, ...field })
         }}
       />
     )

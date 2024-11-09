@@ -1,10 +1,9 @@
 import React from 'react'
-import { useForm } from 'react-hook-form'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 
 import { formStyled, FormCssVars } from './form.styled'
-import type { FormInstance } from './form.hook'
+import { useForm, type FormInstance } from './form.hook'
 import { FormContext } from './form.ctx'
 import { FormItem, type FormItemTransferProps } from './form-item'
 

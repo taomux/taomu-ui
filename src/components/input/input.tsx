@@ -99,11 +99,6 @@ export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
       }
     }, [focused])
 
-    React.useEffect(() => {
-      console.log('input value', value);
-      
-    }, [value])
-
     function renderClearButton() {
       if (!allowClear || isEmpty) return null
 
@@ -126,7 +121,7 @@ export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
         <input
           css={inputStyled}
           ref={inputRef}
-          value={value}
+          value={value === null ? '' : value}
           type={type}
           disabled={disabled}
           onFocus={(e) => {

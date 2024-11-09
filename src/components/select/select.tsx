@@ -209,30 +209,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
     }, [value, options, labelProp, valueProp, searchText, showSearch])
 
     function getSelectRef(): SelectRef {
-      const selectTarget: SelectTargetRef = Object.defineProperties(
-        { name, value },
-        {
-          name: {
-            get: () => {
-              console.log('get name', name)
-
-              return name
-            },
-          },
-          value: {
-            get: () => {
-              console.log('get value', value)
-
-              return value
-            },
-            set: (value) => {
-              console.log('set value', value)
-
-              // handleOnChangeValue(value)
-            },
-          },
-        }
-      )
+      const selectTarget: SelectTargetRef = { name, value }
 
       return {
         target: selectTarget,
@@ -243,11 +220,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       }
     }
 
-    console.log({ value })
-
     function handleOnChangeValue(value?: DefaultValueType) {
-      console.log('handleOnChangeValue', value)
-
       const index = options?.findIndex((item) => item.value == value)
       if (index === undefined || index < 0) return
       const item = options?.[index]
@@ -263,7 +236,6 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       const item = menuItems?.[index < 0 ? 0 : index]
       if (!item) return
       handleOnChangeValue(item[valueProp])
-      onChange?.(getSelectRef(), item[valueProp], item)
       closeOptionList()
     }
 

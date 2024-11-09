@@ -4,6 +4,9 @@ import { Form } from './'
 import { Input } from '../input'
 import { Button } from '../button'
 import { Select } from '../select'
+import { Checkbox } from '../checkbox'
+import { Radio } from '../radio'
+import { Switch } from '../switch'
 
 /**
  * Base: react-hook-form
@@ -20,7 +23,9 @@ export default meta
 
 export const 基础示例: Story = {
   render: () => {
-    const formInstance = Form.useForm<any>({ defaultValues: { name: '张三', length: 11, select: '2' } })
+    const { formInstance, clearFormAllValues } = Form.useForm<any>({
+      defaultValues: { name: '张三', length: '11', select: '2', checkbox: true },
+    })
 
     return (
       <div>
@@ -60,6 +65,10 @@ export const 基础示例: Story = {
             />
           </Form.Item>
 
+          <Form.Item label="多选框" name="checkbox">
+            <Checkbox>多选框</Checkbox>
+          </Form.Item>
+
           <Form.Item>
             <div className="flex gap-12">
               <Button type="primary" htmltype="submit">
@@ -71,9 +80,7 @@ export const 基础示例: Story = {
               <Button
                 type="default"
                 onClick={() => {
-                  formInstance.setValue('name', '11')
-                  formInstance.setValue('length', '22')
-                  formInstance.setValue('select', 1)
+                  clearFormAllValues()
                 }}
               >
                 清空
@@ -88,7 +95,7 @@ export const 基础示例: Story = {
 
 export const 布局: Story = {
   render: () => {
-    const formInstance = Form.useForm()
+    const { formInstance } = Form.useForm()
 
     return (
       <div>
