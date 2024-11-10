@@ -27,11 +27,11 @@ export type FormItemProps = Omit<BaseComponentType<FormItemCssVars>, 'children' 
 
 export type FormItemTransferProps = Pick<FormItemProps, 'layout' | 'marginBottom' | 'labelWidth'>
 
-export interface FormItemInputRef<ValueType = any> {
+export interface FormItemInputRef<ValueType = any, Ex = {}> {
   target: {
     name?: string
     value?: ValueType
-  }
+  } & Ex
   focus?: () => void
 }
 

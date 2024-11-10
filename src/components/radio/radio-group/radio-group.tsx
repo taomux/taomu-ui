@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useTaomuClassName } from '../../../hooks'
-import { FormItemInputRef } from '../../form/form-item'
+import type { FormItemInputRef } from '../../form/form-item'
 import { Radio, RadioProps } from '../radio'
 
 export interface RadioGroupProps extends Omit<BaseComponentType, 'cssVars'> {

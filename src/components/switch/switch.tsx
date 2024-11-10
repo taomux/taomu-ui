@@ -3,7 +3,7 @@ import { isPromise } from 'taomu-toolkit'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { Loading } from '../loading'
-
+import type { FormItemInputRef } from '../form/form-item'
 import { switchStyled, SwitchCssVars } from './switch.styled'
 
 export interface SwitchProps extends Omit<BaseComponentType<SwitchCssVars>, 'children'> {
@@ -20,71 +20,98 @@ export interface SwitchProps extends Omit<BaseComponentType<SwitchCssVars>, 'chi
   autoLoading?: boolean
   /** loading 结束后自动聚焦 */
   autoFocus?: boolean
+  name?: string
   value?: boolean
-  onChange?: (value: boolean, e: React.FormEvent<HTMLDivElement>) => any
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>, value: boolean) => any
 }
 
-export const Switch: React.FC<SwitchProps> = ({
-  className,
-  cssVars,
-  style,
-  width = 34,
-  height = 18,
-  radius,
-  color,
-  disabled,
-  loading,
-  showOutline = true,
-  autoLoading = true,
-  autoFocus = true,
-  value,
-  onChange,
-  ...wrapProps
-}) => {
-  const switchThumbRef = React.useRef<HTMLDivElement>(null)
-  const [insideLoading, setInsideLoading] = React.useState(false)
-  const isLoading = loading || insideLoading
-  let isDisabled = disabled || isLoading
+export interface SwitchRef extends FormItemInputRef<SwitchProps['value'], HTMLDivElement> {}
 
-  const switchClassName = useTaomuClassName(
-    'switch',
-    { disabled: isDisabled, active: value, 'show-outline': showOutline, 'is-loading': isLoading },
-    className
-  )
-  const switchStyle = useInlineStyle<SwitchCssVars>(
-    { switchColor: color, switchWidth: width, switchHeight: height, switchRadius: radius, ...cssVars },
-    style
-  )
+export const Switch = React.forwardRef<SwitchRef | null, SwitchProps>(
+  (
+    {
+      className,
+      cssVars,
+      style,
+      width = 34,
+      height = 18,
+      radius,
+      color,
+      disabled,
+      loading,
+      showOutline = true,
+      autoLoading = true,
+      autoFocus = true,
+      name,
+      value,
+      onChange,
+      ...wrapProps
+    },
+    ref
+  ) => {
+    const switchThumbRef = React.useRef<SwitchRef>(null)
+    const [insideLoading, setInsideLoading] = React.useState(false)
+    const isLoading = loading || insideLoading
+    let isDisabled = disabled || isLoading
 
-  function handleOnchange(e: React.FormEvent<HTMLDivElement>) {
-    if (isDisabled) {
-      e.preventDefault()
-      return
+    const switchClassName = useTaomuClassName(
+      'switch',
+      { disabled: isDisabled, active: value, 'show-outline': showOutline, 'is-loading': isLoading },
+      className
+    )
+    const switchStyle = useInlineStyle<SwitchCssVars>(
+      { switchColor: color, switchWidth: width, switchHeight: height, switchRadius: radius, ...cssVars },
+      style
+    )
+
+    React.useImperativeHandle(ref, () => {
+      return switchThumbRef.current as SwitchRef
+    })
+
+    React.useEffect(() => {
+      if (switchThumbRef.current?.target) {
+        switchThumbRef.current.target.name = name
+      }
+    }, [name, switchThumbRef.current])
+
+    function emitOnchange(e: React.ChangeEvent<HTMLInputElement>) {
+      if (isDisabled) {
+        e.preventDefault()
+        return
+      }
+
+      e.target.checked = !value
+      const p = onChange?.(e, !value)
+
+      if (autoLoading && isPromise(p)) {
+        setInsideLoading(true)
+        p.finally(() => {
+          setInsideLoading(false)
+          if (autoFocus) {
+            setTimeout(() => {
+              switchThumbRef.current?.focus?.()
+            }, 0)
+          }
+        })
+      }
     }
 
-    const p = onChange?.(!value, e)
-
-    if (autoLoading && isPromise(p)) {
-      setInsideLoading(true)
-      p.finally(() => {
-        setInsideLoading(false)
-        if (autoFocus) {
-          setTimeout(() => {
-            switchThumbRef.current?.focus()
-          }, 0)
-        }
-      })
-    }
-  }
-
-  return (
-    <div className={switchClassName} style={switchStyle} css={switchStyled} {...wrapProps} tabIndex={0} onClick={handleOnchange}>
-      <div ref={switchThumbRef} className="switch-thumb flex center">
-        {isLoading ? renderLoading(width, height) : null}
+    return (
+      <div
+        className={switchClassName}
+        style={switchStyle}
+        css={switchStyled}
+        {...wrapProps}
+        tabIndex={0}
+        onClick={emitOnchange as any}
+      >
+        <div ref={switchThumbRef as any} className="switch-thumb flex center">
+          {isLoading ? renderLoading(width, height) : null}
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
+)
 
 function renderLoading(width: number, height: number) {
   let size = Math.min(width * 0.45, height) - 12

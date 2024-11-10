@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useTaomuClassName } from '../../../hooks'
-import { FormItemInputRef } from '../../form/form-item'
+import type { FormItemInputRef } from '../../form/form-item'
 import { Checkbox, CheckboxProps } from '../checkbox'
 
 export interface CheckboxGroupProps extends Omit<BaseComponentType, 'cssVars'> {
