@@ -49,6 +49,7 @@ export const 基础示例: Story = {
             name="length"
             min={{ value: 1, message: '最小为1' }}
             max={{ value: 20, message: '最大为20' }}
+            required
             pattern={{ value: /^[0-9]{1,2}$/, message: '1-20的整数' }}
           >
             <Input allowClear placeholder="请输入0-20的整数" />
@@ -90,6 +91,10 @@ export const 基础示例: Story = {
                 { label: '选项3', value: 3 },
               ]}
             />
+          </Form.Item>
+
+          <Form.Item label="开关" name="switch" required onChange={(e) => console.log(e)}>
+            <Switch.Text>Switch text</Switch.Text>
           </Form.Item>
 
           <Form.Item>

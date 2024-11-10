@@ -94,7 +94,7 @@ export const FormItem: React.FC<FormItemProps> = ({
 
   function renderMessage() {
     if (!errorStatus) return null
-    return <div className="form-item-msg color-error fs-12">{errorStatus?.message || 'Must be filled!'}</div>
+    return <div className="form-item-msg color-error fs-12">{errorStatus?.message || 'required!'}</div>
   }
 
   function renderController() {
