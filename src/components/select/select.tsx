@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { useTaomuClassName, useInlineStyle, useMergedState } from '../../hooks'
+import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { linkCssVar } from '../../styles'
 
 import type { InputStatus } from '../input'
