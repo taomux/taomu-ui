@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { sleep } from 'taomu-toolkit'
 import { Form } from './'
 import { Input } from '../input'
 import { Button } from '../button'
@@ -42,7 +43,7 @@ export const 基础示例: Story = {
             required={{ value: true, message: '姓名必填' }}
             pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
           >
-            <Input allowClear placeholder="请输入" />
+            <Input allowClear placeholder="请输入" onChange={(e) => console.log(e)} />
           </Form.Item>
           <Form.Item
             label="尺寸"
@@ -93,8 +94,15 @@ export const 基础示例: Story = {
             />
           </Form.Item>
 
-          <Form.Item label="开关" name="switch" required onChange={(e) => console.log(e)}>
-            <SwitchText>Switch text</SwitchText>
+          <Form.Item label="开关" name="switch">
+            <SwitchText
+              onChange={async (e) => {
+                console.log(e)
+                await sleep(1000)
+              }}
+            >
+              Switch text
+            </SwitchText>
           </Form.Item>
 
           <Form.Item>
