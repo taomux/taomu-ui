@@ -121,7 +121,7 @@ export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
         <input
           css={inputStyled}
           ref={inputRef}
-          value={value === null ? '' : value}
+          value={value}
           type={type}
           disabled={disabled}
           onFocus={(e) => {
@@ -136,7 +136,8 @@ export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
             if (allowClear) {
               setEmpty(!e.target.value)
             }
-            onChange?.(e)
+
+            return onChange?.(e)
           }}
           {...inputProps}
         />

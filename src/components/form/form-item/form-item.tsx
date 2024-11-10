@@ -1,5 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
+import { isPromise } from 'taomu-toolkit'
 import { RegisterOptions, type FieldError, Controller } from 'react-hook-form'
 
 import { useTaomuClassName, useInlineStyle } from '../../../hooks'
@@ -105,7 +106,7 @@ export const FormItem: React.FC<FormItemProps> = ({
       return children
     }
 
-    const addProps: any = {}
+    const { onChange: inputOnChange, ...addProps } = { ...children.props }
 
     if (name) {
       Object.assign(addProps, formInstance.register(name, { ...registerOptions }))
@@ -115,6 +116,17 @@ export const FormItem: React.FC<FormItemProps> = ({
 
     if (errorStatus) {
       addProps.status = 'error'
+    }
+
+    if (addProps.onChange && inputOnChange) {
+      const addOnChange = addProps.onChange
+
+      addProps.onChange = async (e: any) => {
+        await inputOnChange(e)
+        await addOnChange(e)
+      }
+    } else if (inputOnChange) {
+      addProps.onChange = inputOnChange
     }
 
     addProps.className = clsx('form-item-content-input', addProps.className)
@@ -127,8 +139,20 @@ export const FormItem: React.FC<FormItemProps> = ({
       <Controller
         name={name!}
         control={formInstance.control}
-        render={({ field }) => {
-          return React.cloneElement(children, { ...addProps, ...field })
+        render={({ field: { onChange, ...field } }) => {
+          const { onChange: _, ...restAddProps } = addProps
+          return React.cloneElement(children, {
+            ...restAddProps,
+            ...field,
+            onChange: (e: any) => {
+              const p = inputOnChange?.(e)
+              if (isPromise(p)) {
+                return p.finally(() => onChange(e))
+              } else {
+                return onChange(e)
+              }
+            },
+          })
         }}
       />
     )
