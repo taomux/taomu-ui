@@ -46,6 +46,7 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
 
         return (
           <Menu
+            width="100%"
             onMenuItemClick={(item, index, event) => {
               onMenuItemClick?.(item, index, event)
               popupTriggerRef.current?.closePopup()

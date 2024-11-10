@@ -78,7 +78,7 @@ export const 受控状态: Story = {
           <Button onClick={() => setChecked(!checked)}>active: {checked + ''}</Button>
         </div>
 
-        <Switch value={checked} onChange={setChecked} />
+        <Switch value={checked} onChange={(e) => setChecked(e.target.checked)} />
       </div>
     )
   },
@@ -102,7 +102,7 @@ export const autoLoading: Story = {
 
     return (
       <div>
-        <Switch value={checked} onChange={handleChange} />
+        <Switch value={checked} onChange={(e) => handleChange(e.target.checked)} />
       </div>
     )
   },

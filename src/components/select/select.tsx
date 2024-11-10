@@ -64,17 +64,26 @@ export interface SelectProps<ValueType = DefaultValueType, ItemType = SelectOpti
   /** 搜索字段映射 */
   filterProp?: string | string[]
 
+  /** 由 Form.Item 组件传入 */
+  name?: string
   /** 值 */
   value?: ValueType
   /** 默认值 */
   defaultValue?: ValueType
-  onChange?: (value?: ValueType, item?: ItemType) => void
+  onChange?: (ref: SelectRef, value?: ValueType, item?: ItemType) => void
   onFocus?: (e: React.FocusEvent<HTMLInputElement, Element>) => void
   onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
 }
 
+export interface SelectTargetRef {
+  name?: string
+  value?: any
+}
+
 export interface SelectRef {
+  /** target (react-hook-form 需要此属性) */
+  target: SelectTargetRef
   dropdown: DropdownRef | null
   input: HTMLInputElement | null
   setFocused: (state: boolean) => void
@@ -103,9 +112,11 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       openOnFocus,
       closeOnBlur = true,
       dropdownProps = {},
+      name,
       labelProp = 'label',
       valueProp = 'value',
       filterProp = 'label',
+      value,
 
       onChange,
       onFocus,
@@ -117,15 +128,16 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null)
     const dropdownRef = React.useRef<DropdownRef>(null)
+
     const [focused, setFocused] = React.useState(false)
     const [opened, setOpened] = React.useState(defaultOpened)
     const [selectIndex, setSelectIndex] = React.useState<number>()
     const [searchText, setSearchText] = React.useState('')
 
-    const [value, setValue] = useMergedState<DefaultValueType | undefined>(wrapProps.defaultValue, {
-      value: wrapProps.value,
-      onChange: handleOnChangeValue,
-    })
+    // const [value, setValue] = useMergedState<DefaultValueType | undefined>(wrapProps.defaultValue, {
+    //   value: wrapProps.value,
+    //   onChange: handleOnChangeValue,
+    // })
 
     const selectClassNames = useTaomuClassName('select', 'flex row center-v gap-6', `status-${status}`, { focused }, className)
     const selectStyle = useInlineStyle<SelectCssVars>(
@@ -133,14 +145,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       style
     )
 
-    React.useImperativeHandle(ref, () => {
-      return {
-        opened,
-        input: inputRef.current,
-        dropdown: dropdownRef.current,
-        setFocused,
-      }
-    })
+    React.useImperativeHandle(ref, getSelectRef)
 
     React.useEffect(() => {
       if (focused) {
@@ -152,7 +157,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
 
     React.useEffect(() => {
       if (showSearch) {
-        const item = options?.find((item) => item[valueProp] === value)
+        const item = options?.find((item) => item[valueProp] == value)
         if (item) {
           setSearchText(item?.label?.toString() || '')
         }
@@ -197,30 +202,45 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
       if (showSearch) return searchText
       if (!value) return ''
 
-      const item = options?.find((item) => item[valueProp] === value)
+      const item = options?.find((item) => item[valueProp] == value)
       const label = item?.[labelProp]
 
       return label || value
     }, [value, options, labelProp, valueProp, searchText, showSearch])
 
+    function getSelectRef(): SelectRef {
+      const selectTarget: SelectTargetRef = { name, value }
+
+      return {
+        target: selectTarget,
+        opened,
+        input: inputRef.current,
+        dropdown: dropdownRef.current,
+        setFocused,
+      }
+    }
+
     function handleOnChangeValue(value?: DefaultValueType) {
-      const index = options?.findIndex((item) => item.value === value)
+      const index = options?.findIndex((item) => item.value == value)
       if (index === undefined || index < 0) return
       const item = options?.[index]
       setSelectIndex(index)
-      onChange?.(item?.[valueProp], item)
+
+      const ref = getSelectRef()
+      ref.target.value = value
+
+      onChange?.(ref, item?.[valueProp], item)
     }
 
     function handleOnChangeIndex(index: number = 0) {
       const item = menuItems?.[index < 0 ? 0 : index]
       if (!item) return
-      setValue(item[valueProp])
-      onChange?.(item[valueProp], item)
+      handleOnChangeValue(item[valueProp])
       closeOptionList()
     }
 
     function fixSelectIndex() {
-      const index = options?.findIndex((item) => item[valueProp] === value)
+      const index = options?.findIndex((item) => item[valueProp] == value)
       setSelectIndex(index)
     }
 

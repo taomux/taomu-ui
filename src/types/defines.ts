@@ -11,6 +11,8 @@ declare global {
     value: string
   }
 
+  type StringAndNumber = string | number
+
   type ReactDivProps = HTMLAttributes<HTMLDivElement>
 
   interface BaseComponentType<CssVars extends object = never> {

@@ -69,7 +69,7 @@ export const Menu: React.FC<MenuProps> = ({
 }) => {
   const menuClassNames = useTaomuClassName(
     'menu-group',
-    `flex flex-inline p-4`,
+    `flex flex-inline p-4 bs-box`,
     direction === 'vertical' ? 'col' : 'row',
     `shadow-${shadow}`,
     { 'disable-user-select': disableUserSelect, 'border rect-1': bordered, 'flex-wrap': overflowBreak },

@@ -1,0 +1,227 @@
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { Form } from './'
+import { Input } from '../input'
+import { Button } from '../button'
+import { Select } from '../select'
+import { Checkbox } from '../checkbox'
+import { Radio } from '../radio'
+import { Switch } from '../switch'
+
+/**
+ * Base: react-hook-form
+ */
+const meta: Meta<typeof Form> = {
+  title: 'Components/Form',
+  component: Form,
+  tags: ['autodocs'],
+  argTypes: {},
+}
+
+type Story = StoryObj<typeof meta>
+export default meta
+
+export const 基础示例: Story = {
+  render: () => {
+    const { formInstance, clearFormAllValues } = Form.useForm<any>({
+      defaultValues: { name: '张三', length: '11', select: '2', checkbox: [2] },
+    })
+
+    return (
+      <div>
+        <Form
+          formInstance={formInstance}
+          onSubmit={(values) => {
+            console.log(values)
+            alert(JSON.stringify(values))
+          }}
+        >
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            label="尺寸"
+            name="length"
+            min={{ value: 1, message: '最小为1' }}
+            max={{ value: 20, message: '最大为20' }}
+            required
+            pattern={{ value: /^[0-9]{1,2}$/, message: '1-20的整数' }}
+          >
+            <Input allowClear placeholder="请输入0-20的整数" />
+          </Form.Item>
+
+          <Form.Item label="选择器" name="select" required>
+            <Select
+              placeholder="请选择"
+              options={[
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+              ]}
+              allowClear
+            />
+          </Form.Item>
+
+          <Form.Item label="多选框" name="checkbox" required>
+            <Checkbox.Group
+              options={[
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+                { label: '选项3', value: 3 },
+              ]}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="单选框"
+            name="radio"
+            required
+            onChange={(e) => {
+              console.log(e)
+            }}
+          >
+            <Radio.Group
+              options={[
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+                { label: '选项3', value: 3 },
+              ]}
+            />
+          </Form.Item>
+
+          <Form.Item label="开关" name="switch" required onChange={(e) => console.log(e)}>
+            <Switch.Text>Switch text</Switch.Text>
+          </Form.Item>
+
+          <Form.Item>
+            <div className="flex gap-12">
+              <Button type="primary" htmltype="submit">
+                提交
+              </Button>
+              <Button type="default" htmltype="reset">
+                重置
+              </Button>
+              <Button
+                type="default"
+                onClick={() => {
+                  clearFormAllValues()
+                }}
+              >
+                清空
+              </Button>
+            </div>
+          </Form.Item>
+        </Form>
+      </div>
+    )
+  },
+}
+
+export const 布局: Story = {
+  render: () => {
+    const { formInstance } = Form.useForm()
+
+    return (
+      <div>
+        <Form
+          formInstance={formInstance}
+          onSubmit={(values) => {
+            console.log(values)
+          }}
+        >
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            label="尺寸"
+            name="length"
+            min={{ value: 1, message: '最小为1' }}
+            max={{ value: 20, message: '最大为20' }}
+            pattern={{ value: /^[0-9]{1,2}$/, message: '1-20的整数' }}
+          >
+            <Input allowClear placeholder="请输入0-20的整数" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmltype="submit">
+              提交
+            </Button>
+          </Form.Item>
+        </Form>
+
+        <Form
+          layout="inline"
+          formInstance={formInstance}
+          onSubmit={(values) => {
+            console.log(values)
+          }}
+        >
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            label="尺寸"
+            name="length"
+            min={{ value: 1, message: '最小为1' }}
+            max={{ value: 20, message: '最大为20' }}
+            pattern={{ value: /^[0-9]{1,2}$/, message: '1-20的整数' }}
+          >
+            <Input allowClear placeholder="请输入0-20的整数" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmltype="submit">
+              提交
+            </Button>
+          </Form.Item>
+        </Form>
+
+        <Form
+          layout="vertical"
+          formInstance={formInstance}
+          onSubmit={(values) => {
+            console.log(values)
+          }}
+        >
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            label="尺寸"
+            name="length"
+            min={{ value: 1, message: '最小为1' }}
+            max={{ value: 20, message: '最大为20' }}
+            pattern={{ value: /^[0-9]{1,2}$/, message: '1-20的整数' }}
+          >
+            <Input allowClear placeholder="请输入0-20的整数" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmltype="submit">
+              提交
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    )
+  },
+}
