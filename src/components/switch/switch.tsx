@@ -5,7 +5,6 @@ import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { Loading } from '../loading'
 import type { FormItemInputRef } from '../form/form-item'
 import { switchStyled, SwitchCssVars } from './switch.styled'
-import { SwitchText } from './switch-text'
 
 export interface SwitchProps extends Omit<BaseComponentType<SwitchCssVars>, 'children'> {
   color?: string
@@ -113,11 +112,13 @@ export const Switch = React.forwardRef<SwitchRef | null, SwitchProps>(
       </div>
     )
   }
-) as React.ForwardRefExoticComponent<SwitchProps & React.RefAttributes<SwitchRef | null>> & {
-  Text: typeof SwitchText
-}
+)
 
-Switch.Text = SwitchText
+// as React.ForwardRefExoticComponent<SwitchProps & React.RefAttributes<SwitchRef | null>> & {
+//   Text: typeof SwitchText
+// }
+
+// Switch.Text = SwitchText
 
 function renderLoading(width: number, height: number) {
   let size = Math.min(width * 0.45, height) - 12

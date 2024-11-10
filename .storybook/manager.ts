@@ -1,3 +1,3 @@
-import { registerSwitchThemeButton } from './toolbar'
+// import { registerSwitchThemeButton } from './toolbar'
 
-registerSwitchThemeButton()
+// registerSwitchThemeButton()

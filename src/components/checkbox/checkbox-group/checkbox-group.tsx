@@ -21,7 +21,7 @@ export interface CheckboxGroupRef extends FormItemInputRef<StringAndNumber[]> {}
 export const CheckboxGroup = React.forwardRef<CheckboxGroupRef, CheckboxGroupProps>(
   ({ className, options, value = [], name, onChange, ...wrapProps }, ref) => {
     const checkBoxRef = React.useRef<CheckboxGroupRef>({ target: { value, name }, focus: () => {} })
-    const checkboxGroupClassNames = useTaomuClassName('checkbox-group', className)
+    const checkboxGroupClassNames = useTaomuClassName('checkbox-group flex gap-8', className)
 
     React.useImperativeHandle(ref, () => {
       return checkBoxRef.current

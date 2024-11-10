@@ -36,7 +36,7 @@ export const radioStyled = css`
     cursor: pointer;
     transition: all var(--td);
     border-radius: 50%;
-    top: -1.5px;
+    margin: 0 3px;
 
     &::before {
       width: ${linkCssVar('radioSize')};

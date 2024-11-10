@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { radioStyled, RadioCssVars } from './radio.styled'
-import { RadioGroup } from './radio-group'
 
 export interface RadioProps extends BaseComponentType<RadioCssVars> {
   /** 复选框的标签 */
@@ -66,8 +65,9 @@ export const Radio = React.forwardRef<HTMLInputElement | null, RadioProps>(
       </label>
     )
   }
-) as React.ForwardRefExoticComponent<RadioProps & React.RefAttributes<HTMLInputElement | null>> & {
-  Group: typeof RadioGroup
-}
+)
+//  as React.ForwardRefExoticComponent<RadioProps & React.RefAttributes<HTMLInputElement | null>> & {
+//   Group: typeof RadioGroup
+// }
 
-Radio.Group = RadioGroup
+// Radio.Group = RadioGroup

@@ -22,7 +22,7 @@ export const RadioGroup = React.forwardRef<RadioGroupRef, RadioGroupProps>(
   ({ className, name, options, value, onChange, ...wrapProps }, ref) => {
     const radioRef = React.useRef<RadioGroupRef>({ target: { value, name }, focus: () => {} })
 
-    const radioGroupClassNames = useTaomuClassName('radio-group', className)
+    const radioGroupClassNames = useTaomuClassName('radio-group flex gap-8', className)
 
     React.useImperativeHandle(ref, () => {
       return radioRef.current

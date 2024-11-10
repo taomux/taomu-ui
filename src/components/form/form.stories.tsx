@@ -4,9 +4,9 @@ import { Form } from './'
 import { Input } from '../input'
 import { Button } from '../button'
 import { Select } from '../select'
-import { Checkbox } from '../checkbox'
-import { Radio } from '../radio'
-import { Switch } from '../switch'
+import { CheckboxGroup } from '../checkbox'
+import { RadioGroup } from '../radio'
+import { SwitchText } from '../switch'
 
 /**
  * Base: react-hook-form
@@ -67,7 +67,7 @@ export const 基础示例: Story = {
           </Form.Item>
 
           <Form.Item label="多选框" name="checkbox" required>
-            <Checkbox.Group
+            <CheckboxGroup
               options={[
                 { label: '选项1', value: 1 },
                 { label: '选项2', value: 2 },
@@ -84,7 +84,7 @@ export const 基础示例: Story = {
               console.log(e)
             }}
           >
-            <Radio.Group
+            <RadioGroup
               options={[
                 { label: '选项1', value: 1 },
                 { label: '选项2', value: 2 },
@@ -94,7 +94,7 @@ export const 基础示例: Story = {
           </Form.Item>
 
           <Form.Item label="开关" name="switch" required onChange={(e) => console.log(e)}>
-            <Switch.Text>Switch text</Switch.Text>
+            <SwitchText>Switch text</SwitchText>
           </Form.Item>
 
           <Form.Item>

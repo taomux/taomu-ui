@@ -2,7 +2,6 @@ import React from 'react'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { checkboxStyled, CheckboxCssVars } from './checkbox.styled'
-import { CheckboxGroup } from './checkbox-group'
 
 export interface CheckboxProps extends BaseComponentType<CheckboxCssVars> {
   /** 复选框的标签 */
@@ -78,8 +77,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement | null, CheckboxProps>
       </label>
     )
   }
-) as React.ForwardRefExoticComponent<CheckboxProps & React.RefAttributes<HTMLInputElement | null>> & {
-  Group: typeof CheckboxGroup
-}
+)
+// as React.ForwardRefExoticComponent<CheckboxProps & React.RefAttributes<HTMLInputElement | null>> & {
+//   Group: typeof CheckboxGroup
+// }
 
-Checkbox.Group = CheckboxGroup
+// Checkbox.Group = CheckboxGroup
