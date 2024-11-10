@@ -27,6 +27,14 @@ export type FormItemProps = Omit<BaseComponentType<FormItemCssVars>, 'children' 
 
 export type FormItemTransferProps = Pick<FormItemProps, 'layout' | 'marginBottom' | 'labelWidth'>
 
+export interface FormItemInputRef<ValueType = any> {
+  target: {
+    name?: string
+    value?: ValueType
+  }
+  focus?: () => void
+}
+
 export const FormItem: React.FC<FormItemProps> = ({
   children,
   id,
@@ -86,7 +94,7 @@ export const FormItem: React.FC<FormItemProps> = ({
 
   function renderMessage() {
     if (!errorStatus) return null
-    return <div className="form-item-msg color-error fs-12">{errorStatus?.message || 'required!'}</div>
+    return <div className="form-item-msg color-error fs-12">{errorStatus?.message || 'Must be filled!'}</div>
   }
 
   function renderController() {

@@ -75,6 +75,23 @@ export const 基础示例: Story = {
             />
           </Form.Item>
 
+          <Form.Item
+            label="单选框"
+            name="radio"
+            required
+            onChange={(e) => {
+              console.log(e)
+            }}
+          >
+            <Radio.Group
+              options={[
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+                { label: '选项3', value: 3 },
+              ]}
+            />
+          </Form.Item>
+
           <Form.Item>
             <div className="flex gap-12">
               <Button type="primary" htmltype="submit">

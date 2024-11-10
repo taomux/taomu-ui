@@ -1,32 +1,26 @@
 import React from 'react'
 
 import { useTaomuClassName } from '../../../hooks'
-
+import { FormItemInputRef } from '../../form/form-item'
 import { Checkbox, CheckboxProps } from '../checkbox'
 
 export interface CheckboxGroupProps extends Omit<BaseComponentType, 'cssVars'> {
   options?: CheckboxGroupItemType[]
   name?: string
-  value?: string[]
+  value?: StringAndNumber[]
   onChange?: (ref: CheckboxGroupRef, value: string[]) => void
 }
 
 export interface CheckboxGroupItemType extends Omit<CheckboxProps, 'value'> {
-  key?: string | number
-  value?: string | number
+  key?: StringAndNumber
+  value: StringAndNumber
 }
 
-export interface CheckboxGroupRef {
-  target: {
-    name?: string
-    value: string[]
-    focus?: () => void
-  }
-}
+export interface CheckboxGroupRef extends FormItemInputRef<StringAndNumber[]> {}
 
 export const CheckboxGroup = React.forwardRef<CheckboxGroupRef, CheckboxGroupProps>(
   ({ className, options, value = [], name, onChange, ...wrapProps }, ref) => {
-    const checkBoxRef = React.useRef<CheckboxGroupRef>({ target: { value, name, focus: () => {} } })
+    const checkBoxRef = React.useRef<CheckboxGroupRef>({ target: { value, name }, focus: () => {} })
     const checkboxGroupClassNames = useTaomuClassName('checkbox-group', className)
 
     React.useImperativeHandle(ref, () => {
@@ -57,11 +51,11 @@ export const CheckboxGroup = React.forwardRef<CheckboxGroupRef, CheckboxGroupPro
 
     return (
       <div className={checkboxGroupClassNames} {...wrapProps}>
-        {options?.map(({ key, value, ...itemProps }, index) => {
+        {options?.map(({ key, value, name, ...itemProps }, index) => {
           return (
             <Checkbox
               key={key || value || index}
-              name={value?.toString()}
+              name={name || value?.toString()}
               {...itemProps}
               value={valueMap[value!] || false}
               onChange={emitOnChange}
