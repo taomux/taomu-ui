@@ -1,7 +1,7 @@
 {
   "name": "taomu-ui",
   "private": false,
-  "version": "0.0.12",
+  "version": "0.0.13",
   "type": "module",
   "main": "index.js",
   "unpkg": "index.js",
