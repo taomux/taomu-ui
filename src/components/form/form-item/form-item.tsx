@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { RegisterOptions, type FieldError, Controller } from 'react-hook-form'
 
 import { useTaomuClassName, useInlineStyle } from '../../../hooks'
@@ -115,6 +116,8 @@ export const FormItem: React.FC<FormItemProps> = ({
     if (errorStatus) {
       addProps.status = 'error'
     }
+
+    addProps.className = clsx('form-item-content-input', addProps.className)
 
     if (!useController) {
       return React.cloneElement(children, addProps)

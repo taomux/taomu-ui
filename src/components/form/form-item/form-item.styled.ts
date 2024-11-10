@@ -24,6 +24,7 @@ export const formItemStyled = css`
     }
     .form-item-content {
       flex: 1;
+      transform: translateY(1.5px);
     }
   }
 
