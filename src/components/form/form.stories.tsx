@@ -233,3 +233,45 @@ export const 布局: Story = {
     )
   },
 }
+
+export const LabelWidth: Story = {
+  render: () => {
+    const { formInstance } = Form.useForm()
+
+    return (
+      <div>
+        <Form
+          formInstance={formInstance}
+          labelWidth={100}
+          onSubmit={(values) => {
+            console.log(values)
+          }}
+        >
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            label="尺寸"
+            name="length"
+            min={{ value: 1, message: '最小为1' }}
+            max={{ value: 20, message: '最大为20' }}
+            pattern={{ value: /^[0-9]{1,2}$/, message: '1-20的整数' }}
+          >
+            <Input allowClear placeholder="请输入0-20的整数" />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmltype="submit">
+              提交
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    )
+  },
+}
