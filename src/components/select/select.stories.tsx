@@ -63,6 +63,13 @@ export const 支持搜索: Story = {
   },
 }
 
+export const 空选项: Story = {
+  args: {
+    placeholder: '请选择',
+    options: [],
+  },
+}
+
 export const 数据刷新: Story = {
   args: {
     placeholder: '请选择',

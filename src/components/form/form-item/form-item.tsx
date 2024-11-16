@@ -16,9 +16,9 @@ export type FormItemProps = Omit<BaseComponentType<FormItemCssVars>, 'children' 
     /** 布局方式 */
     layout?: 'horizontal' | 'vertical' | 'inline'
     /** 底部边距 */
-    marginBottom?: string
+    marginBottom?: string | number
     /** 标签宽度 */
-    labelWidth?: string
+    labelWidth?: string | number
     /** 无样式 */
     noStyle?: boolean
     /** 显示冒号 `:` */

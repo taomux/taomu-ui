@@ -30,6 +30,7 @@ export const Form: React.FC<FormProps> & {
   onReset,
   marginBottom,
   layout = 'horizontal',
+  labelWidth = 'auto',
   ...wrapProps
 }) => {
   const formClassNames = useTaomuClassName('form', `form-layout-${layout}`, className)
@@ -49,7 +50,7 @@ export const Form: React.FC<FormProps> & {
       }}
       {...wrapProps}
     >
-      <FormContext.Provider value={{ formInstance, marginBottom, layout }}>{children}</FormContext.Provider>
+      <FormContext.Provider value={{ formInstance, marginBottom, layout, labelWidth }}>{children}</FormContext.Provider>
     </form>
   )
 }
