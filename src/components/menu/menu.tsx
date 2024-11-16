@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
 import { menuStyled, MenuCssVars } from './menu.styled'
+import { Empty } from '../empty'
 
 import { MenuContext } from './menu.ctx'
 import { MenuItem, type MenuItemProps } from './menu-item'
@@ -125,26 +126,32 @@ export const Menu: React.FC<MenuProps> = ({
     }
   }
 
+  function renderItems() {
+    if (children) return children
+    if (!items?.length) return <Empty />
+
+    return items.map(({ onClick, key, active, styleMode: itemStyleMode, ...restItemProps }, index) => {
+      return (
+        <MenuItem
+          key={key || index}
+          active={active || currentIndex.includes(index)}
+          styleMode={itemStyleMode || styleMode}
+          {...itemProps}
+          {...restItemProps}
+          onClick={(item, e) => {
+            handleItemClick(index)
+            onClick?.(item, e)
+            onMenuItemClick?.(item, index, e)
+          }}
+        />
+      )
+    })
+  }
+
   return (
     <MenuContext.Provider value={{ prevIndex, currentIndex, direction }}>
       <div className={menuClassNames} style={menuStyle} css={menuStyled} {...wrapProps}>
-        {children ||
-          items?.map(({ onClick, key, active, styleMode: itemStyleMode, ...restItemProps }, index) => {
-            return (
-              <MenuItem
-                key={key || index}
-                active={active || currentIndex.includes(index)}
-                styleMode={itemStyleMode || styleMode}
-                {...itemProps}
-                {...restItemProps}
-                onClick={(item, e) => {
-                  handleItemClick(index)
-                  onClick?.(item, e)
-                  onMenuItemClick?.(item, index, e)
-                }}
-              />
-            )
-          })}
+        {renderItems()}
       </div>
     </MenuContext.Provider>
   )
