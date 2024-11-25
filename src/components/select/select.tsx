@@ -185,7 +185,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
         }
 
         menuOptions.push({
-          key: (item.key || item[valueProp]) ?? index,
+          name: (item.name || item[valueProp]) ?? index,
           active: selectIndex === index,
           ...item,
         })

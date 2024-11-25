@@ -5,7 +5,7 @@ import { menuStyled, MenuCssVars } from './menu.styled'
 import { Empty } from '../empty'
 
 import { MenuContext } from './menu.ctx'
-import { MenuItem, type MenuItemProps } from './menu-item'
+import { MenuItem, type MenuItemProps, type MenuItemKey } from './menu-item'
 
 export interface MenuProps extends BaseComponentType<MenuCssVars> {
   /** 排列方式 */
@@ -16,6 +16,8 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   styleMode?: 'default' | 'windows'
   /** 默认选中项索引 */
   defaultIndex?: number | number[]
+  /** 默认选中项 key */
+  defaultKeys?: MenuItemKey | MenuItemKey[]
   /** 菜单配置 */
   items?: MenuItemProps[]
   /** 宽度 默认 auto */
@@ -42,6 +44,8 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   disableUserSelect?: boolean
   /** 处理菜单组点击事件 */
   onMenuItemClick?: (item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement>) => void
+  /** 渲染 items 前调用 */
+  beforeItemRender?: (node: JSX.Element, props: MenuItemProps) => React.ReactNode
 }
 
 export const Menu: React.FC<MenuProps> = ({
@@ -61,11 +65,13 @@ export const Menu: React.FC<MenuProps> = ({
   itemProps,
   disableUserSelect = true,
   defaultIndex,
+  defaultKeys,
   mode = 'none',
   direction = 'vertical',
   overflowBreak,
   styleMode,
   onMenuItemClick,
+  beforeItemRender,
   ...wrapProps
 }) => {
   const menuClassNames = useTaomuClassName(
@@ -90,7 +96,7 @@ export const Menu: React.FC<MenuProps> = ({
   )
 
   const [prevIndex, setPrevIndex] = React.useState<number>()
-  const [currentIndex, setCurrentIndex] = React.useState(typeof defaultIndex === 'number' ? [defaultIndex] : defaultIndex || [])
+  const [currentIndex, setCurrentIndex] = React.useState(getDefaultIndex(items, defaultIndex, defaultKeys))
 
   React.useEffect(() => {
     return () => {
@@ -127,24 +133,31 @@ export const Menu: React.FC<MenuProps> = ({
   }
 
   function renderItems() {
-    if (children) return children
+    if (children) {
+      return children
+    }
+
     if (!items?.length) return <Empty />
 
-    return items.map(({ onClick, key, active, styleMode: itemStyleMode, ...restItemProps }, index) => {
-      return (
-        <MenuItem
-          key={key || index}
-          active={active || currentIndex.includes(index)}
-          styleMode={itemStyleMode || styleMode}
-          {...itemProps}
-          {...restItemProps}
-          onClick={(item, e) => {
-            handleItemClick(index)
-            onClick?.(item, e)
-            onMenuItemClick?.(item, index, e)
-          }}
-        />
-      )
+    return items.map(({ onClick, name, active, styleMode: itemStyleMode, ...restItemProps }, index) => {
+      const nextItemProps: MenuItemProps = {
+        name,
+        active: active || currentIndex.includes(index),
+        styleMode: itemStyleMode || styleMode,
+        onClick: (item, e) => {
+          handleItemClick(index)
+          onClick?.(item, e)
+          onMenuItemClick?.(item, index, e)
+        },
+        ...itemProps,
+        ...restItemProps,
+      }
+
+      const itemNode = <MenuItem key={name || index} {...nextItemProps} />
+
+      if (beforeItemRender) return beforeItemRender(itemNode, nextItemProps)
+
+      return itemNode
     })
   }
 
@@ -155,4 +168,26 @@ export const Menu: React.FC<MenuProps> = ({
       </div>
     </MenuContext.Provider>
   )
+}
+
+function getDefaultIndex(
+  items: MenuProps['items'],
+  defaultIndex: MenuProps['defaultIndex'],
+  defaultKeys: MenuProps['defaultKeys']
+) {
+  if (typeof defaultIndex === 'number') {
+    return [defaultIndex]
+  } else if (Array.isArray(defaultIndex)) {
+    return defaultIndex
+  }
+
+  if (!items?.length) return []
+
+  if (Array.isArray(defaultKeys)) {
+    return defaultKeys.map((key) => items.findIndex((item) => item.name === key))
+  } else if (!!defaultKeys) {
+    return [items.findIndex((item) => item.name === defaultKeys)]
+  }
+
+  return []
 }

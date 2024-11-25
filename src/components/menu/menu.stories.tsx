@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { IconActivity, IconAlertCircle, IconAlertTriangle, IconAlignLeft, IconSave } from '../icons'
 import { Menu } from './menu'
 import { MenuItemProps } from './menu-item'
+import { PopupTrigger } from '../popup'
 
 const meta: Meta<typeof Menu> = {
   title: 'Components/Menu',
@@ -15,11 +16,11 @@ type Story = StoryObj<typeof meta>
 export default meta
 
 const testMenus: MenuItemProps[] = [
-  { key: 'menu1', icon: <IconActivity size={16} />, label: '选项1' },
-  { key: 'menu2', icon: <IconAlertCircle size={16} />, label: '选项2' },
-  { key: 'menu3', icon: <IconAlertTriangle size={16} />, label: '选项3', disabled: true },
-  { key: 'menu4', icon: <IconAlignLeft size={16} />, label: '选项4' },
-  { key: 'menu5', icon: <IconSave size={16} />, label: '选项5' },
+  { name: 'menu1', icon: <IconActivity size={16} />, label: '选项1' },
+  { name: 'menu2', icon: <IconAlertCircle size={16} />, label: '选项2' },
+  { name: 'menu3', icon: <IconAlertTriangle size={16} />, label: '选项3', disabled: true },
+  { name: 'menu4', icon: <IconAlignLeft size={16} />, label: '选项4' },
+  { name: 'menu5', icon: <IconSave size={16} />, label: '选项5' },
 ]
 
 const testMenus2: MenuItemProps[] = [
@@ -148,5 +149,31 @@ export const Windows风格_多选: Story = {
     mode: 'checkbox',
     styleMode: 'windows',
     width: 200,
+  },
+}
+
+/**
+ * 使用 `beforeItemRender` 函数为菜单项添加包裹层
+ */
+export const beforeItemRender: Story = {
+  args: {
+    items: testMenus,
+    mode: 'radio',
+    styleMode: 'windows',
+    width: 200,
+    defaultKeys: 'menu2',
+    beforeItemRender: (itemNode, props) => {
+      if (props.disabled) return itemNode
+      return (
+        <PopupTrigger
+          key={props.name}
+          trigger="hover"
+          position="right"
+          content={() => <div className="px-16 py-8 bg-background shadow-md border rect-1 split br-8 ml-12">{props.label}</div>}
+        >
+          {itemNode}
+        </PopupTrigger>
+      )
+    },
   },
 }
