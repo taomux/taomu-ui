@@ -39,6 +39,8 @@ export interface MenuItemProps extends Omit<BaseComponentType<MenuItemCssVars>, 
   radius?: string | number
   /** 间距 */
   gap?: string | number
+  /** 传递元数据 */
+  meta?: any
   /** 点击事件 */
   onClick?: (item: MenuItemProps, event: React.MouseEvent<HTMLDivElement>) => void
 }
@@ -64,6 +66,7 @@ export const MenuItem: React.FC<MenuItemProps> = (itemProps) => {
     gap = 4,
     styleMode = 'default',
     onClick,
+    meta,
     ...wrapProps
   } = itemProps
   const { prevIndex, currentIndex, direction } = React.useContext(MenuContext)
