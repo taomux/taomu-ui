@@ -22,9 +22,18 @@ const meta: Meta<typeof Form> = {
 type Story = StoryObj<typeof meta>
 export default meta
 
+interface FormData {
+  name: string
+  length: string
+  select: string
+  checkbox: number[]
+  radio: string
+  switch: boolean
+}
+
 export const 基础示例: Story = {
   render: () => {
-    const { formInstance, clearFormAllValues } = Form.useForm<any>({
+    const { formInstance, clearFormAllValues } = Form.useForm<FormData>({
       defaultValues: { name: '张三', length: '11', select: '2', checkbox: [2] },
     })
 

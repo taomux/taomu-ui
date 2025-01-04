@@ -7,7 +7,7 @@ import { useForm, type FormInstance } from './form.hook'
 import { FormContext } from './form.ctx'
 import { FormItem, type FormItemTransferProps } from './form-item'
 
-export interface FormProps<FieldValues extends Record<string, any> = Record<string, any>>
+export interface FormProps<FieldValues extends Record<string, any> = any>
   extends Omit<BaseComponentType<FormCssVars>, 'className' | 'onClick'>,
     Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'>,
     FormItemTransferProps {
