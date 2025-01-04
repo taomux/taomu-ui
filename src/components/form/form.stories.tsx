@@ -107,10 +107,10 @@ export const 基础示例: Story = {
 
           <Form.Item>
             <div className="flex gap-12">
-              <Button type="primary" htmltype="submit">
+              <Button type="primary" htmlType="submit">
                 提交
               </Button>
-              <Button type="default" htmltype="reset">
+              <Button type="default" htmlType="reset">
                 重置
               </Button>
               <Button
@@ -160,7 +160,7 @@ export const 布局: Story = {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmltype="submit">
+            <Button type="primary" htmlType="submit">
               提交
             </Button>
           </Form.Item>
@@ -192,7 +192,7 @@ export const 布局: Story = {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmltype="submit">
+            <Button type="primary" htmlType="submit">
               提交
             </Button>
           </Form.Item>
@@ -224,7 +224,7 @@ export const 布局: Story = {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmltype="submit">
+            <Button type="primary" htmlType="submit">
               提交
             </Button>
           </Form.Item>
@@ -266,7 +266,7 @@ export const LabelWidth: Story = {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmltype="submit">
+            <Button type="primary" htmlType="submit">
               提交
             </Button>
           </Form.Item>
