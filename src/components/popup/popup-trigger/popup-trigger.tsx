@@ -11,7 +11,7 @@ export interface PopupTriggerProps<ContentProps = any> {
   /** 触发元素 */
   children: JSX.Element
   /** 弹出内容 */
-  content: PopupPortal['Content']
+  content?: PopupPortal['Content']
   /** 弹出内容 props 用于更新弹层内部数据 */
   contentProps?: ContentProps
   /** 触发条件，默认: click  */
@@ -105,13 +105,14 @@ export const PopupTrigger = React.forwardRef<PopupTriggerRef, PopupTriggerProps>
 
         setTargetId(popupPortalRef.current.popupId)
       } else {
+        console.warn('PopupTrigger props.content is not exist.')
         popupPortalRef.current = undefined
       }
     }, [content, portalOptions, trigger, contentProps])
 
     function openPopup(el: HTMLElement | null) {
       if (!popupPortalRef.current) {
-        return console.warn('PopupPortal instance not found')
+        return console.warn('PopupPortal instance not found.')
       }
       debounceRef.current.debounce(
         () => {
