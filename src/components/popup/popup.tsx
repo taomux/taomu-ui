@@ -279,7 +279,9 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
     function handleBeforeEnter(el?: HTMLElement | null) {
       onBeforeEnter?.(el)
-      autoContentPosition()
+      setTimeout(() => {
+        autoContentPosition()
+      }, 0)
     }
 
     function handleBeforeLeave(el: HTMLElement) {
