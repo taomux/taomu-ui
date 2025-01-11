@@ -106,7 +106,7 @@ export const FormItem: React.FC<FormItemProps> = ({
       return children
     }
 
-    const { onChange: inputOnChange, ...addProps } = { ...children.props }
+    const { onChange: inputOnChange, ...addProps } = (children.props as any) || {}
 
     if (name) {
       Object.assign(addProps, formInstance.register(name, { ...registerOptions }))

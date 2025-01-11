@@ -1,4 +1,4 @@
-import { css, type SerializedStyles } from '@emotion/react'
+import { type SerializedStyles } from '@emotion/react'
 
 import { dispatchCustomEvent } from '../hooks'
 import { defaultStyle } from './default.style'

@@ -1,5 +1,4 @@
 import { CssVarsValueType } from 'taomu-toolkit'
-import { SerializedStyles } from '@emotion/react'
 
 export type CssVars = Record<string, CssVarsValueType>
 

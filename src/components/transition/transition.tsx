@@ -56,7 +56,7 @@ export const Transition: React.FC<TransitionProps> = ({
   onLeave,
 }) => {
   const nodeRef = React.useRef<HTMLElement>(null)
-  const animationRef = React.useRef<Animation | void>()
+  const animationRef = React.useRef<Animation | void>(undefined)
   const [isRenderNode, setIsRenderNode] = React.useState(show)
 
   React.useEffect(() => {
@@ -127,7 +127,7 @@ export const Transition: React.FC<TransitionProps> = ({
 
   if (!isRenderNode) return null
 
-  return React.cloneElement(children, { ref: nodeRef })
+  return React.cloneElement<any>(children, { ref: nodeRef })
 }
 
 function createAnimation(
