@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba, parseCssVarDeclareStr } from '../../styles'
+import { initGlobalCssVars, linkCssVar, mixinRgba, parseCssVarDeclareStr } from '../../styles'
 
 export interface SwitchCssVars {
   switchColor?: string
@@ -13,7 +13,7 @@ export interface SwitchCssVars {
   switchBoxBackground?: string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   switchColor: linkCssVar('colorPrimary'),
   switchWidth: 34,
   switchHeight: 18,
@@ -23,12 +23,12 @@ setGlobalCssVars('common', {
   switchBoxBackground: mixinRgba('colorFrontRgb', 0.1),
 })
 
-setGlobalCssVars('light', {
+initGlobalCssVars('light', {
   switchDefaultColor: '#fff',
   switchBorderColor: 'transparent',
 })
 
-setGlobalCssVars('dark', {
+initGlobalCssVars('dark', {
   switchDefaultColor: mixinRgba('colorFrontRgb', 0.6),
 })
 

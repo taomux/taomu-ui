@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
+import { initGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
 
 export interface RadioCssVars {
   radioSize?: string | number
@@ -10,14 +10,14 @@ export interface RadioCssVars {
   radioOutlineColor?: string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   radioSize: 13,
   radioColor: linkCssVar('colorPrimary'),
   radioBorderColor: linkCssVar('colorBorder'),
   radioOutlineColor: mixinRgba('colorPrimaryRgb', 0.3),
 })
 
-setGlobalCssVars('dark', {
+initGlobalCssVars('dark', {
   radioBackground: mixinRgba('colorFrontRgb', 0.1),
 })
 

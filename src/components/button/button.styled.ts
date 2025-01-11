@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba, parseCssVarDeclareStr } from '../../styles'
+import { initGlobalCssVars, linkCssVar, mixinRgba, parseCssVarDeclareStr } from '../../styles'
 
 export interface BtnCssVars {
   /** 按钮背景色 */
@@ -28,7 +28,7 @@ export interface BtnCssVars {
   btnFontSize?: number | string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   btnWidth: 'auto',
   btnColorHover: linkCssVar('colorTextDefault'),
   btnOutlineColor: mixinRgba('colorFrontRgb', 0.3),
@@ -39,14 +39,14 @@ setGlobalCssVars('common', {
   btnFontSize: 14,
 })
 
-setGlobalCssVars('light', {
+initGlobalCssVars('light', {
   btnColor: linkCssVar('colorTextDefault'),
   btnBackground: '#fff',
   btnBackgroundHover: '#fafafa',
   btnOutlineColor: mixinRgba('colorFrontRgb', 0.05),
 })
 
-setGlobalCssVars('dark', {
+initGlobalCssVars('dark', {
   btnColor: linkCssVar('colorTextGray'),
   btnBackground: mixinRgba('colorFrontRgb', 0.1),
   btnBackgroundHover: mixinRgba('colorFrontRgb', 0.25),

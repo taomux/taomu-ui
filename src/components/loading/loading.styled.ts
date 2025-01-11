@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, parseCssVarDeclareStr } from '../../styles'
+import { initGlobalCssVars, linkCssVar, parseCssVarDeclareStr } from '../../styles'
 
 export interface LoadingCssVars {
   /** 加载器颜色 */
@@ -15,7 +15,7 @@ export interface LoadingCssVars {
   loadingSpeed?: string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   loadingColor: linkCssVar('colorPrimary'),
 })
 

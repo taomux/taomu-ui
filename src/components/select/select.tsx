@@ -134,11 +134,6 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
     const [selectIndex, setSelectIndex] = React.useState<number>()
     const [searchText, setSearchText] = React.useState('')
 
-    // const [value, setValue] = useMergedState<DefaultValueType | undefined>(wrapProps.defaultValue, {
-    //   value: wrapProps.value,
-    //   onChange: handleOnChangeValue,
-    // })
-
     const selectClassNames = useTaomuClassName('select', 'flex row center-v gap-6', `status-${status}`, { focused }, className)
     const selectStyle = useInlineStyle<SelectCssVars>(
       { inputWidth: width, inputHeight: height, inputPadding: padding, inputRadius: radius, ...cssVars },

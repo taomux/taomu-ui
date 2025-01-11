@@ -1,6 +1,7 @@
 import { css, type SerializedStyles } from '@emotion/react'
 import { mapInlineCssVarsToString } from 'taomu-toolkit'
 
+import { dispatchCustomEvent } from '../hooks'
 import { ThemeMode, CssVars, GlobalStyledItem, TAOMU_PREFIX } from './defines'
 import { COMMON_GLOBAL_VARS, LIGHT_GLOBAL_VARS, DARK_GLOBAL_VARS } from './themes'
 import { linkCssVar } from './utils'
@@ -14,13 +15,38 @@ const globalCssVars: Record<ThemeMode, GlobalCssVars> = {
 const globalStyledMap: Record<string, GlobalStyledItem> = {}
 
 /**
+ * 初始化全局css变量
+ * 注意不会实时更新
+ *
+ * @param themeMode
+ * @param vars
+ */
+export function initGlobalCssVars(themeMode: ThemeMode, vars: GlobalCssVars) {
+  Object.assign(globalCssVars[themeMode], vars)
+}
+
+/**
  * 设置全局css变量
+ *
+ * 高运行时开销，不可频繁调用，建议使用 `initGlobalCssVars`
  *
  * @param themeMode
  * @param vars
  */
 export function setGlobalCssVars(themeMode: ThemeMode, vars: GlobalCssVars) {
   Object.assign(globalCssVars[themeMode], vars)
+  dispatchCustomEvent('taomu://update-global-style')
+}
+
+/**
+ * 初始化全局样式
+ * 注意不会实时更新
+ *
+ * @param styled
+ * @param scoped 是否以 `styled.name` 作为私有域
+ */
+export function initGlobalStyles(styled: SerializedStyles, scoped?: boolean) {
+  globalStyledMap[styled.name] = { scoped, styled }
 }
 
 /**
@@ -30,7 +56,12 @@ export function setGlobalCssVars(themeMode: ThemeMode, vars: GlobalCssVars) {
  * @param scoped 是否以 `styled.name` 作为私有域
  */
 export function setGlobalStyles(styled: SerializedStyles, scoped?: boolean) {
+  if (Object.prototype.hasOwnProperty.call(globalStyledMap, styled.name)) {
+    return // 正常情况下 SerializedStyles 生成的名称是唯一的，若已存在则不需要重复更新
+  }
+
   globalStyledMap[styled.name] = { scoped, styled }
+  dispatchCustomEvent('taomu://update-global-style')
 }
 
 /**

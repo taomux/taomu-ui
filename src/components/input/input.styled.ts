@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, parseCssVarDeclareStr } from '../../styles'
+import { initGlobalCssVars, linkCssVar, parseCssVarDeclareStr } from '../../styles'
 
 export interface InputCssVars {
   inputWidth?: React.CSSProperties['width']
@@ -15,7 +15,7 @@ export interface InputCssVars {
   textareaResize?: React.CSSProperties['resize']
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   inputMainColor: linkCssVar('colorPrimary'),
   inputBorderColor: linkCssVar('colorBorder'),
   inputIconColor: linkCssVar('colorTextGray'),

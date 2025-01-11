@@ -1,12 +1,12 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../styles'
+import { initGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface EmptyCssVars {
   emptyPadding?: string | number
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   emptyPadding: 24,
 })
 

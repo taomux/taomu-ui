@@ -1,13 +1,13 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars } from '../../styles'
+import { initGlobalCssVars } from '../../styles'
 import type { InputCssVars } from '../input/input.styled'
 
 export interface SelectCssVars extends InputCssVars {
   //
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   //
 })
 

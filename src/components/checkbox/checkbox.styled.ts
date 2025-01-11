@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
+import { initGlobalCssVars, linkCssVar, mixinRgba } from '../../styles'
 
 export interface CheckboxCssVars {
   checkboxSize?: string | number
@@ -11,7 +11,7 @@ export interface CheckboxCssVars {
   checkboxOutlineColor?: string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   checkboxSize: 13,
   checkboxColor: linkCssVar('colorPrimary'),
   checkboxBorderColor: linkCssVar('colorBorder'),
@@ -19,7 +19,7 @@ setGlobalCssVars('common', {
   checkboxOutlineColor: mixinRgba('colorPrimaryRgb', 0.3),
 })
 
-setGlobalCssVars('dark', {
+initGlobalCssVars('dark', {
   checkboxBoxBackground: mixinRgba('colorFrontRgb', 0.1),
 })
 

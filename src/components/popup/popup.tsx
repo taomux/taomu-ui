@@ -34,6 +34,8 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   show?: boolean
   /** 层级 */
   zIndex?: number
+  /** 不脱离文档流 */
+  noFixed?: boolean
   /** 背景事件穿透 */
   backgroundEvent?: boolean
 
@@ -107,6 +109,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       popupId = uuid(POPUP_ID_TEMPLATE),
       children,
       show,
+      noFixed,
       zIndex = 1000,
       backgroundEvent,
       escToClose = true,
@@ -150,6 +153,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       'popup',
       `position-${positionType}`,
       {
+        'no-fixed': noFixed,
         'position-absolute': !positionTargetElement,
         'background-event': backgroundEvent || !overlay,
       },

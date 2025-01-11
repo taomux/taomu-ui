@@ -21,35 +21,35 @@
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
-    "react": ">=18",
-    "react-dom": ">=18"
+    "react": ">=19",
+    "react-dom": ">=19"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.3",
+    "@emotion/react": "^11.14.0",
     "atomic-cls": "^0.0.7",
     "clsx": "^2.1.1",
     "react-feather": "^2.0.10",
-    "react-hook-form": "^7.53.2",
+    "react-hook-form": "^7.54.2",
     "react-mount-node": "^0.0.1",
     "taomu-store": "^0.0.1",
     "taomu-toolkit": "^0.1.5"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^8.4.2",
-    "@storybook/addon-interactions": "^8.4.2",
-    "@storybook/addon-links": "^8.4.2",
-    "@storybook/blocks": "^8.4.2",
-    "@storybook/react": "^8.4.2",
-    "@storybook/react-vite": "^8.4.2",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "storybook": "^8.4.2",
-    "typedoc": "^0.26.11",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.10"
+    "@storybook/addon-essentials": "^8.4.7",
+    "@storybook/addon-interactions": "^8.4.7",
+    "@storybook/addon-links": "^8.4.7",
+    "@storybook/blocks": "^8.4.7",
+    "@storybook/react": "^8.4.7",
+    "@storybook/react-vite": "^8.4.7",
+    "@types/react": "^19.0.4",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "storybook": "^8.4.7",
+    "typedoc": "^0.27.6",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, parseCssVarDeclareStr } from '../../styles'
+import { initGlobalCssVars, linkCssVar, parseCssVarDeclareStr } from '../../styles'
 
 export interface ProgressCssVars {
   /* 进度条宽度 */
@@ -21,7 +21,7 @@ export interface ProgressCssVars {
   progressBackgroundMixinColor?: string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   progressWidth: '100%',
   progressHeight: 18,
   progressRadius: linkCssVar('radiusSM'),

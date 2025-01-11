@@ -48,8 +48,8 @@ export abstract class PopupPortalBase<ContentProps extends object = any, Options
     const containerElement = document.createElement('div')
     containerElement.id = containerId
     containerElement.className = clsx('taomu-popup-container', this.baseOptions.createContainerClass)
-    containerElement.style.width = '0'
-    containerElement.style.height = '0'
+    // containerElement.style.width = '0'
+    // containerElement.style.height = '0'
     document.body.appendChild(containerElement)
 
     return containerElement

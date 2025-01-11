@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { Toast } from './toast'
+import { Button } from '../button'
+import { Toast, openToast } from './'
 
 const meta: Meta<typeof Toast> = {
   title: 'Components/Toast',
@@ -14,4 +15,14 @@ export default meta
 
 export const 基础示例: Story = {
   args: {},
+}
+
+export const 函数打开: Story = {
+  render: () => {
+    return (
+      <div>
+        <Button onClick={() => openToast({ message: 'hello' })}>open</Button>
+      </div>
+    )
+  },
 }

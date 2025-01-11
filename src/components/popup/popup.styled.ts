@@ -1,13 +1,13 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../styles'
+import { initGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface PopupCssVars {
   zIndex?: string
   overlayBackground?: string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   zIndex: '1000',
   overlayBackground: 'rgba(0, 0, 0, 0.4)',
 })
@@ -19,6 +19,12 @@ export const popupStyled = css`
   width: 100vw;
   height: 100vh;
   z-index: ${linkCssVar('zIndex')};
+
+  &.no-fixed {
+    position: relative;
+    width: unset;
+    height: unset;
+  }
 
   &.background-event {
     pointer-events: none;
@@ -154,30 +160,6 @@ export const popupStyled = css`
       align-items: flex-end;
       justify-content: flex-end;
     }
-  }
-
-  &.popup-fixed-position-top-left,
-  &.popup-fixed-position-top-center,
-  &.popup-fixed-position-top-right {
-    padding-bottom: var(--targetOffset);
-  }
-
-  &.popup-fixed-position-bottom-left,
-  &.popup-fixed-position-bottom-center,
-  &.popup-fixed-position-bottom-right {
-    padding-top: var(--targetOffset);
-  }
-
-  &.popup-fixed-position-left-top,
-  &.popup-fixed-position-left-center,
-  &.popup-fixed-position-left-bottom {
-    padding-right: var(--targetOffset);
-  }
-
-  &.popup-fixed-position-right-top,
-  &.popup-fixed-position-right-center,
-  &.popup-fixed-position-right-bottom {
-    padding-left: var(--targetOffset);
   }
 `
 

@@ -9,7 +9,7 @@ export type TriggerType = 'click' | 'hover' | 'none'
 
 export interface PopupTriggerProps<ContentProps = any> {
   /** 触发元素 */
-  children: JSX.Element
+  children: React.JSX.Element
   /** 弹出内容 */
   content?: PopupPortal['Content']
   /** 弹出内容 props 用于更新弹层内部数据 */
@@ -43,7 +43,7 @@ export const PopupTrigger = React.forwardRef<PopupTriggerRef, PopupTriggerProps>
     },
     ref
   ) => {
-    const popupPortalRef = React.useRef<PopupPortal | undefined>()
+    const popupPortalRef = React.useRef<PopupPortal | undefined>(undefined)
     const debounceRef = React.useRef(new Debounce())
     const isHoverRef = React.useRef(false)
     const [targetId, setTargetId] = React.useState<string | null>(null)

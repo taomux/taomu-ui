@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../styles'
+import { initGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface FormCssVars {
   formMarginBottom?: number | string
@@ -10,7 +10,7 @@ export interface FormCssVars {
   formItemGap?: number | string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   formMarginBottom: 18,
   formLabelWidth: 100,
 

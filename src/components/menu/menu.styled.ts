@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../styles'
+import { initGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface MenuCssVars {
   menuWidth?: React.CSSProperties['width']
@@ -11,7 +11,7 @@ export interface MenuCssVars {
   menuGap?: React.CSSProperties['gap']
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   menuWidth: 'auto',
   menuHeight: 'auto',
   menuBackground: linkCssVar('colorBackground'),

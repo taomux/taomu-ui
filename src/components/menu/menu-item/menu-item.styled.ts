@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../../styles'
+import { initGlobalCssVars, linkCssVar, mixinRgba } from '../../../styles'
 
 export interface MenuItemCssVars {
   menuItemPaddingX?: number | string
@@ -9,7 +9,7 @@ export interface MenuItemCssVars {
   menuItemGap?: number | string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   menuItemPaddingX: 8,
   menuItemPaddingY: 6,
   menuItemRadius: linkCssVar('radiusSM'),

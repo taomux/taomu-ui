@@ -45,7 +45,7 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   /** 处理菜单组点击事件 */
   onMenuItemClick?: (item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement>) => void
   /** 渲染 items 前调用 */
-  beforeItemRender?: (node: JSX.Element, props: MenuItemProps) => React.ReactNode
+  beforeItemRender?: (node: React.JSX.Element, props: MenuItemProps) => React.ReactNode
 }
 
 export const Menu: React.FC<MenuProps> = ({

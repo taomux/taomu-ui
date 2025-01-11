@@ -65,11 +65,6 @@ export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
     const inputRef = React.useRef<HTMLInputElement>(null)
     const [isEmpty, setEmpty] = React.useState(true)
 
-    // const [value, setValue] = useMergedState(inputProps.defaultValue || '', {
-    //   value: inputProps.value,
-    //   onChange,
-    // })
-
     const [focused, setFocused] = React.useState(false)
 
     const inputWrapClassNames = useTaomuClassName(

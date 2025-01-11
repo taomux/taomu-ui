@@ -1,12 +1,12 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../styles'
+import { initGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface TitlebarCssVars {
   titlebarColor?: string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   titlebarColor: linkCssVar('colorPrimary'),
 })
 
