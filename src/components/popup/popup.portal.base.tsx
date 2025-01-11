@@ -21,7 +21,7 @@ export interface PopupPortalBaseOptions extends PopupProps {
  * Popup 传送门
  */
 export abstract class PopupPortalBase<ContentProps extends object = any, Options extends object = any> {
-  public readonly popupId = uuid(POPUP_ID_TEMPLATE)
+  public readonly popupId: string
 
   public popupRef = React.createRef<PopupRef>()
   public createIndex = popupStore.getState().popupsMap.size + 1
@@ -32,7 +32,13 @@ export abstract class PopupPortalBase<ContentProps extends object = any, Options
     /** 内容组件 */
     public Content: React.ComponentType<ContentProps>,
     public baseOptions: PopupPortalBaseOptions = {}
-  ) {}
+  ) {
+    if (baseOptions.popupId) {
+      this.popupId = baseOptions.popupId
+    } else {
+      this.popupId = uuid(POPUP_ID_TEMPLATE)
+    }
+  }
 
   get containerId() {
     return this.baseOptions.createContainerId || 'taomu-popup-container'
@@ -95,7 +101,7 @@ export abstract class PopupPortalBase<ContentProps extends object = any, Options
         }}
         {...popupProps}
       >
-        <Content {...(contentProps as any)} />
+        <Content popupInstance={this} {...(contentProps as any)} />
       </Popup>,
       this.container,
       this.popupId

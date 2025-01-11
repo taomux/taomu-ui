@@ -28,7 +28,8 @@ export interface PopupRectType {
   height?: number | string
 }
 
-export interface PopupProps extends BaseComponentType<PopupCssVars> {
+export interface PopupProps extends ReactDivProps {
+  cssVars?: PopupCssVars
   popupId?: string
   /** 显示状态 */
   show?: boolean
@@ -84,6 +85,8 @@ export interface PopupProps extends BaseComponentType<PopupCssVars> {
   onLeave?: () => void
   onBackgroundClickClose?: () => void
   onEscClose?: () => void
+  /** 关闭回调 */
+  onClose?: () => void
 }
 
 export interface PopupRef {
@@ -140,6 +143,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
       onBackgroundClickClose,
       onEscClose,
+      onClose,
 
       ...wrapProps
     },
@@ -259,6 +263,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
       setShowOverlay(false)
       setShowContent(false)
+      onClose?.()
     }
 
     function renderOverlay() {

@@ -17,11 +17,6 @@ export type RgbColorKeys = keyof Pick<
   | 'colorErrorRgb'
 >
 
-export interface GlobalStyledItem {
-  scoped?: boolean
-  styled: SerializedStyles
-}
-
 export const TAOMU_PREFIX = 'taomu'
 
 declare global {

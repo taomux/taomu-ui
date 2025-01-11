@@ -13,7 +13,7 @@ initGlobalCssVars('common', {
   toastColor: linkCssVar('colorFront'),
   toastBackground: linkCssVar('colorBackground'),
   toastRadius: linkCssVar('radiusSM'),
-  toastPadding: '6px 12px',
+  toastPadding: '8px 14px',
 })
 
 export const toastStyled = css`
@@ -21,22 +21,53 @@ export const toastStyled = css`
   color: ${linkCssVar('toastColor')};
   background: ${linkCssVar('toastBackground')};
   padding: ${linkCssVar('toastPadding')};
-  display: inline-block;
   pointer-events: visible;
+
+  .toast-close-btn {
+    cursor: pointer;
+    border-radius: 4px;
+    transition: ${linkCssVar('commonTransition')};
+    padding: 2px;
+    margin: -3px;
+    position: relative;
+    left: 3px;
+    top: 0.5px;
+
+    svg {
+      display: block;
+      stroke: ${linkCssVar('colorTextGray')};
+      transition: ${linkCssVar('commonTransition')};
+    }
+
+    &:hover:not(.disabled) {
+      background-color: ${linkCssVar('btnBackgroundHover')};
+      svg {
+        stroke: ${linkCssVar('colorTextDefault')};
+      }
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
 `
 
 export const toastContainerStyled = css`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  pointer-events: none !important;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding-top: 4vh;
+  .taomu-toast-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding-top: 4vh;
+  }
 `
 
 declare global {

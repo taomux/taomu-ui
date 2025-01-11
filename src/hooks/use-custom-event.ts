@@ -9,7 +9,9 @@ declare global {
    * - value: 回调函数返回值
    */
   interface CustomEventType {
-    /** 子应用路由变更 */
+    /** 全局 css变量变更 */
+    'taomu://update-global-css-vars'?: void
+    /** 全局样式变更 */
     'taomu://update-global-style'?: void
   }
 }

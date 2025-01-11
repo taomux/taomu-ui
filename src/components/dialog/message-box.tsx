@@ -1,31 +1,11 @@
-import { IconAlertCircle, IconAlertTriangle, IconCheckCircle, IconXCircle, IconHelpCircle } from '../icons'
-import { linkCssVar } from '../../styles'
+import { renderTypeIcon, type MessageIconType } from '../../utils'
 import { DialogPortal, DialogPortalOptions } from './dialog.portal'
 
-export type MessageBoxType = 'info' | 'warning' | 'success' | 'error' | 'question'
-
 export interface MessageBoxOptions extends DialogPortalOptions {
-  type?: MessageBoxType
+  type?: MessageIconType
   title?: DialogPortalOptions['title']
   icon?: React.ReactNode
   autoOpen?: boolean
-}
-
-function renderTypeIcon(type?: MessageBoxType) {
-  switch (type) {
-    case 'info':
-      return <IconAlertCircle size={36} color={linkCssVar('colorInfo')} />
-    case 'warning':
-      return <IconAlertTriangle size={36} color={linkCssVar('colorWarning')} />
-    case 'success':
-      return <IconCheckCircle size={36} color={linkCssVar('colorSuccess')} />
-    case 'error':
-      return <IconXCircle size={36} color={linkCssVar('colorError')} />
-    case 'question':
-      return <IconHelpCircle size={36} color={linkCssVar('colorWarning')} />
-    default:
-      return null
-  }
 }
 
 export function open(message: string, { type, title = ' ', icon, autoOpen = true, ...dialogOptions }: MessageBoxOptions = {}) {

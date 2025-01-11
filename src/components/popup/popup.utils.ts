@@ -246,3 +246,14 @@ export function closeAllPopups() {
     popupPortal.close()
   }
 }
+
+export function closePopupById(popupId: string) {
+  const { popupsMap } = popupStore.getState()
+  const popup = popupsMap.get(popupId)
+  if (popup) {
+    popup[0].close()
+    return true
+  }
+
+  return false
+}

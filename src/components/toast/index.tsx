@@ -1,2 +1,2 @@
 export * from './toast'
-export * from './open-toast'
+export * as toast from './open-toast'
