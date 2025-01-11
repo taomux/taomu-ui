@@ -1,0 +1,5 @@
+import{T as p}from"./taomu-app-DqDfSi3W.js";import{a}from"./mini-scrollbar-CZ8eNCm3.js";import"./titlebar-Fkl39exT.js";function r(e){return()=>a(p,{children:a(e,{})})}try{r.displayName="withTaomuApp",r.__docgenInfo={description:"",displayName:"withTaomuApp",props:{}}}catch{}try{TaomuApp.displayName="TaomuApp",TaomuApp.__docgenInfo={description:`初始化 TaomuApp
+
+包裹根节点
+
+请确保全局只有一个 TaomuApp`,displayName:"TaomuApp",props:{}}}catch{}try{withTaomuApp.displayName="withTaomuApp",withTaomuApp.__docgenInfo={description:"",displayName:"withTaomuApp",props:{}}}catch{}try{Titlebar.displayName="Titlebar",Titlebar.__docgenInfo={description:"",displayName:"Titlebar",props:{id:{defaultValue:null,description:"",name:"id",required:!1,type:{name:"string"}},className:{defaultValue:null,description:"",name:"className",required:!1,type:{name:"ClassValue"}},style:{defaultValue:null,description:"",name:"style",required:!1,type:{name:"CSSProperties"}},onClick:{defaultValue:null,description:"",name:"onClick",required:!1,type:{name:"MouseEventHandler<Element>"}},cssVars:{defaultValue:null,description:"重写 css 变量",name:"cssVars",required:!1,type:{name:"TitlebarCssVars"}}}}}catch{}
