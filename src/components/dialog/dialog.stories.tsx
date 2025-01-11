@@ -4,6 +4,7 @@ import { sleep } from 'taomu-toolkit'
 
 import { Button } from '../button'
 import { Checkbox } from '../checkbox'
+import { toast } from '../toast'
 import { Dialog, DialogPortal, useDialog } from './'
 
 const meta: Meta<typeof Dialog> = {
@@ -265,7 +266,7 @@ export const Hooks调用: Story = {
     const dialog = useDialog(
       ({ dialogPortalInstance }) => {
         return (
-          <div>
+          <div className="flex col gap-12">
             dialog content{' '}
             <Button
               onClick={() => {
@@ -274,6 +275,7 @@ export const Hooks调用: Story = {
             >
               内部关闭
             </Button>
+            <Button onClick={() => toast.info('toast message')}>toast</Button>
           </div>
         )
       },
@@ -296,8 +298,9 @@ export const Hooks调用: Story = {
     }
 
     return (
-      <div>
+      <div className="flex row gap-12">
         <Button onClick={openDialog}>open一个</Button>
+        <Button onClick={() => toast.info('toast message')}>toast</Button>
       </div>
     )
   },

@@ -28,6 +28,7 @@ export function openToast({ duration = 2500, popupId, hoverNotClose = true, escT
     },
     {
       popupId,
+      createContainerId: 'taomu-toast-container',
       createContainerClass: 'taomu-toast-container',
       noFixed: true,
       overlay: false,

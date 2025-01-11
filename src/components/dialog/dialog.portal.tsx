@@ -20,7 +20,7 @@ interface AsyncCallbackRef {
 
 export class DialogPortal<
   ContentProps extends DialogComponentProps = DialogComponentProps,
-  OpenResult = any,
+  OpenResult = any
 > extends PopupPortalBase<ContentProps, DialogPortalOptions> {
   Content: React.ComponentType<ContentProps> = () => null
   public asyncCallbackRef: React.MutableRefObject<AsyncCallbackRef | null> = React.createRef()
@@ -140,5 +140,6 @@ function getDefaultDialogPopupOptions(): PopupPortalBaseOptions {
     overlay: true,
     clickToClose: false,
     lockScroll: true,
+    createContainerId: 'taomu-dialog-container',
   }
 }
