@@ -100,7 +100,18 @@ export const Hover: Story = {
   args: {
     trigger: 'hover',
     menuProps: { items: menuConfig },
-    children: <Button>Hover Me</Button>,
+  },
+  render: ({ ...args }) => {
+    return (
+      <div className="flex gap-12 center-v">
+        <Dropdown {...args}>
+          <Button>Hover Me</Button>
+        </Dropdown>
+        <Dropdown {...args}>
+          <a href="##">Hover Me</a>
+        </Dropdown>
+      </div>
+    )
   },
 }
 
