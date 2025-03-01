@@ -41,8 +41,8 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
     }, [])
 
     if (popupTriggerProps.content === undefined) {
-      popupTriggerProps.content = (menuProps: MenuProps) => {
-        const { onMenuItemClick, ...restMenuProps } = menuProps
+      popupTriggerProps.content = (menuProps: MenuProps & { popupInstance?: any }) => {
+        const { onMenuItemClick, popupInstance, ...restMenuProps } = menuProps
 
         return (
           <Menu
