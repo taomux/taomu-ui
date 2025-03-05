@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { globalStore } from '../store'
+import { taomuStore } from '../store'
 
 const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -11,7 +11,7 @@ const INITIAL_THEME = mediaQuery?.matches ? 'dark' : 'light'
  * 获取并监听当前系统主题
  */
 export function useThemeMedia() {
-  const { theme: themeConfig } = globalStore.useStore(['theme'])
+  const { theme: themeConfig } = taomuStore.useStore(['theme'])
   const [theme, setTheme] = React.useState<'light' | 'dark'>(INITIAL_THEME)
 
   React.useEffect(() => {
