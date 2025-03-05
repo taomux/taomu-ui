@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import { isPromise } from 'taomu-toolkit'
 
 import { useTaomuClassName, useInlineStyle } from '../../hooks'
@@ -20,6 +21,8 @@ export interface SwitchProps extends Omit<BaseComponentType<SwitchCssVars>, 'chi
   autoLoading?: boolean
   /** loading 结束后自动聚焦 */
   autoFocus?: boolean
+  noThumbStyle?: boolean
+  thumbContent?: React.ReactNode
   name?: string
   value?: boolean
   onChange?: (e: React.ChangeEvent<HTMLInputElement>, value: boolean) => any
@@ -42,6 +45,8 @@ export const Switch = React.forwardRef<SwitchRef | null, SwitchProps>(
       showOutline = true,
       autoLoading = true,
       autoFocus = true,
+      noThumbStyle,
+      thumbContent,
       name,
       value,
       onChange,
@@ -97,6 +102,18 @@ export const Switch = React.forwardRef<SwitchRef | null, SwitchProps>(
       }
     }
 
+    function renderThumbContent() {
+      if (isLoading) {
+        return renderLoading(width, height)
+      }
+
+      if (thumbContent) {
+        return thumbContent
+      }
+
+      return null
+    }
+
     return (
       <div
         className={switchClassName}
@@ -106,8 +123,8 @@ export const Switch = React.forwardRef<SwitchRef | null, SwitchProps>(
         tabIndex={0}
         onClick={emitOnchange as any}
       >
-        <div ref={switchThumbRef as any} className="switch-thumb flex center">
-          {isLoading ? renderLoading(width, height) : null}
+        <div ref={switchThumbRef as any} className={clsx('switch-thumb flex center', { 'no-thumb-style': noThumbStyle })}>
+          {renderThumbContent()}
         </div>
       </div>
     )
