@@ -10,7 +10,8 @@ export interface SwitchCssVars {
   switchHeight?: number | string
   switchRadius?: number | string
   switchOutlineColor?: string
-  switchBoxBackground?: string
+  switchBoxBg?: string
+  switchBoxBgActive?: string
 }
 
 initGlobalCssVars('common', {
@@ -20,12 +21,13 @@ initGlobalCssVars('common', {
   switchRadius: linkCssVar('radiusSM'),
   switchBorderColor: linkCssVar('colorBorder'),
   switchOutlineColor: mixinRgba('colorPrimaryRgb', 0.3),
-  switchBoxBackground: mixinRgba('colorFrontRgb', 0.1),
+  switchBoxBg: mixinRgba('colorFrontRgb', 0.1),
+  switchBoxBgActive: linkCssVar('switchColor'),
 })
 
 initGlobalCssVars('light', {
   switchDefaultColor: '#fff',
-  switchBorderColor: 'transparent',
+  switchBorderColor: 'colorBorderSplit',
 })
 
 initGlobalCssVars('dark', {
@@ -35,7 +37,7 @@ initGlobalCssVars('dark', {
 export const switchStyled = css`
   --td: 0.25s;
 
-  background-color: ${linkCssVar('switchBoxBackground')};
+  background-color: ${linkCssVar('switchBoxBg')};
   border-radius: ${linkCssVar('switchRadius')};
   width: ${linkCssVar('switchWidth')};
   height: ${linkCssVar('switchHeight')};
@@ -44,10 +46,7 @@ export const switchStyled = css`
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition:
-    border var(--td),
-    outline var(--td),
-    background var(--td);
+  transition: border var(--td), outline var(--td), background var(--td);
 
   .switch-thumb {
     position: absolute;
@@ -56,10 +55,13 @@ export const switchStyled = css`
     top: 50%;
     left: 2.5px;
     transform: translateY(-50%);
-    border-radius: inherit;
-    background-color: ${linkCssVar('switchDefaultColor')};
-    box-shadow: ${linkCssVar('boxShadowSM')};
     transition: all 0.25s;
+
+    :not(.no-thumb-style) {
+      border-radius: inherit;
+      background-color: ${linkCssVar('switchDefaultColor')};
+      box-shadow: ${linkCssVar('boxShadowSM')};
+    }
   }
 
   &:not(.disabled) {
@@ -82,7 +84,7 @@ export const switchStyled = css`
   }
 
   &.active {
-    background-color: ${linkCssVar('switchColor')};
+    background-color: ${linkCssVar('switchBoxBgActive')};
     .switch-thumb {
       left: calc(100% - 2.5px);
       transform: translateX(-100%) translateY(-50%);
