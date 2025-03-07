@@ -1,17 +1,44 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../../styles'
+import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../../styles'
 
 export interface ToolbarItemCssVars {
-  toolbarItemColor?: string
+  toolbarBg?: string
 }
 
 setGlobalCssVars('common', {
-  toolbarItemColor: linkCssVar('colorPrimary'),
+  toolbarBg: mixinRgba('colorFrontRgb', 0.1),
 })
 
 export const toolbarItemStyled = css`
-  stroke: ${linkCssVar('toolbarItemColor')};
+  transition: ${linkCssVar('commonTransition')};
+  cursor: pointer;
+  border-radius: ${linkCssVar('radiusSM')};
+  padding: 8px 12px;
+
+  &:hover {
+    background: ${linkCssVar('toolbarBg')};
+  }
+`
+
+export const toolbarTooltipStyled = css`
+  --tooltipOffset: 4px;
+
+  &.toolbar-tooltip-top {
+    margin-bottom: var(--tooltipOffset);
+  }
+
+  &.toolbar-tooltip-bottom {
+    margin-top: var(--tooltipOffset);
+  }
+
+  &.toolbar-tooltip-left {
+    margin-right: var(--tooltipOffset);
+  }
+
+  &.toolbar-tooltip-right {
+    margin-left: var(--tooltipOffset);
+  }
 `
 
 declare global {

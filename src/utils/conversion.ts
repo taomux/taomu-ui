@@ -50,3 +50,30 @@ export function getFooterAlignClassName(type: 'left' | 'center' | 'right'): stri
       return null
   }
 }
+
+export type BasePositionType = 'top' | 'bottom' | 'left' | 'right'
+
+/** 获取相反方向 */
+export function getOppositePosition(position: BasePositionType): BasePositionType {
+  switch (position) {
+    case 'top':
+      return 'bottom'
+
+    case 'bottom':
+      return 'top'
+
+    case 'left':
+      return 'right'
+
+    case 'right':
+      return 'left'
+  }
+}
+
+export type ExPositionType = `${BasePositionType}-${BasePositionType}`
+
+/** 获取相反方向 EX */
+export function getOppositePositionEx(position: ExPositionType): ExPositionType {
+  const [p1, p2] = position.split('-') as [BasePositionType, BasePositionType]
+  return `${getOppositePosition(p1)}-${getOppositePosition(p2)}`
+}
