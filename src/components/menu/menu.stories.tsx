@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { IconActivity, IconAlertCircle, IconAlertTriangle, IconAlignLeft, IconSave } from '../icons'
+import { Button } from '../button'
 import { Menu } from './menu'
 import { MenuItemProps } from './menu-item'
 import { PopupTrigger } from '../popup'
@@ -175,5 +176,22 @@ export const beforeItemRender: Story = {
         </PopupTrigger>
       )
     },
+  },
+}
+
+export const 额外元素: Story = {
+  args: {
+    items: testMenus,
+    mode: 'radio',
+    styleMode: 'windows',
+    width: 200,
+    defaultIndex: [1],
+    children: (
+      <div>
+        <Button dashed block>
+          Add
+        </Button>
+      </div>
+    ),
   },
 }

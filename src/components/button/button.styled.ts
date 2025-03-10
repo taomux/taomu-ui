@@ -68,6 +68,10 @@ export const buttonStyled = css`
   color: ${linkCssVar('btnColor')};
   font-size: ${linkCssVar('btnFontSize')};
 
+  &.dash-border {
+    border-style: dashed;
+  }
+
   &[disabled]:not(.is-loading) {
     opacity: 0.6;
     cursor: not-allowed;

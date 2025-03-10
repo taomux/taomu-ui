@@ -36,6 +36,8 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   bordered?: boolean
   /** 显示阴影 */
   shadow?: BaseSizeLevel
+  /** 空状态 */
+  empty?: React.ReactNode
   /** 背景色 */
   background?: React.CSSProperties['background']
   /** 附加到 MenuItem 组件的 props */
@@ -68,6 +70,7 @@ export const Menu: React.FC<MenuProps> = ({
   defaultKeys,
   mode = 'none',
   direction = 'vertical',
+  empty = true,
   overflowBreak,
   styleMode,
   onMenuItemClick,
@@ -133,11 +136,15 @@ export const Menu: React.FC<MenuProps> = ({
   }
 
   function renderItems() {
-    if (children) {
-      return children
+    if (!items?.length) {
+      if (empty === true) {
+        return <Empty />
+      } else if (empty) {
+        return empty
+      } else {
+        return null
+      }
     }
-
-    if (!items?.length) return <Empty />
 
     return items.map(({ onClick, name, active, styleMode: itemStyleMode, ...restItemProps }, index) => {
       const nextItemProps: MenuItemProps = {
@@ -165,6 +172,7 @@ export const Menu: React.FC<MenuProps> = ({
     <MenuContext.Provider value={{ prevIndex, currentIndex, direction }}>
       <div className={menuClassNames} style={menuStyle} css={menuStyled} {...wrapProps}>
         {renderItems()}
+        {children}
       </div>
     </MenuContext.Provider>
   )

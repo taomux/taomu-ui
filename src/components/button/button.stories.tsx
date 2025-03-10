@@ -126,10 +126,58 @@ export const Glass: Story = {
   },
 }
 
+/**
+ * 虚线边框
+ */
+export const Dashed: Story = {
+  args: {
+    dashed: true,
+  },
+
+  render: (args) => {
+    return (
+      <div className="flex gap-12">
+        <Button {...args} type="default">
+          Default
+        </Button>
+        <Button {...args} type="primary">
+          Primary
+        </Button>
+        <Button {...args} type="warning">
+          Warning
+        </Button>
+        <Button {...args} type="danger">
+          Danger
+        </Button>
+        <Button {...args} type="link">
+          Link
+        </Button>
+      </div>
+    )
+  },
+}
+
 export const 不显示外轮廓: Story = {
   args: {
     children: 'Default',
     showOutline: false,
+  },
+}
+
+export const Block: Story = {
+  args: {
+    children: 'Default',
+    block: true,
+  },
+
+  render: (args) => {
+    return (
+      <div className="flex gap-12">
+        <Button {...args} type="default" ghost block>
+          Default
+        </Button>
+      </div>
+    )
   },
 }
 

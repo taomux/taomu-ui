@@ -20,6 +20,8 @@ export interface ButtonProps extends BaseComponentType<BtnCssVars> {
   paddingX?: number | string
   /** 使用 flex 替换 inline-flex */
   block?: boolean
+  /** 虚线边框 */
+  dashed?: boolean
   /** 字体大小 */
   fontSize?: number | string
   /** 幽灵按钮 */
@@ -53,6 +55,8 @@ export const Button: React.FC<ButtonProps> = ({
   showOutline = true,
   ghost,
   glass,
+  dashed,
+  block,
   loading,
   disabled,
   autoLoading = true,
@@ -68,18 +72,20 @@ export const Button: React.FC<ButtonProps> = ({
 
   const btnClassName = useTaomuClassName(
     'btn',
-    'flex flex-inline center flex-none',
+    'flex center flex-none',
+    block ? 'flex' : 'flex-inline',
     `btn-${type}`,
     {
       'show-outline': showOutline,
       'btn-ghost': ghost,
       'btn-glass': glass,
       'is-loading': isLoading,
+      'dash-border': dashed,
     },
     className
   )
   const btnStyle = useInlineStyle(
-    { btnWidth: width, btnHeight: height, btnPaddingX: paddingX, btnFontSize: fontSize, ...cssVars },
+    { btnWidth: block ? '100%' : width, btnHeight: height, btnPaddingX: paddingX, btnFontSize: fontSize, ...cssVars },
     style
   )
 
