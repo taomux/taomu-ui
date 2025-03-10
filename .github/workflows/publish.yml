@@ -68,7 +68,7 @@ jobs:
         with:
           node-version: 22.x
       - name: Install dependencies
-        run: npm install
+        run: rm -f package-lock.json && rm -rf node_modules && npm i
 
       - name: Run build
         run: npm run build:docs
