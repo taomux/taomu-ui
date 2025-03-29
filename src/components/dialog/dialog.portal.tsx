@@ -4,9 +4,9 @@ import { Dialog, DialogProps } from './dialog'
 
 export interface DialogPortalOptions extends DialogProps {}
 
-export interface DialogComponentProps {
+export interface DialogComponentProps<T extends DialogComponentProps = any> {
   /** dialogPortal 实例 */
-  dialogPortalInstance: DialogPortal
+  dialogPortalInstance: DialogPortal<T>
   /** 用于在内容组件中定义 onOk，注意这会覆盖 options 中的 onOk */
   defineOnOk: (fn: DialogProps['onOk']) => void
   /** 用于在内容组件中定义 onCancel，注意这会覆盖 options 中的 onCancel */
@@ -18,12 +18,12 @@ interface AsyncCallbackRef {
   onCancel?: DialogProps['onCancel']
 }
 
-export class DialogPortal<
-  ContentProps extends DialogComponentProps = DialogComponentProps,
-  OpenResult = any
-> extends PopupPortalBase<ContentProps, DialogPortalOptions> {
+export class DialogPortal<ContentProps extends DialogComponentProps, OpenResult = any> extends PopupPortalBase<
+  ContentProps,
+  DialogPortalOptions
+> {
   Content: React.ComponentType<ContentProps> = () => null
-  public asyncCallbackRef: React.MutableRefObject<AsyncCallbackRef | null> = React.createRef()
+  public asyncCallbackRef: React.RefObject<AsyncCallbackRef | null> = React.createRef()
 
   constructor(
     /** 内容组件 */
@@ -54,7 +54,7 @@ export class DialogPortal<
     const DialogContent = this.DialogContent
 
     return (
-      <Dialog {...this.dialogOptions} onClose={this.close} dialogPortalInstance={this as unknown as DialogPortal}>
+      <Dialog {...this.dialogOptions} onClose={this.close} dialogPortalInstance={this}>
         <DialogContent
           {...(contentProps as any)}
           dialogPortalInstance={this}
@@ -80,7 +80,7 @@ export class DialogPortal<
   }
 
   public open = (
-    contentProps?: ContentProps,
+    contentProps?: Omit<ContentProps, keyof DialogComponentProps>,
     dialogOptions: DialogPortalOptions = {},
     baseOptions: PopupPortalBaseOptions = {}
   ) => {
@@ -120,7 +120,7 @@ export class DialogPortal<
       if (baseOptions) {
         this.updateBaseOptionsStatic(baseOptions)
       }
-      this.baseOpen(contentProps)
+      this.baseOpen(contentProps as ContentProps)
     })
   }
 

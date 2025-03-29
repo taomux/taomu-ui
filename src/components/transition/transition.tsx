@@ -1,11 +1,12 @@
 import React from 'react'
+import clsx from 'clsx'
 
 import * as animationTypes from './animation-types'
 
 export type AnimationConfig = AnimationTypes | TransitionConfig
 
 export interface TransitionProps {
-  children: React.ReactElement
+  children: React.ReactElement<any>
   /** children 的 ref 代理 */
   proxyRef?: React.RefObject<HTMLElement | null> | ((el: HTMLElement | null) => void)
   /** 外部控制的状态，决定 children 是否进场 */
@@ -58,11 +59,11 @@ export const Transition: React.FC<TransitionProps> = ({
   const nodeRef = React.useRef<HTMLElement>(null)
   const animationRef = React.useRef<Animation | void>(undefined)
   const [isRenderNode, setIsRenderNode] = React.useState(show)
+  const [animationFinished, setAnimationFinished] = React.useState(false)
 
   React.useEffect(() => {
     if (show) {
       if (animationRef.current?.playState === 'running') {
-        nodeRef.current!.style.visibility = 'hidden' // 防止动画重叠
         animationRef.current?.cancel()
         setIsRenderNode(false)
         setTimeout(() => {
@@ -97,26 +98,21 @@ export const Transition: React.FC<TransitionProps> = ({
     }
   }, [show])
 
-  // React.useEffect(() => {
-  //   if (typeof proxyRef === 'function') {
-  //     proxyRef(nodeRef.current)
-  //   } else if (proxyRef) {
-  //     proxyRef.current = nodeRef.current
-  //   }
-  //   console.log(nodeRef.current)
-  // }, [nodeRef])
-
   React.useEffect(() => {
     if (isRenderNode) {
       if (!nodeRef.current) return
-      nodeRef.current.style.visibility = ''
+      if (children.props.style?.visibility !== 'hidden') {
+        nodeRef.current.style.visibility = '' // 开始渲染时移除元素隐藏
+      }
       animationRef.current = createAnimation(nodeRef.current, animationConfig, 'enter', options)
       if (animationRef.current) {
         animationRef.current.play()
         animationRef.current.onfinish = () => {
+          setAnimationFinished(true)
           onEnter?.(nodeRef.current!)
         }
       } else {
+        setAnimationFinished(true)
         onEnter?.(nodeRef.current)
       }
     }
@@ -133,6 +129,11 @@ export const Transition: React.FC<TransitionProps> = ({
   if (!isRenderNode) return null
 
   return React.cloneElement<any>(children, {
+    className: clsx(children.props.className, { 'animation-running': !animationFinished }),
+    style: {
+      visibility: 'hidden', // 防止动画重叠
+      ...children.props.style,
+    },
     ref: (el: any) => {
       nodeRef.current = el
       if (typeof proxyRef === 'function') {

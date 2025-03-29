@@ -54,7 +54,7 @@ export interface DialogProps extends BaseComponentType<DialogCssVars> {
   /** 无内容包裹层 */
   noContentWrapper?: boolean
 
-  dialogPortalInstance?: DialogPortal
+  dialogPortalInstance?: DialogPortal<any>
 
   /** 确认回调 (支持 Promise) */
   onOk?: (res?: any) => void | Promise<any>

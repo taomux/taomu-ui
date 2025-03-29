@@ -50,6 +50,9 @@ export const popupStyled = css`
     &.target-relative-position {
       position: absolute;
     }
+    &.visibility-hidden {
+      visibility: hidden;
+    }
   }
 
   &.position-absolute {

@@ -7,12 +7,12 @@ export interface DialogHookOptions extends DialogPortalOptions {
   destroyOnUnmount?: boolean
 }
 
-export function useDialog<T extends DialogComponentProps>(
+export function useDialog<T extends DialogComponentProps, R = any>(
   content: React.ComponentType<T>,
   { destroyOnUnmount = true, ...options }: DialogHookOptions = {},
   baseOptions?: PopupPortalBaseOptions
 ) {
-  const dialogInsRef = React.useRef<DialogPortal<T>>(new DialogPortal<T>(content, options, baseOptions))
+  const dialogInsRef = React.useRef(new DialogPortal<T, R>(content, options, baseOptions))
 
   React.useEffect(() => {
     return () => {
