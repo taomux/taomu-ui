@@ -5,7 +5,7 @@ import { sleep } from 'taomu-toolkit'
 import { Button } from '../button'
 import { Checkbox } from '../checkbox'
 import { toast } from '../toast'
-import { Dialog, DialogPortal, useDialog } from './'
+import { Dialog, DialogPortal, useDialog, DialogComponentProps } from './'
 
 const meta: Meta<typeof Dialog> = {
   title: 'Components/Dialog',
@@ -301,6 +301,50 @@ export const Hooks调用: Story = {
       <div className="flex row gap-12">
         <Button onClick={openDialog}>open一个</Button>
         <Button onClick={() => toast.info('toast message')}>toast</Button>
+      </div>
+    )
+  },
+}
+
+export const 更新弹层内容: Story = {
+  render() {
+    const countRef = React.useRef(0)
+
+    const dialog = useDialog<DialogComponentProps & { count: number }>(
+      ({ count, dialogPortalInstance }) => {
+        return (
+          <div className="flex col gap-12">
+            <div>dialog content {count}</div>
+            <div>esc 关闭 {dialogPortalInstance.baseOptions.escToClose + ''}</div>
+          </div>
+        )
+      },
+      {
+        title: 'Title',
+      },
+      {
+        overlay: false,
+        backgroundEvent: true,
+      }
+    )
+
+    function openDialog() {
+      dialog.open({ count: countRef.current })
+    }
+
+    function add() {
+      countRef.current += 1
+      dialog.dispatchUpdate(
+        { count: countRef.current },
+        { title: `Title: ${countRef.current}` },
+        { escToClose: !dialog.baseOptions.escToClose }
+      )
+    }
+
+    return (
+      <div className="flex row gap-12">
+        <Button onClick={openDialog}>open一个</Button>
+        <Button onClick={add}>add</Button>
       </div>
     )
   },

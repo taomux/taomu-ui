@@ -1,5 +1,6 @@
 import React from 'react'
 import { PopupPortalBase, PopupPortalBaseOptions } from '../popup'
+import { popupStore } from '../popup/popup.store'
 import { Dialog, DialogProps } from './dialog'
 
 export interface DialogPortalOptions extends DialogProps {}
@@ -122,6 +123,23 @@ export class DialogPortal<ContentProps extends DialogComponentProps, OpenResult 
       }
       this.baseOpen(contentProps as ContentProps)
     })
+  }
+
+  /**
+   * 更新弹层内容
+   */
+  public dispatchUpdate = (
+    contentProps?: Omit<ContentProps, keyof DialogComponentProps>,
+    dialogOptions: DialogPortalOptions = {},
+    baseOptions: PopupPortalBaseOptions = {}
+  ) => {
+    const { popupsMap, updateCount } = popupStore.getState()
+    if (!popupsMap.has(this.popupId)) return
+    if (dialogOptions) this.updateDialogOptionsStatic(dialogOptions)
+    if (baseOptions) this.updateBaseOptionsStatic(baseOptions)
+
+    popupsMap.set(this.popupId, [this, contentProps])
+    popupStore.setState({ popupsMap, updateCount: updateCount + 1 })
   }
 
   public updateDialogOptionsStatic = (dialogOptions: DialogPortalOptions) => {
