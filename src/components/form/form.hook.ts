@@ -3,15 +3,13 @@ import { useForm as reactHookFormUseForm, type UseFormProps, type FieldValues, t
 export type FormInstance<
   FieldValuesType extends FieldValues = FieldValues,
   Context = any,
-  TransformedValues extends FieldValues | undefined = undefined
+  TransformedValues = FieldValuesType
 > = UseFormReturn<FieldValuesType, Context, TransformedValues>
 
-export function useForm<
-  FieldValuesType extends FieldValues = FieldValues,
-  Context = any,
-  TransformedValues extends FieldValues | undefined = undefined
->(props?: UseFormProps<FieldValuesType, Context>) {
-  const formInstance: FormInstance<FieldValuesType, Context, TransformedValues> = reactHookFormUseForm(props)
+export function useForm<FieldValuesType extends FieldValues = FieldValues, Context = any, TransformedValues = FieldValuesType>(
+  props?: UseFormProps<FieldValuesType, Context, TransformedValues>
+) {
+  const formInstance = reactHookFormUseForm<FieldValuesType, Context, TransformedValues>(props)
   return { formInstance, clearFormAllValues: () => clearFormAllValues(formInstance) }
 }
 
@@ -19,7 +17,7 @@ export function useForm<
 export function clearFormAllValues<
   FieldValuesType extends FieldValues = FieldValues,
   Context = any,
-  TransformedValues extends FieldValues | undefined = undefined
+  TransformedValues = FieldValuesType
 >(formInstance: FormInstance<FieldValuesType, Context, TransformedValues>) {
   const values = formInstance.getValues()
 

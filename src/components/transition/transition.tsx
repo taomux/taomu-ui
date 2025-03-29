@@ -7,7 +7,7 @@ export type AnimationConfig = AnimationTypes | TransitionConfig
 export interface TransitionProps {
   children: React.ReactElement
   /** children 的 ref 代理 */
-  proxyRef?: React.MutableRefObject<HTMLElement | null>
+  proxyRef?: React.RefObject<HTMLElement | null> | ((el: HTMLElement | null) => void)
   /** 外部控制的状态，决定 children 是否进场 */
   show?: boolean
   /** 动画配置 */
@@ -97,11 +97,16 @@ export const Transition: React.FC<TransitionProps> = ({
     }
   }, [show])
 
-  React.useEffect(() => {
-    if (proxyRef) {
-      proxyRef.current = nodeRef.current
-    }
+  // React.useEffect(() => {
+  //   if (typeof proxyRef === 'function') {
+  //     proxyRef(nodeRef.current)
+  //   } else if (proxyRef) {
+  //     proxyRef.current = nodeRef.current
+  //   }
+  //   console.log(nodeRef.current)
+  // }, [nodeRef])
 
+  React.useEffect(() => {
     if (isRenderNode) {
       if (!nodeRef.current) return
       nodeRef.current.style.visibility = ''
@@ -127,7 +132,16 @@ export const Transition: React.FC<TransitionProps> = ({
 
   if (!isRenderNode) return null
 
-  return React.cloneElement<any>(children, { ref: nodeRef })
+  return React.cloneElement<any>(children, {
+    ref: (el: any) => {
+      nodeRef.current = el
+      if (typeof proxyRef === 'function') {
+        proxyRef(el)
+      } else if (proxyRef) {
+        proxyRef.current = el
+      }
+    },
+  })
 }
 
 function createAnimation(
