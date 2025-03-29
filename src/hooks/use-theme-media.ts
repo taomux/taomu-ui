@@ -2,36 +2,20 @@ import React from 'react'
 
 import { taomuStore } from '../store'
 
-const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-
-/** 初始主题色常量 */
-const INITIAL_THEME = mediaQuery?.matches ? 'dark' : 'light'
-
 /**
  * 获取并监听当前系统主题
  */
 export function useThemeMedia() {
-  const { theme: themeConfig } = taomuStore.useStore(['theme'])
-  const [theme, setTheme] = React.useState<'light' | 'dark'>(INITIAL_THEME)
+  const { theme: themeConfig, systemTheme } = taomuStore.useStore(['theme', 'systemTheme'])
+  const [theme, setTheme] = React.useState<'light' | 'dark'>(systemTheme || 'dark')
 
   React.useEffect(() => {
     if (themeConfig === 'system') {
-      if (!mediaQuery) return
-      mediaQuery.addEventListener('change', handleChange)
+      setTheme(systemTheme || 'dark')
     } else {
       setTheme(themeConfig)
     }
-
-    return () => {
-      if (mediaQuery) {
-        mediaQuery.removeEventListener('change', handleChange)
-      }
-    }
-  }, [themeConfig])
-
-  function handleChange() {
-    setTheme(mediaQuery?.matches ? 'dark' : 'light')
-  }
+  }, [themeConfig, systemTheme])
 
   return { theme }
 }

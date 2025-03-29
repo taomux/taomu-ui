@@ -10,14 +10,27 @@ export interface SwitchThemeProps extends SwitchProps {}
 
 export const SwitchTheme: React.FC<SwitchThemeProps> = ({ className, cssVars, style, ...wrapProps }) => {
   const switchThemeClassNames = useTaomuClassName('switch-theme', className)
-  const { theme } = taomuStore.useStore(['theme'])
+  const { theme, systemTheme } = taomuStore.useStore(['theme', 'systemTheme'])
+
+  const isDark = React.useMemo(() => {
+    let isDark = false
+
+    if (theme === 'system') {
+      isDark = systemTheme === 'dark'
+    } else {
+      isDark = theme === 'dark'
+    }
+
+    return isDark
+  }, [theme, systemTheme])
 
   const thumbContent = React.useMemo(() => {
-    if (theme === 'dark') {
+    if (isDark) {
       return <IconMoon size={18} className="ml-2 color-gray" />
+    } else {
+      return <IconSun size={17} className="mr-2 color-gray" />
     }
-    return <IconSun size={17} className="mr-2 color-gray" />
-  }, [theme])
+  }, [isDark])
 
   function onChange(_e: React.ChangeEvent<HTMLInputElement>, value: boolean) {
     taomuStore.setState({ theme: value ? 'light' : 'dark' })
@@ -32,10 +45,10 @@ export const SwitchTheme: React.FC<SwitchThemeProps> = ({ className, cssVars, st
       noThumbStyle
       thumbContent={thumbContent}
       onChange={onChange}
-      value={theme === 'light'}
+      value={!isDark}
       cssVars={{
         switchBoxBgActive: mixinRgba('colorFrontRgb', 0.03),
-        switchBorderColor: theme === 'light' ? linkCssVar('colorBorderSplit') : undefined,
+        switchBorderColor: !isDark ? linkCssVar('colorBorderSplit') : undefined,
         ...cssVars,
       }}
       {...wrapProps}
