@@ -124,7 +124,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
       overlayAnimationConfig,
       overlayTransitionOptions,
 
-      contentWrapperProps = {},
+      contentWrapperProps: { className: contentWrapperClassName, ...contentWrapperProps } = {},
       contentAnimationConfig,
       contentTransitionOptions,
 
@@ -167,6 +167,7 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
     const [showOverlay, setShowOverlay] = React.useState(false)
     const [showContent, setShowContent] = React.useState(false)
+    const [positioned, setPositioned] = React.useState(false)
 
     useEventListener(document, 'keydown', (e) => {
       if (e.key === 'Escape' && escToClose) {
@@ -306,10 +307,13 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
 
       if (positionType === 'dialog-center') {
         setCenterAbsolutePosition(contentElement)
-        return
+      } else {
+        setTargetRelativePosition(positionTargetElement, contentElement, positionType, equalWidth, edgeOffset)
       }
 
-      setTargetRelativePosition(positionTargetElement, contentElement, positionType, equalWidth, edgeOffset)
+      if (!positioned) {
+        setPositioned(true)
+      }
     }
 
     function renderContent() {
@@ -321,12 +325,10 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
         contentTransitionOptions
       )
 
-      contentWrapperProps.className = clsx(
-        'popup-content',
-        popupId,
-        { 'target-relative-position': !!positionTargetElement },
-        contentWrapperProps.className
-      )
+      const contentWrapperClassNameH = clsx('popup-content', popupId, contentWrapperClassName, {
+        'target-relative-position': !!positionTargetElement,
+        'visibility-hidden': !positioned,
+      })
 
       return (
         <Transition
@@ -339,7 +341,9 @@ export const Popup = React.forwardRef<PopupRef, PopupProps>(
           onBeforeLeave={handleBeforeLeave}
           onLeave={onLeave}
         >
-          <div {...contentWrapperProps}>{children}</div>
+          <div className={contentWrapperClassNameH} {...contentWrapperProps}>
+            {children}
+          </div>
         </Transition>
       )
     }
