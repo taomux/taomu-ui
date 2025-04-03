@@ -13,8 +13,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
-- [ ] Form 组件 formGap 样式失效问题
-- [ ] Select 组件值为 0 时显示问题
+- [x] Form 组件 formGap 样式失效问题
+- [x] Select 组件值为 0 时显示问题
 - [ ] Select 组件点击报错问题
 
 ### Changed

@@ -195,7 +195,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
 
     const displayLabel = React.useMemo(() => {
       if (showSearch) return searchText
-      if (!value) return ''
+      if (value === undefined) return ''
 
       const item = options?.find((item) => item[valueProp] == value)
       const label = item?.[labelProp]

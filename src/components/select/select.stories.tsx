@@ -17,7 +17,9 @@ export default meta
 export const 基础示例: Story = {
   args: {
     placeholder: '请选择',
+    value: 0,
     options: [
+      { label: '选项0', value: 0 },
       { label: '选项1', value: '1' },
       { label: '选项2', value: '2' },
     ],
