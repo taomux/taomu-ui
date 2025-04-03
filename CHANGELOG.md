@@ -8,8 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
-- [ ] Button 组件支持 HoverType
-- [ ] Button 组件支持顶层 radius 和 round 属性
+- [x] Button 组件支持 HoverType
+- [x] Button 组件支持顶层 radius 和 round 属性
 
 ### Fixed
 
