@@ -47,7 +47,7 @@ export const formItemStyled = css`
     position: absolute;
     display: flex;
     align-items: flex-end;
-    position: absolute;
+    transform: translateY(3px);
   }
 `
 

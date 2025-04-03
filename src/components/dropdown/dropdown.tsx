@@ -1,4 +1,5 @@
 import React from 'react'
+import { isPromise } from 'taomu-toolkit'
 
 import { PopupTrigger, type PopupTriggerProps, type PopupTriggerRef, type PopupPortalOptions } from '../popup'
 import { Menu, type MenuProps, type MenuItemProps } from '../menu'
@@ -23,6 +24,7 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
       equalWidth,
       trigger = 'click',
       contentProps = {},
+      content,
       onMenuItemClick,
       ...popupTriggerProps
     },
@@ -40,22 +42,46 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
       }
     }, [])
 
-    if (popupTriggerProps.content === undefined) {
-      popupTriggerProps.content = (menuProps: MenuProps & { popupInstance?: any }) => {
+    const contentH = React.useMemo(() => {
+      if (content) return content
+      return (menuProps: MenuProps & { popupInstance?: any }) => {
         const { onMenuItemClick, popupInstance, ...restMenuProps } = menuProps
 
         return (
           <Menu
             width="100%"
-            onMenuItemClick={(item, index, event) => {
-              onMenuItemClick?.(item, index, event)
-              popupTriggerRef.current?.closePopup()
+            onMenuItemClick={async (item, index, event) => {
+              const p = onMenuItemClick?.(item, index, event)
+              if (isPromise(p)) {
+                return p.then(() => {
+                  popupTriggerRef.current?.closePopup()
+                })
+              } else {
+                popupTriggerRef.current?.closePopup()
+              }
             }}
             {...restMenuProps}
           />
         )
       }
-    }
+    }, [])
+
+    // if (popupTriggerProps.content === undefined) {
+    //   popupTriggerProps.content = (menuProps: MenuProps & { popupInstance?: any }) => {
+    //     const { onMenuItemClick, popupInstance, ...restMenuProps } = menuProps
+
+    //     return (
+    //       <Menu
+    //         width="100%"
+    //         onMenuItemClick={(item, index, event) => {
+    //           onMenuItemClick?.(item, index, event)
+    //           popupTriggerRef.current?.closePopup()
+    //         }}
+    //         {...restMenuProps}
+    //       />
+    //     )
+    //   }
+    // }
 
     contentProps.items = menus || menuProps.items
     contentProps.onMenuItemClick = onMenuItemClick
@@ -71,6 +97,7 @@ export const Dropdown = React.forwardRef<DropdownRef | void, DropdownProps>(
           popupAnimationConfigBuilder: dropdownAnimationConfigHandler,
           ...portalOptions,
         }}
+        content={contentH}
         {...popupTriggerProps}
       >
         {children}

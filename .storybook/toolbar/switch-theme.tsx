@@ -67,7 +67,6 @@ export function registerSwitchThemeButton() {
       title: '切换主题',
       // match: ({ tabId, viewMode }) => {
       //   return true
-      //   console.log(viewMode)
       //   return !tabId && viewMode === 'story'
       // },
       render: SwitchThemeButton,

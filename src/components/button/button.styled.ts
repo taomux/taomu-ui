@@ -47,7 +47,7 @@ initGlobalCssVars('light', {
 })
 
 initGlobalCssVars('dark', {
-  btnColor: linkCssVar('colorTextGray'),
+  btnColor: linkCssVar('colorTextDefault'),
   btnBackground: mixinRgba('colorFrontRgb', 0.1),
   btnBackgroundHover: mixinRgba('colorFrontRgb', 0.25),
 })
@@ -96,11 +96,19 @@ export const buttonStyled = css`
   }
 
   &.btn-primary {
-    ${parseCssVarDeclareStr('btnBackground', linkCssVar('colorPrimaryDark'))};
-    ${parseCssVarDeclareStr('btnOutlineColor', mixinRgba('colorPrimaryDarkRgb', 0.3))};
-    ${parseCssVarDeclareStr('btnBackgroundHover', mixinRgba('colorPrimaryDarkRgb', 0.75))};
     ${parseCssVarDeclareStr('btnColor', '#fff')};
     ${parseCssVarDeclareStr('btnColorHover', '#fff')};
+    &:not(.btn-glass):not(.btn-ghost) {
+      ${parseCssVarDeclareStr('btnBackground', linkCssVar('colorPrimaryDark'))};
+      ${parseCssVarDeclareStr('btnOutlineColor', mixinRgba('colorPrimaryDarkRgb', 0.3))};
+      ${parseCssVarDeclareStr('btnBackgroundHover', mixinRgba('colorPrimaryDarkRgb', 0.75))};
+    }
+    &.btn-glass,
+    &.btn-ghost {
+      ${parseCssVarDeclareStr('btnBackground', linkCssVar('colorPrimary'))};
+      ${parseCssVarDeclareStr('btnOutlineColor', mixinRgba('colorPrimaryRgb', 0.3))};
+      ${parseCssVarDeclareStr('btnBackgroundHover', mixinRgba('colorPrimaryRgb', 0.75))};
+    }
   }
 
   &.btn-warning {
@@ -119,19 +127,14 @@ export const buttonStyled = css`
     ${parseCssVarDeclareStr('btnColorHover', '#fff')};
   }
 
-  &.btn-link {
+  &.btn-text {
     ${parseCssVarDeclareStr('btnBackground', 'transparent')};
     ${parseCssVarDeclareStr('btnBackgroundHover', 'transparent')};
     ${parseCssVarDeclareStr('btnOutlineColor', 'transparent')};
     ${parseCssVarDeclareStr('btnBorderColor', 'transparent')};
-    ${parseCssVarDeclareStr('btnColor', linkCssVar('colorTextLink'))};
-    ${parseCssVarDeclareStr('btnColorHover', linkCssVar('colorTextLinkHover'))};
-    &:hover {
-      text-shadow: 0 0 24px ${linkCssVar('colorTextLinkHover')};
-    }
   }
 
-  &.btn-ghost:not(.btn-default):not(.btn-link) {
+  &.btn-ghost:not(.btn-default):not(.btn-text) {
     background-color: transparent;
     ${parseCssVarDeclareStr('btnBorderColor', linkCssVar('btnBackground'))};
     ${parseCssVarDeclareStr('btnColor', linkCssVar('btnBackground'))};
@@ -140,16 +143,15 @@ export const buttonStyled = css`
       &:hover,
       &:active {
         background-color: transparent;
-        box-shadow: 0 0 12px 0px color-mix(in srgb, ${linkCssVar('btnBackground')}, transparent 70%);
         ${parseCssVarDeclareStr('btnBorderColor', linkCssVar('btnBackgroundHover'))};
-        ${parseCssVarDeclareStr('btnColorHover', linkCssVar('btnBackground'))};
+        ${parseCssVarDeclareStr('btnColorHover', linkCssVar('btnBackgroundHover'))};
       }
     }
   }
 
   &.btn-glass {
     backdrop-filter: blur(5px);
-    &:not(.btn-default):not(.btn-link) {
+    &:not(.btn-default):not(.btn-text) {
       color: ${linkCssVar('btnBackground')};
       border-color: ${linkCssVar('btnBackground')};
 
@@ -213,7 +215,7 @@ export const buttonStyled = css`
     }
   }
 
-  &.btn-link {
+  &.btn-text {
     .progress-bar {
       ${parseCssVarDeclareStr('progressColor', mixinRgba('colorInfoRgb', 0.45))};
     }

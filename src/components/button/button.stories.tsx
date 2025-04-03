@@ -30,7 +30,42 @@ export const 类型: Story = {
         <Button type="primary">Primary</Button>
         <Button type="warning">Warning</Button>
         <Button type="danger">Danger</Button>
-        <Button type="link">Link</Button>
+        <Button type="text">Text</Button>
+      </div>
+    )
+  },
+}
+
+/**
+ * 使用 hoverType 在鼠标悬停时从一个类型过渡到另一个类型
+ */
+export const HoverType: Story = {
+  args: {},
+
+  render: () => {
+    return (
+      <div className="flex gap-12">
+        <Button type="default" hoverType="primary">
+          Default
+        </Button>
+        <Button type="primary" hoverType="danger">
+          Primary
+        </Button>
+        <Button type="warning" hoverType="primary">
+          Warning
+        </Button>
+        <Button type="danger" hoverType="default">
+          Danger
+        </Button>
+        <Button type="text" hoverType="default" glass>
+          Text
+        </Button>
+        <Button type="text" hoverType="primary" ghost>
+          Text
+        </Button>
+        <Button type="text" hoverType="danger" glass>
+          Text
+        </Button>
       </div>
     )
   },
@@ -56,9 +91,24 @@ export const 禁用状态: Story = {
         <Button {...args} type="danger">
           Danger
         </Button>
-        <Button {...args} type="link">
-          Link
+        <Button {...args} type="text">
+          Text
         </Button>
+      </div>
+    )
+  },
+}
+
+export const 圆角: Story = {
+  args: {},
+
+  render: () => {
+    return (
+      <div className="flex gap-12">
+        <Button round>Default</Button>
+        <Button radius={0}>Default</Button>
+        <Button radius={4}>Default</Button>
+        <Button radius={12}>Default</Button>
       </div>
     )
   },
@@ -87,8 +137,8 @@ export const Ghost: Story = {
         <Button {...args} type="danger">
           Danger
         </Button>
-        <Button {...args} type="link">
-          Link
+        <Button {...args} type="text">
+          Text
         </Button>
       </div>
     )
@@ -118,8 +168,8 @@ export const Glass: Story = {
         <Button {...args} type="danger">
           Danger
         </Button>
-        <Button {...args} type="link">
-          Link
+        <Button {...args} type="text">
+          Text
         </Button>
       </div>
     )
@@ -149,8 +199,8 @@ export const Dashed: Story = {
         <Button {...args} type="danger">
           Danger
         </Button>
-        <Button {...args} type="link">
-          Link
+        <Button {...args} type="text">
+          Text
         </Button>
       </div>
     )
@@ -210,8 +260,8 @@ export const Loading: Story = {
           <Button {...args} loading={loading} type="danger">
             Danger
           </Button>
-          <Button {...args} loading={loading} type="link">
-            Link
+          <Button {...args} loading={loading} type="text">
+            Text
           </Button>
         </div>
 
@@ -228,8 +278,8 @@ export const Loading: Story = {
           <Button {...args} loading={loading} glass type="danger">
             Danger
           </Button>
-          <Button {...args} loading={loading} glass type="link">
-            Link
+          <Button {...args} loading={loading} glass type="text">
+            Text
           </Button>
         </div>
 
@@ -246,8 +296,8 @@ export const Loading: Story = {
           <Button {...args} loading={loading} ghost type="danger">
             Danger
           </Button>
-          <Button {...args} loading={loading} ghost type="link">
-            Link
+          <Button {...args} loading={loading} ghost type="text">
+            Text
           </Button>
         </div>
       </div>

@@ -14,16 +14,21 @@ initGlobalCssVars('common', {
   formMarginBottom: 18,
   formLabelWidth: 100,
 
-  formGap: 12,
+  formGap: 4,
   formItemGap: 8,
 })
 
 export const formStyled = css`
+  display: flex;
+  gap: ${linkCssVar('formGap')};
+
   &.form-layout-inline {
-    display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: ${linkCssVar('formGap')};
+  }
+
+  &.form-layout-horizontal {
+    flex-direction: column;
   }
 `
 
