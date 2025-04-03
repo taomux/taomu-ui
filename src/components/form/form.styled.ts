@@ -14,7 +14,7 @@ initGlobalCssVars('common', {
   formMarginBottom: 18,
   formLabelWidth: 100,
 
-  formGap: 6,
+  formGap: 4,
   formItemGap: 8,
 })
 

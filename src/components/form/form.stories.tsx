@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { sleep } from 'taomu-toolkit'
@@ -8,6 +9,7 @@ import { Select } from '../select'
 import { CheckboxGroup } from '../checkbox'
 import { RadioGroup } from '../radio'
 import { SwitchText } from '../switch'
+import { useDialog } from '../dialog'
 
 /**
  * Base: react-hook-form
@@ -280,6 +282,69 @@ export const LabelWidth: Story = {
             </Button>
           </Form.Item>
         </Form>
+      </div>
+    )
+  },
+}
+
+const FormDialog: React.FC<any> = ({ a }) => {
+  const { open } = useDialog(FormDialog, { title: 'test2' })
+
+  const { formInstance } = Form.useForm({
+    defaultValues: {
+      type: 0,
+      name: '',
+    },
+  })
+
+  React.useEffect(() => {
+    console.count('FormDialog init:::' + a)
+  }, [])
+
+  return (
+    <Form
+      formInstance={formInstance}
+      onSubmit={(values) => {
+        console.log(values)
+      }}
+      labelWidth={100}
+    >
+      <Form.Item label="名称" name="name" required>
+        <Input placeholder="请输入" />
+      </Form.Item>
+      <Form.Item label="类型" name="type" required="请选择类型">
+        <Select
+          options={[
+            { label: '0', value: 0 },
+            { label: '1', value: 1 },
+            { label: '2', value: 2 },
+          ]}
+        />
+      </Form.Item>
+
+      <Button
+        onClick={() => {
+          open()
+        }}
+      >
+        open
+      </Button>
+    </Form>
+  )
+}
+
+export const DialogForm: Story = {
+  render: () => {
+    const { open } = useDialog(FormDialog, { title: 'test' })
+    return (
+      <div>
+        <Button
+          onClick={() => {
+            open({ a: 'ok' })
+          }}
+        >
+          Open Dialog
+        </Button>
       </div>
     )
   },

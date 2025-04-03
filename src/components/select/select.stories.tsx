@@ -72,6 +72,11 @@ export const 空选项: Story = {
   },
 }
 
+/**
+ * 使用 `dropdownProps.dynamic` 动态刷新数据
+ *
+ * ⚠️需要注意存在弹层嵌套时会导致循环刷新⚠️
+ */
 export const 数据刷新: Story = {
   args: {
     placeholder: '请选择',
@@ -94,7 +99,7 @@ export const 数据刷新: Story = {
       return () => clearInterval(timer)
     }, [])
 
-    return <Select {...args} options={options} />
+    return <Select {...args} options={options} dropdownProps={{ dynamic: true }} />
   },
 }
 
@@ -124,8 +129,16 @@ export const 受控组件: Story = {
     placeholder: '请选择',
     value: '1',
     options: [
-      { label: '选项1, value 固定为1', value: '1' },
+      { label: '选项1', value: '1' },
       { label: '选项2', value: '2' },
     ],
+  },
+  render: (args) => {
+    const [value, setValue] = React.useState(args.value)
+    return (
+      <div>
+        <Select {...args} value={value} onChange={(_, value) => setValue(value)} />
+      </div>
+    )
   },
 }
