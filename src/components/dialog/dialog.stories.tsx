@@ -196,7 +196,7 @@ export const 异步关闭: Story = {
             console.log('onClose')
           },
           onOk: async () => {
-            await sleep(1000)
+            await sleep(300)
             console.log('onOk')
           },
           onCancel: async () => {
@@ -222,12 +222,23 @@ export const 内部定义回调: Story = {
     async function openDialog() {
       const dialog = new DialogPortal(
         ({ dialogPortalInstance, defineOnOk, defineOnCancel }) => {
+          const countRef = React.useRef(0)
+
           React.useEffect(() => {
+            countRef.current = 3
             console.log(dialogPortalInstance)
           }, [])
 
           defineOnOk(async () => {
-            await sleep(1000)
+            await sleep(300)
+
+            if (countRef.current > 0) {
+              const msg = `${countRef.current} 次后关闭`
+              toast.warning(msg)
+              countRef.current -= 1
+              throw new Error(msg)
+            }
+
             return 'ok result'
           })
 
@@ -240,6 +251,13 @@ export const 内部定义回调: Story = {
         {
           title: 'Title',
           children: 'Content',
+          asyncCallback: (type) => {
+            console.log('asyncCallback', type)
+
+            if (type === 'ok') {
+              toast.success('Success')
+            }
+          },
         },
         { clickToClose: true }
       )
