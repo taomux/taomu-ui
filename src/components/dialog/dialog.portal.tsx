@@ -1,7 +1,7 @@
 import React from 'react'
 import { PopupPortalBase, PopupPortalBaseOptions } from '../popup'
 import { popupStore } from '../popup/popup.store'
-import { Dialog, DialogProps } from './dialog'
+import { Dialog, DialogProps, DialogAsyncCallback } from './dialog'
 
 export interface DialogPortalOptions extends DialogProps {}
 
@@ -86,23 +86,26 @@ export class DialogPortal<ContentProps extends DialogComponentProps, OpenResult 
     baseOptions: PopupPortalBaseOptions = {}
   ) => {
     return new Promise<OpenResult>((resolve, reject) => {
-      const nextOptions = { ...dialogOptions }
+      let callbackCount = 0
+      const { asyncCallback: asyncCallbackOpen, ...nextOptions } = dialogOptions
 
-      const asyncCallback = dialogOptions.asyncCallback
+      const asyncCallbackH = asyncCallbackOpen || this.dialogOptions.asyncCallback
 
-      nextOptions.asyncCallback = (type, res) => {
-        asyncCallback?.(type, res)
+      const asyncCallback: DialogAsyncCallback = (type, res) => {
+        if (asyncCallbackH) {
+          asyncCallbackH(type, res)
+        } else {
+          callbackCount++
+          if (callbackCount > 1) {
+            console.warn('Dialog Callback 只会触发一次, 请使用 asyncCallback 来替代')
+          }
+        }
         if (type === 'ok') {
           resolve(res)
         } else {
           reject(res)
         }
       }
-
-      // nextOptions.asyncCancelCallback = (result) => {
-      //   userAsyncCancelCallback?.(result)
-      //   reject(result)
-      // }
 
       const userOnBackgroundClickClose = baseOptions.onBackgroundClickClose
       const userOnEscClose = baseOptions.onEscClose
@@ -117,7 +120,7 @@ export class DialogPortal<ContentProps extends DialogComponentProps, OpenResult 
         reject()
       }
 
-      this.updateDialogOptionsStatic(nextOptions)
+      this.updateDialogOptionsStatic({ asyncCallback, ...nextOptions })
       if (baseOptions) {
         this.updateBaseOptionsStatic(baseOptions)
       }

@@ -1,7 +1,7 @@
 {
   "name": "taomu-ui",
   "private": false,
-  "version": "0.0.36",
+  "version": "0.0.37",
   "type": "module",
   "main": "index.js",
   "unpkg": "index.js",
@@ -35,21 +35,21 @@
     "taomu-toolkit": "^0.1.6"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^8.6.11",
-    "@storybook/addon-interactions": "^8.6.11",
-    "@storybook/addon-links": "^8.6.11",
-    "@storybook/blocks": "^8.6.11",
-    "@storybook/react": "^8.6.11",
-    "@storybook/react-vite": "^8.6.11",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-links": "^8.6.12",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/react-vite": "^8.6.12",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.3.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "storybook": "^8.6.11",
-    "typedoc": "^0.28.1",
-    "typescript": "^5.8.2",
-    "vite": "^6.2.3"
+    "storybook": "^8.6.12",
+    "typedoc": "^0.28.2",
+    "typescript": "^5.8.3",
+    "vite": "^6.2.6"
   },
   "repository": {
     "type": "git",
