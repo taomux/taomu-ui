@@ -18,6 +18,10 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   defaultIndex?: number | number[]
   /** 默认选中项 key */
   defaultKeys?: MenuItemKey | MenuItemKey[]
+  /** 受控选中项索引 */
+  selectedIndex?: number | number[]
+  /** 受控选中项 key */
+  selectedKeys?: MenuItemKey | MenuItemKey[]
   /** 菜单配置 */
   items?: MenuItemProps[]
   /** 宽度 默认 auto */
@@ -44,6 +48,8 @@ export interface MenuProps extends BaseComponentType<MenuCssVars> {
   itemProps?: MenuItemProps
   /** 禁止文本选中 */
   disableUserSelect?: boolean
+  /** 选中项变更 */
+  onChange?: (keys: MenuItemKey | MenuItemKey[], index: number | number[]) => void
   /** 处理菜单组点击事件 */
   onMenuItemClick?: (item: MenuItemProps, index: number, event: React.MouseEvent<HTMLDivElement>) => void
   /** 渲染 items 前调用 */
@@ -68,11 +74,14 @@ export const Menu: React.FC<MenuProps> = ({
   disableUserSelect = true,
   defaultIndex,
   defaultKeys,
+  selectedIndex,
+  selectedKeys,
   mode = 'none',
   direction = 'vertical',
   empty = true,
   overflowBreak,
   styleMode,
+  onChange,
   onMenuItemClick,
   beforeItemRender,
   ...wrapProps
@@ -100,6 +109,8 @@ export const Menu: React.FC<MenuProps> = ({
 
   const [prevIndex, setPrevIndex] = React.useState<number>()
   const [currentIndex, setCurrentIndex] = React.useState(getDefaultIndex(items, defaultIndex, defaultKeys))
+
+  // TODO... 受控模式
 
   React.useEffect(() => {
     return () => {
