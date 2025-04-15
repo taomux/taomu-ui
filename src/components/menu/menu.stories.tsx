@@ -1,8 +1,9 @@
+import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { IconActivity, IconAlertCircle, IconAlertTriangle, IconAlignLeft, IconSave } from '../icons'
 import { Button } from '../button'
-import { Menu } from './menu'
+import { Menu, MenuItemKey } from '.'
 import { MenuItemProps } from './menu-item'
 import { PopupTrigger } from '../popup'
 
@@ -114,7 +115,7 @@ export const Windows风格: Story = {
     mode: 'radio',
     styleMode: 'windows',
     width: 200,
-    defaultIndex: [1],
+    defaultIndexes: [1],
   },
 }
 
@@ -163,7 +164,7 @@ export const beforeItemRender: Story = {
     styleMode: 'windows',
     width: 200,
     defaultKeys: 'menu2',
-    beforeItemRender: (itemNode, props) => {
+    beforeItemRender: (itemNode: any, props: any) => {
       if (props.disabled) return itemNode
       return (
         <PopupTrigger
@@ -185,7 +186,7 @@ export const 额外元素: Story = {
     mode: 'radio',
     styleMode: 'windows',
     width: 200,
-    defaultIndex: [1],
+    defaultIndexes: [1],
     children: (
       <div>
         <Button dashed block>
@@ -193,5 +194,51 @@ export const 额外元素: Story = {
         </Button>
       </div>
     ),
+  },
+}
+
+export const 受控模式_Index: Story = {
+  args: {
+    items: testMenus,
+    mode: 'radio',
+    styleMode: 'windows',
+    width: 200,
+    defaultIndexes: [1],
+  },
+
+  render: (args) => {
+    const [activeIndexes, setActiveIndexes] = React.useState<number | number[]>(args.defaultIndexes)
+    return (
+      <div className="flex col gap-12">
+        <div className="flex gap-12">
+          <Button onClick={() => setActiveIndexes([0])}>选中第一个</Button>
+          <Button onClick={() => setActiveIndexes([1])}>选中第二个</Button>
+        </div>
+        <Menu {...args} activeIndexes={activeIndexes} onChange={(_, indexes) => setActiveIndexes(indexes)} />
+      </div>
+    )
+  },
+}
+
+export const 受控模式_Keys: Story = {
+  args: {
+    items: testMenus,
+    mode: 'radio',
+    styleMode: 'windows',
+    width: 200,
+    defaultKeys: ['menu2'],
+  },
+
+  render: (args) => {
+    const [activeKeys, setActiveKeys] = React.useState<MenuItemKey | MenuItemKey[]>(args.defaultKeys)
+    return (
+      <div className="flex col gap-12">
+        <div className="flex gap-12">
+          <Button onClick={() => setActiveKeys('menu1')}>选中第一个</Button>
+          <Button onClick={() => setActiveKeys('menu2')}>选中第二个</Button>
+        </div>
+        <Menu {...args} activeKeys={activeKeys} onChange={(keys) => setActiveKeys(keys)} />
+      </div>
+    )
   },
 }
