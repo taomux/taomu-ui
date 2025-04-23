@@ -22,6 +22,8 @@ export interface PopupTriggerProps<ContentProps = any> {
   portalOptions?: PopupPortalOptions
   /** 防抖时间, 只在 trigger 为 hover 时生效 */
   debounceTime?: number
+  /** 是否动态更新, 如果存在弹层嵌套,请勿使用 */
+  dynamic?: boolean
 }
 
 export interface PopupTriggerRef {
@@ -40,6 +42,7 @@ export const PopupTrigger = React.forwardRef<PopupTriggerRef, PopupTriggerProps>
       portalOptions,
       debounceTime = 150,
       contentProps = {},
+      dynamic = false,
     },
     ref
   ) => {
@@ -98,7 +101,10 @@ export const PopupTrigger = React.forwardRef<PopupTriggerRef, PopupTriggerProps>
         }
 
         if (popupPortalRef.current) {
-          popupPortalRef.current.dispatchUpdate(contentProps, nextPortalOptions)
+          if (dynamic) {
+            // WARN 嵌套弹层会导致循环刷新
+            popupPortalRef.current.dispatchUpdate(contentProps, nextPortalOptions)
+          }
         } else {
           popupPortalRef.current = new PopupPortal(content, nextPortalOptions)
         }

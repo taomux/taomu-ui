@@ -221,8 +221,6 @@ export function lockBodyScroll() {
 export function unlockBodyScroll() {
   const { popupsMap } = popupStore.getState()
 
-  console.log('unlockBodyScroll')
-
   let lockScrollCount = 0
 
   for (const [, [popupPortal]] of popupsMap) {

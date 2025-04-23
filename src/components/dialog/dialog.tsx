@@ -8,8 +8,8 @@ import { getShadowClassName, getBorderClassName, getFooterAlignClassName } from 
 import { dialogStyled, DialogCssVars } from './dialog.styled'
 import type { DialogPortal } from './dialog.portal'
 
-type DialogAsyncCallbackType = 'ok' | 'ok:error' | 'cancel' | 'close'
-type DialogAsyncCallback = (type: DialogAsyncCallbackType, res?: any) => void
+export type DialogAsyncCallbackType = 'ok' | 'ok:error' | 'cancel' | 'close'
+export type DialogAsyncCallback = (type: DialogAsyncCallbackType, res?: any) => void
 
 export interface DialogProps extends BaseComponentType<DialogCssVars> {
   /** 对话框标题 */

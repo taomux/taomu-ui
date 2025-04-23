@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { sleep } from 'taomu-toolkit'
@@ -8,6 +9,7 @@ import { Select } from '../select'
 import { CheckboxGroup } from '../checkbox'
 import { RadioGroup } from '../radio'
 import { SwitchText } from '../switch'
+import { useDialog } from '../dialog'
 
 /**
  * Base: react-hook-form
@@ -286,10 +288,38 @@ export const LabelWidth: Story = {
   },
 }
 
+export const 额外元素: Story = {
+  render: () => {
+    const { formInstance } = Form.useForm()
+
+    return (
+      <div>
+        <Form
+          formInstance={formInstance}
+          onSubmit={(values) => {
+            console.log(values)
+          }}
+        >
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+            extra={<span>额外元素</span>}
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+        </Form>
+      </div>
+    )
+  },
+}
+
 /**
  * 使用 `formInstance.trigger()` 触发校验
  */
-export const 额外元素及主动触发校验: Story = {
+
+export const 主动触发校验: Story = {
   render: () => {
     const { formInstance } = Form.useForm()
 
@@ -308,9 +338,9 @@ export const 额外元素及主动触发校验: Story = {
             pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
             extra={
               <>
-                <Button onClick={() => formInstance.reset({ name: '' })}>重置</Button>
-                <Button type="primary" onClick={() => formInstance.trigger()}>
-                  Check
+                <Button onClick={() => formInstance.reset({ name: '' })}>Reset</Button>
+                <Button type="primary" onClick={() => sleep(500)}>
+                  Submit
                 </Button>
               </>
             }
@@ -351,6 +381,69 @@ export const 变更时校验: Story = {
             <Input allowClear placeholder="请输入" />
           </Form.Item>
         </Form>
+      </div>
+    )
+  },
+}
+
+const FormDialog: React.FC<any> = ({ a }) => {
+  const { open } = useDialog(FormDialog, { title: 'test2' })
+
+  const { formInstance } = Form.useForm({
+    defaultValues: {
+      type: 0,
+      name: '',
+    },
+  })
+
+  React.useEffect(() => {
+    console.count('FormDialog init:::' + a)
+  }, [])
+
+  return (
+    <Form
+      formInstance={formInstance}
+      onSubmit={(values) => {
+        console.log(values)
+      }}
+      labelWidth={100}
+    >
+      <Form.Item label="名称" name="name" required>
+        <Input placeholder="请输入" />
+      </Form.Item>
+      <Form.Item label="类型" name="type" required="请选择类型">
+        <Select
+          options={[
+            { label: '0', value: 0 },
+            { label: '1', value: 1 },
+            { label: '2', value: 2 },
+          ]}
+        />
+      </Form.Item>
+
+      <Button
+        onClick={() => {
+          open()
+        }}
+      >
+        open
+      </Button>
+    </Form>
+  )
+}
+
+export const DialogForm: Story = {
+  render: () => {
+    const { open } = useDialog(FormDialog, { title: 'test' })
+    return (
+      <div>
+        <Button
+          onClick={() => {
+            open({ a: 'ok' })
+          }}
+        >
+          Open Dialog
+        </Button>
       </div>
     )
   },

@@ -47,7 +47,7 @@ export interface SelectProps<ValueType = DefaultValueType, ItemType = SelectOpti
   /** 下拉选项 */
   options?: ItemType[]
   /** dropdownProps */
-  dropdownProps?: DropdownProps
+  dropdownProps?: Partial<DropdownProps>
   /** 是否正在加载 */
   loading?: boolean
   /** 默认打开状态 */
@@ -195,7 +195,7 @@ export const Select = React.forwardRef<SelectRef, SelectProps>(
 
     const displayLabel = React.useMemo(() => {
       if (showSearch) return searchText
-      if (!value) return ''
+      if (value === undefined) return undefined
 
       const item = options?.find((item) => item[valueProp] == value)
       const label = item?.[labelProp]
