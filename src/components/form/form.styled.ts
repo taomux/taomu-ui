@@ -11,7 +11,7 @@ export interface FormCssVars {
 }
 
 initGlobalCssVars('common', {
-  formMarginBottom: 18,
+  formMarginBottom: 22,
   formLabelWidth: 100,
 
   formGap: 12,

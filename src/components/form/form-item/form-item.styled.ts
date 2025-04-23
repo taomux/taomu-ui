@@ -48,6 +48,8 @@ export const formItemStyled = css`
     display: flex;
     align-items: flex-end;
     position: absolute;
+    left: 0;
+    bottom: -18px;
   }
 `
 

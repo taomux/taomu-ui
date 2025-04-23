@@ -45,6 +45,7 @@ export const 基础示例: Story = {
             console.log(values)
             alert(JSON.stringify(values))
           }}
+          labelWidth={80}
         >
           <Form.Item
             label="姓名"
@@ -278,6 +279,76 @@ export const LabelWidth: Story = {
             <Button type="primary" htmlType="submit">
               提交
             </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    )
+  },
+}
+
+/**
+ * 使用 `formInstance.trigger()` 触发校验
+ */
+export const 额外元素及主动触发校验: Story = {
+  render: () => {
+    const { formInstance } = Form.useForm()
+
+    return (
+      <div>
+        <Form
+          formInstance={formInstance}
+          onSubmit={(values) => {
+            console.log(values)
+          }}
+        >
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+            extra={
+              <>
+                <Button onClick={() => formInstance.reset({ name: '' })}>重置</Button>
+                <Button type="primary" onClick={() => formInstance.trigger()}>
+                  Check
+                </Button>
+              </>
+            }
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+        </Form>
+      </div>
+    )
+  },
+}
+
+/**
+ * 通过 triggerOnChange 控制
+ */
+export const 变更时校验: Story = {
+  render: () => {
+    const { formInstance } = Form.useForm()
+
+    return (
+      <div>
+        <Form formInstance={formInstance}>
+          <Form.Item
+            label="姓名"
+            name="name"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+          >
+            <Input allowClear placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            label="姓名2"
+            name="name2"
+            required={{ value: true, message: '姓名必填' }}
+            pattern={{ value: /^.{2,4}$/, message: '请输入2-4位字符' }}
+            triggerOnChange={false}
+          >
+            <Input allowClear placeholder="请输入" />
           </Form.Item>
         </Form>
       </div>

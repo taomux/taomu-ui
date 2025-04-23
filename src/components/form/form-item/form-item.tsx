@@ -25,9 +25,15 @@ export type FormItemProps = Omit<BaseComponentType<FormItemCssVars>, 'children' 
     colon?: boolean
     /** 是否使用状态控制器，默认为 `true`, 设为 `false` 可提高性能 */
     useController?: boolean
+    /** 额外的内容 */
+    extra?: React.ReactNode
+    /** 额外的内容的间距 */
+    extraGap?: string | number
+    /** 变更时触发校验 */
+    triggerOnChange?: boolean
   }
 
-export type FormItemTransferProps = Pick<FormItemProps, 'layout' | 'marginBottom' | 'labelWidth'>
+export type FormItemTransferProps = Pick<FormItemProps, 'layout' | 'marginBottom' | 'labelWidth' | 'triggerOnChange'>
 
 export interface FormItemInputRef<ValueType = any, Ex = {}> {
   target: {
@@ -51,6 +57,9 @@ export const FormItem: React.FC<FormItemProps> = ({
   labelWidth,
   colon = true,
   useController = true,
+  extra,
+  extraGap = 6,
+  triggerOnChange = true,
   ...registerOptions
 }) => {
   const {
@@ -58,6 +67,7 @@ export const FormItem: React.FC<FormItemProps> = ({
     marginBottom: formMarginBottom,
     layout: formLayout,
     labelWidth: formLabelWidth,
+    triggerOnChange: formTriggerOnChange,
   } = React.useContext(FormContext)
 
   if (!formInstance) {
@@ -118,15 +128,16 @@ export const FormItem: React.FC<FormItemProps> = ({
       addProps.status = 'error'
     }
 
-    if (addProps.onChange && inputOnChange) {
-      const addOnChange = addProps.onChange
-
-      addProps.onChange = async (e: any) => {
-        await inputOnChange(e)
-        await addOnChange(e)
+    function handleOnChange(e: any, onChange: (e: any) => void) {
+      if ((triggerOnChange ?? formTriggerOnChange) && name) {
+        formInstance?.trigger(name)
       }
-    } else if (inputOnChange) {
-      addProps.onChange = inputOnChange
+      const p = inputOnChange?.(e)
+      if (isPromise(p)) {
+        return p.finally(() => onChange(e))
+      } else {
+        return onChange(e)
+      }
     }
 
     addProps.className = clsx('form-item-content-input', addProps.className)
@@ -145,12 +156,7 @@ export const FormItem: React.FC<FormItemProps> = ({
             ...restAddProps,
             ...field,
             onChange: (e: any) => {
-              const p = inputOnChange?.(e)
-              if (isPromise(p)) {
-                return p.finally(() => onChange(e))
-              } else {
-                return onChange(e)
-              }
+              return handleOnChange(e, onChange)
             },
           })
         }}
@@ -161,8 +167,13 @@ export const FormItem: React.FC<FormItemProps> = ({
   return (
     <div id={id} className={formItemClassNames} style={formItemStyle} css={formItemStyled}>
       {renderLabel()}
-      <div className="form-item-content">
+      <div className="form-item-content flex center-v" style={{ gap: extraGap }}>
         {renderController()}
+        {extra && (
+          <div className="form-item-extra flex-none flex center-v" style={{ gap: extraGap }}>
+            {extra}
+          </div>
+        )}
         {renderMessage()}
       </div>
     </div>

@@ -18,9 +18,9 @@ initGlobalCssVars('common', {
 export const menuItemStyled = css`
   padding: ${linkCssVar('menuItemPaddingY')} ${linkCssVar('menuItemPaddingX')};
   border-radius: ${linkCssVar('menuItemRadius')};
-  cursor: default;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   color: ${linkCssVar('colorTextDefault')};
   gap: ${linkCssVar('menuItemGap')};
   transition: ${linkCssVar('commonTransition')};

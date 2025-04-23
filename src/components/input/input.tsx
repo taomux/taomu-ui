@@ -54,7 +54,7 @@ export const Input = React.forwardRef<HTMLInputElement | null, InputProps>(
       wrapProps = {},
       disabled,
       allowClear,
-      value,
+      value = '',
       onChange,
       onFocus,
       onBlur,
