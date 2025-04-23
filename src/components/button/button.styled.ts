@@ -57,6 +57,7 @@ export const buttonStyled = css`
   outline: transparent solid 0;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
   transition: ${linkCssVar('commonTransition')};
 
   width: ${linkCssVar('btnWidth')};

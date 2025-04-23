@@ -11,7 +11,12 @@ initGlobalCssVars('common', {
   //
 })
 
-export const selectStyled = css``
+export const selectStyled = css`
+  cursor: pointer;
+  input {
+    cursor: pointer;
+  }
+`
 
 declare global {
   interface GlobalCssVars extends SelectCssVars {}

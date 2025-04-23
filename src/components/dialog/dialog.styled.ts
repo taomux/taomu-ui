@@ -41,6 +41,7 @@ export const dialogStyled = css`
     right: calc(${linkCssVar('dialogPadding')} - 6px);
     padding: 3px;
     top: 9px;
+    cursor: pointer;
 
     svg {
       display: block;
