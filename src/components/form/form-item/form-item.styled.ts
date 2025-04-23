@@ -43,6 +43,15 @@ export const formItemStyled = css`
     gap: ${linkCssVar('formItemGap')};
   }
 
+  .fi-label-text {
+    position: relative;
+    .required-flag {
+      position: absolute;
+      top: -3px;
+      left: -8px;
+    }
+  }
+
   .form-item-msg {
     position: absolute;
     display: flex;

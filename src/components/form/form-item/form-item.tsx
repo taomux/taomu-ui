@@ -60,6 +60,7 @@ export const FormItem: React.FC<FormItemProps> = ({
   extra,
   extraGap = 6,
   triggerOnChange = true,
+  required,
   ...registerOptions
 }) => {
   const {
@@ -96,9 +97,13 @@ export const FormItem: React.FC<FormItemProps> = ({
 
   function renderLabel() {
     if (noStyle) return null
+
     return (
       <div className="form-item-label">
-        {label}
+        <span className="fi-label-text">
+          {!!(required && label) && <span className="required-flag color-error">*</span>}
+          {label}
+        </span>
         {label && colon && <span className="ml-2">:</span>}
       </div>
     )
@@ -119,7 +124,7 @@ export const FormItem: React.FC<FormItemProps> = ({
     const { onChange: inputOnChange, ...addProps } = (children.props as any) || {}
 
     if (name) {
-      Object.assign(addProps, formInstance.register(name, { ...registerOptions }))
+      Object.assign(addProps, formInstance.register(name, { required, ...registerOptions }))
     } else {
       // console.warn('FormItem: name is not exist.')
     }
