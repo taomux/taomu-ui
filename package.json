@@ -1,7 +1,7 @@
 {
   "name": "taomu-ui",
   "private": false,
-  "version": "0.0.40",
+  "version": "0.0.41",
   "type": "module",
   "main": "index.js",
   "unpkg": "index.js",
@@ -29,9 +29,9 @@
     "atomic-cls": "^0.0.7",
     "clsx": "^2.1.1",
     "react-feather": "^2.0.10",
-    "react-hook-form": "^7.55.0",
+    "react-hook-form": "^7.56.1",
     "react-mount-node": "^0.0.1",
-    "taomu-store": "^0.0.9",
+    "taomu-store": "^0.0.10",
     "taomu-toolkit": "^0.1.6"
   },
   "devDependencies": {
@@ -41,15 +41,15 @@
     "@storybook/blocks": "^8.6.12",
     "@storybook/react": "^8.6.12",
     "@storybook/react-vite": "^8.6.12",
-    "@types/react": "^19.1.1",
+    "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^4.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "storybook": "^8.6.12",
-    "typedoc": "^0.28.2",
+    "typedoc": "^0.28.3",
     "typescript": "^5.8.3",
-    "vite": "^6.2.6"
+    "vite": "^6.3.3"
   },
   "repository": {
     "type": "git",

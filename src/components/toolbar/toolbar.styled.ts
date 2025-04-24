@@ -1,13 +1,13 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar } from '../../styles'
+import { initGlobalCssVars, linkCssVar } from '../../styles'
 
 export interface ToolbarCssVars {
   toolbarWidth?: number | string
   toolbarPadding?: number | string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   toolbarWidth: 68,
   toolbarPadding: 0,
 })

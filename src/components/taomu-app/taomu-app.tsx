@@ -4,12 +4,24 @@ import { Global, SerializedStyles } from '@emotion/react'
 
 import 'atomic-cls'
 
+import type { ThemeType } from '../../utils/theme'
 import { useThemeMedia, useCustomEvent } from '../../hooks'
 import { getGlobalCssVars, getGlobalStyled } from '../../styles'
 import { PopupService } from '../popup/popup.service'
 
 export interface TaomuAppProps {
   children: React.ReactNode
+  /** 服务端渲染模式 */
+  serverRender?: boolean
+  /** 服务端渲染模式下传入的配置项 */
+  serverConfig?: ServerConfig
+}
+
+export interface ServerConfig {
+  /** 由服务端控制的主题模式 */
+  theme: ThemeType
+  /** 主题变更回调 */
+  onThemeChange?: (theme: ThemeType) => void
 }
 
 let globalInit = ''
@@ -21,9 +33,9 @@ let globalInit = ''
  *
  * 请确保全局只有一个 TaomuApp
  */
-export const TaomuApp: React.FC<TaomuAppProps> = ({ children }) => {
+export const TaomuApp: React.FC<TaomuAppProps> = ({ children, serverRender, serverConfig }) => {
   const appId = React.useRef(uuid())
-  const { theme } = useThemeMedia()
+  const { theme } = useThemeMedia(serverRender ? serverConfig : undefined)
 
   const [globalCssVars, setGlobalCssVars] = React.useState<SerializedStyles>(getGlobalCssVars())
   const [globalStyle, setGlobalStyle] = React.useState<SerializedStyles | SerializedStyles[]>(getGlobalStyled())
