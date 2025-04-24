@@ -18,8 +18,6 @@ export interface TaomuAppProps {
 }
 
 export interface ServerConfig {
-  /** 由服务端控制的主题模式 */
-  theme: ThemeType
   /** 主题变更回调 */
   onThemeChange?: (theme: ThemeType) => void
 }
