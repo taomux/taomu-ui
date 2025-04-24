@@ -1,3 +1,0 @@
-import{T as s}from"./taomu-app-GWyRy6xz.js";import"./mini-scrollbar-1dk_y2Qh.js";import"./jsx-runtime-D_zvdyIk.js";import"./index-D4lIrffr.js";import"./use-custom-event-BYXfsBOj.js";import"./global-style-CvBFrXCB.js";import"./popup.store-CZruyQcO.js";const u={title:"Components/TaomuApp",component:s,tags:["autodocs"],argTypes:{}},o={args:{}};var r,t,a;o.parameters={...o.parameters,docs:{...(r=o.parameters)==null?void 0:r.docs,source:{originalSource:`{
-  args: {}
-}`,...(a=(t=o.parameters)==null?void 0:t.docs)==null?void 0:a.source}}};const g=["基础示例"];export{g as __namedExportsOrder,u as default,o as 基础示例};

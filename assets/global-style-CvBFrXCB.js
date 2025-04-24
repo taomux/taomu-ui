@@ -1,1 +1,0 @@
-import"./index-D4lIrffr.js";import{d as e}from"./mini-scrollbar-1dk_y2Qh.js";import{d as l}from"./use-custom-event-BYXfsBOj.js";const o={};function p(t){Object.prototype.hasOwnProperty.call(o,t.name)||(o[t.name]=t,l("taomu://update-global-style"))}function m(){const t=[e];for(const a in o)t.push(o[a]);return t}export{m as g,p as s};
