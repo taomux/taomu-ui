@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="服务端渲染" />
+
+## TaomuApp
+
+服务端渲染模式下, `TaomuApp` 组件需要传入 `serverRender` 属性, 以及可选传入 `serverConfig`
+
+```tsx
+import { TaomuApp } from 'taomu-ui'
+
+const App = () => {
+  return (
+    <TaomuApp
+      serverRender
+      serverConfig={
+        {
+          // ...
+        }
+      }
+    >
+      <div>hello world</div>
+    </TaomuApp>
+  )
+}
+```
+
+## Store
+
+通过在 html 中注入 `window.__TAOMU_STORE_DEFAULT_STATE__` 初始化 taomuStore 状态
+
+```tsx
+return reactRenderer(() => {
+  const initTaomuStoreState = {
+    // ...
+  }
+
+  return (
+    <html>
+      <head>
+        <meta charSet="UTF-8" />
+        <link rel="icon" type="image/ico" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__TAOMU_STORE_DEFAULT_STATE__ = ${JSON.stringify(initTaomuStoreState)}`,
+          }}
+        />
+      </head>
+      <body>
+        <App />
+      </body>
+    </html>
+  )
+})
+```
+
+## 注意事项
+
+- 不能在服务端调用 `setGlobalStyles` 和 `setGlobalCssVars`, 改用 `initGlobalStyles` 和 `initGlobalCssVars`

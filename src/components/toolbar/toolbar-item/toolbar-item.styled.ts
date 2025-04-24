@@ -1,12 +1,12 @@
 import { css } from '@emotion/react'
 
-import { setGlobalCssVars, linkCssVar, mixinRgba } from '../../../styles'
+import { initGlobalCssVars, linkCssVar, mixinRgba } from '../../../styles'
 
 export interface ToolbarItemCssVars {
   toolbarBg?: string
 }
 
-setGlobalCssVars('common', {
+initGlobalCssVars('common', {
   toolbarBg: mixinRgba('colorFrontRgb', 0.1),
 })
 
