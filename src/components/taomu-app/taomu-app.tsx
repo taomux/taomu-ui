@@ -2,7 +2,7 @@ import React from 'react'
 import { uuid } from 'taomu-toolkit'
 import { Global, SerializedStyles } from '@emotion/react'
 
-import 'atomic-cls'
+import 'atomic-cls' // TODO 服务端渲染不支持
 
 import type { ThemeType } from '../../utils/theme'
 import { useThemeMedia, useCustomEvent } from '../../hooks'
