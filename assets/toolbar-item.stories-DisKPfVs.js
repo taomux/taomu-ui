@@ -1,0 +1,3 @@
+import{T as a}from"./toolbar-item-BsVJZ3Ob.js";import"./mini-scrollbar-CPC470y1.js";import"./jsx-runtime-D_zvdyIk.js";import"./index-D4lIrffr.js";import"./use-taomu-classname-DBKvGVUz.js";import"./index-B_0C_U-u.js";import"./popup-trigger-CpvpAY-N.js";import"./index-BQQLSK9g.js";import"./index-DsJinFGm.js";import"./index-vYJU6RZc.js";import"./global-vars-CoVtkCb5.js";import"./popup.store-D6eLbj-g.js";const f={title:"Components/Toolbar/ToolbarItem",component:a,tags:["autodocs"],argTypes:{}},o={args:{}};var r,t,m;o.parameters={...o.parameters,docs:{...(r=o.parameters)==null?void 0:r.docs,source:{originalSource:`{
+  args: {}
+}`,...(m=(t=o.parameters)==null?void 0:t.docs)==null?void 0:m.source}}};const x=["基础示例"];export{x as __namedExportsOrder,f as default,o as 基础示例};
