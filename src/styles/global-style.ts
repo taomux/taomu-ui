@@ -1,7 +1,7 @@
 import { type SerializedStyles } from '@emotion/react'
 
 import { dispatchCustomEvent } from '../hooks'
-import { defaultStyle } from './default.style'
+import { defaultStyled } from './default.style'
 
 const globalStyledMap: Record<string, SerializedStyles> = {}
 
@@ -35,7 +35,7 @@ export function setGlobalStyles(styled: SerializedStyles) {
  * @returns
  */
 export function getGlobalStyled() {
-  const globalStyles = [defaultStyle]
+  const globalStyles = [defaultStyled]
 
   for (const key in globalStyledMap) {
     globalStyles.push(globalStyledMap[key])

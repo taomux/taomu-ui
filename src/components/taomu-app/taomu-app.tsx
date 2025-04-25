@@ -2,11 +2,9 @@ import React from 'react'
 import { uuid } from 'taomu-toolkit'
 import { Global, SerializedStyles } from '@emotion/react'
 
-import 'atomic-cls'
-
 import type { ThemeType } from '../../utils/theme'
 import { useThemeMedia, useCustomEvent } from '../../hooks'
-import { getGlobalCssVars, getGlobalStyled } from '../../styles'
+import { getGlobalCssVars, getGlobalStyled, atomicCssStyled } from '../../styles'
 import { PopupService } from '../popup/popup.service'
 
 export interface TaomuAppProps {
@@ -18,8 +16,6 @@ export interface TaomuAppProps {
 }
 
 export interface ServerConfig {
-  /** 由服务端控制的主题模式 */
-  theme: ThemeType
   /** 主题变更回调 */
   onThemeChange?: (theme: ThemeType) => void
 }
@@ -67,7 +63,7 @@ export const TaomuApp: React.FC<TaomuAppProps> = ({ children, serverRender, serv
   return (
     <>
       {(!globalInit || globalInit === appId.current) && <PopupService />}
-      <Global styles={[globalCssVars, globalStyle]} />
+      <Global styles={[atomicCssStyled, globalCssVars, globalStyle]} />
       {children}
     </>
   )

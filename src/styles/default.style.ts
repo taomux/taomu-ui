@@ -1,7 +1,13 @@
 import { css } from '@emotion/react'
+import atomicCssStr from 'atomic-cls/stringify'
+
 import { linkCssVar } from './utils'
 
-export const defaultStyle = css`
+export const atomicCssStyled = css`
+  ${atomicCssStr}
+`
+
+export const defaultStyled = css`
   :root {
     --ac-color-primary: ${linkCssVar('colorPrimary')};
     --ac-color-primary-light: color-mix(in srgb, ${linkCssVar('colorPrimary')}, #fff 45%);
