@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
-    "atomic-cls": "^0.0.7",
+    "atomic-cls": "^0.1.0",
     "clsx": "^2.1.1",
     "react-feather": "^2.0.10",
     "react-hook-form": "^7.56.1",
