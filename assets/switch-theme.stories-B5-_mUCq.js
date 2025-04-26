@@ -1,3 +1,0 @@
-import{S as m}from"./switch-theme-DNW6YAij.js";import"./mini-scrollbar-CPC470y1.js";import"./jsx-runtime-D_zvdyIk.js";import"./index-D4lIrffr.js";import"./use-taomu-classname-DBKvGVUz.js";import"./switch-Buvhb9jm.js";import"./index-hTlR2-m8.js";import"./loading-M4ERhcex.js";import"./global-vars-CoVtkCb5.js";import"./index-B2-v9W4q.js";import"./sun-Chl-fKFA.js";const l={title:"Components/Switch/SwitchTheme",component:m,tags:["autodocs"],argTypes:{}},r={args:{}};var t,o,e;r.parameters={...r.parameters,docs:{...(t=r.parameters)==null?void 0:t.docs,source:{originalSource:`{
-  args: {}
-}`,...(e=(o=r.parameters)==null?void 0:o.docs)==null?void 0:e.source}}};const w=["基础示例"];export{w as __namedExportsOrder,l as default,r as 基础示例};
