@@ -4,8 +4,10 @@ import { Global, SerializedStyles } from '@emotion/react'
 
 import type { ThemeType } from '../../utils/theme'
 import { useThemeMedia, useCustomEvent } from '../../hooks'
-import { getGlobalCssVars, getGlobalStyled, atomicCssStyled } from '../../styles'
+import { getGlobalCssVars, getGlobalStyled } from '../../styles'
 import { PopupService } from '../popup/popup.service'
+
+import 'atomic-cls'
 
 export interface TaomuAppProps {
   children: React.ReactNode
@@ -63,7 +65,7 @@ export const TaomuApp: React.FC<TaomuAppProps> = ({ children, serverRender, serv
   return (
     <>
       {(!globalInit || globalInit === appId.current) && <PopupService />}
-      <Global styles={[atomicCssStyled, globalCssVars, globalStyle]} />
+      <Global styles={[globalCssVars, globalStyle]} />
       {children}
     </>
   )

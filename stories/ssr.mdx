@@ -55,6 +55,64 @@ return reactRenderer(() => {
 })
 ```
 
+## Atomic CSS
+
+在服务端侧，你可能无法正确加载 `atomic-cls` 相关资源，有两种方式可以解决这个问题：
+
+### 1.使用 `initGlobalStyles`
+
+```tsx
+import { css } from '@emotion/react'
+import { initGlobalStyles } from 'taomu-ui'
+import atomicCssStr from 'atomic-cls/stringify'
+
+export const atomicCssStyled = css`
+  ${atomicCssStr}
+`
+
+initGlobalStyles(atomicCssStyled)
+```
+
+### 2.引用静态资源
+
+将 `atomic-cls` 中的[静态资源文件](https://www.npmjs.com/package/atomic-cls?activeTab=code)(dist/style.css) 放在你的静态资源服务中，然后在服务端渲染的 html 中引入
+
+```tsx
+return reactRenderer(
+  ({ c }) => {
+    const reactSSRInitialProps = c.get('reactSSRInitialProps')
+
+    return (
+      <html>
+        <head>
+          <meta charSet="UTF-8" />
+          <link rel="icon" type="image/ico" href="/favicon.ico" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>{appConfig.APP_TITLE}</title>
+          <link rel="stylesheet" href="/static/website/style.css" /> <!-- 👈👈👈 -->
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.__REACT_SSR_INITIAL_PROPS__ = ${JSON.stringify(reactSSRInitialProps)}`,
+            }}
+          />
+        </head>
+        <body>
+          <div id="root">
+            <AppServerRouter ctx={c as unknown as CustomContext} {...reactSSRInitialProps} isServerSide />
+          </div>
+          <script type="module" src="/static/website/client.js" async></script>
+        </body>
+      </html>
+    )
+  },
+  {
+    stream: true,
+  }
+)
+```
+
+这是更加推荐的方案，静态资源可以获得缓存加速，避免在每次访问时返回相同的 css 内容。
+
 ## 注意事项
 
-- 不能在服务端调用 `setGlobalStyles` 和 `setGlobalCssVars`, 改用 `initGlobalStyles` 和 `initGlobalCssVars`
+- 不要在服务端调用 `setGlobalStyles` 和 `setGlobalCssVars`, 改用 `initGlobalStyles` 和 `initGlobalCssVars`
