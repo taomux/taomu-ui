@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## TODO
 
 - FormItem 支持自定义 value & onChange 字段名
+- FormItem Label 垂直居中问题
 - Menu 组件的 name 改 value
 - Menu 组件横向行高优化
 
