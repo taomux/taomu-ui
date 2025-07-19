@@ -1,0 +1,3 @@
+import{E as e}from"./empty-BVrjuK5u.js";import"./mini-scrollbar-DnfR8E9z.js";import"./jsx-runtime-D_zvdyIk.js";import"./index-D4lIrffr.js";import"./use-taomu-classname-CR-sgA-2.js";import"./global-vars-CYosUT7W.js";import"./index-B2-v9W4q.js";const g={title:"Components/Empty",component:e,tags:["autodocs"],argTypes:{}},r={args:{}};var o,t,s;r.parameters={...r.parameters,docs:{...(o=r.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  args: {}
+}`,...(s=(t=r.parameters)==null?void 0:t.docs)==null?void 0:s.source}}};const u=["基础示例"];export{u as __namedExportsOrder,g as default,r as 基础示例};
