@@ -1,11 +1,11 @@
 import { css } from '@emotion/react'
-// import atomicCssStr from 'atomic-cls/stringify'
+import atomicCssStr from 'atomic-cls/stringify'
 
 import { linkCssVar } from './utils'
 
-// export const atomicCssStyled = css`
-//   ${atomicCssStr}
-// `
+export const atomicCssStyled = css`
+  ${atomicCssStr}
+`
 
 export const defaultStyled = css`
   :root {

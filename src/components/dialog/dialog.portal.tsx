@@ -97,7 +97,7 @@ export class DialogPortal<ContentProps extends DialogComponentProps, OpenResult 
         } else {
           callbackCount++
           if (callbackCount > 1) {
-            console.warn('Dialog Callback 只会触发一次, 请使用 asyncCallback 来替代')
+            console.debug('Dialog Callback 只会触发一次, 如有需要请使用 asyncCallback 来替代')
           }
         }
         if (type === 'ok') {
