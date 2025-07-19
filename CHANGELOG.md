@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### 低优先级
 
 - formInstance 方法整合
+- Transition 在频繁点击时的闪烁问题
 
 ## [0.0.38] - 2025-04-15
 
