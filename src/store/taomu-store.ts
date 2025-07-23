@@ -10,9 +10,9 @@ export interface TaomuStoreState {
 }
 
 function getDefaultState(): TaomuStoreState {
-  if (typeof window !== 'undefined' && window.__TAOMU_STORE_DEFAULT_STATE__) {
-    return window.__TAOMU_STORE_DEFAULT_STATE__
-  }
+  // if (typeof window !== 'undefined' && window.__TAOMU_STORE_DEFAULT_STATE__) {
+  //   return window.__TAOMU_STORE_DEFAULT_STATE__
+  // }
 
   return {
     systemTheme,
