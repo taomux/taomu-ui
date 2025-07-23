@@ -1,0 +1,1 @@
+import{e}from"./iframe-Ci2SqJ0Y.js";import{D as f}from"./dialog.portal-Dj7rE2k1.js";function a(t,{destroyOnUnmount:o=!0,...u}={},n){const r=e.useRef(new f(t,u,n));return e.useEffect(()=>()=>{o&&r.current.destroy()},[]),r.current}export{a as u};
