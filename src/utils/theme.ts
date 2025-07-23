@@ -8,14 +8,14 @@ export type ThemeConfigType = ThemeType | 'system'
 export let systemTheme: ThemeType = 'dark'
 
 // 服务端模式下不支持获取系统主题色
-if (typeof window !== 'undefined') {
-  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+// if (typeof window !== 'undefined') {
+//   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 
-  mediaQuery.addEventListener('change', () => {
-    systemTheme = mediaQuery?.matches ? 'dark' : 'light'
-    taomuStore.setState({ systemTheme })
-  })
-}
+//   mediaQuery.addEventListener('change', () => {
+//     systemTheme = mediaQuery?.matches ? 'dark' : 'light'
+//     taomuStore.setState({ systemTheme })
+//   })
+// }
 
 export function getDefaultTheme() {
   if (typeof localStorage !== 'undefined') {

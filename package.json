@@ -1,7 +1,7 @@
 {
   "name": "taomu-ui",
   "private": false,
-  "version": "0.0.44",
+  "version": "0.0.45",
   "type": "module",
   "main": "index.js",
   "unpkg": "index.js",
@@ -29,24 +29,24 @@
     "atomic-cls": "^0.1.0",
     "clsx": "^2.1.1",
     "react-feather": "^2.0.10",
-    "react-hook-form": "^7.56.1",
+    "react-hook-form": "^7.60.0",
     "react-mount-node": "^0.0.1",
     "taomu-store": "^0.0.10",
     "taomu-toolkit": "^0.1.6"
   },
   "devDependencies": {
-    "@storybook/addon-links": "^9.0.17",
-    "@storybook/react-vite": "^9.0.17",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
-    "@vitejs/plugin-react": "^4.4.1",
+    "@storybook/addon-links": "^9.0.18",
+    "@storybook/react-vite": "^9.0.18",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.7.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "storybook": "^9.0.17",
-    "typedoc": "^0.28.3",
+    "storybook": "^9.0.18",
+    "typedoc": "^0.28.7",
     "typescript": "^5.8.3",
-    "vite": "^6.3.3",
-    "@storybook/addon-docs": "^9.0.17"
+    "vite": "^7.0.5",
+    "@storybook/addon-docs": "^9.0.18"
   },
   "repository": {
     "type": "git",
