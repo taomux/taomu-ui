@@ -13,7 +13,7 @@ const config: StorybookConfig = {
     // See https://storybook.js.org/docs/configure/typescript for more information.
     // reactDocgenTypescriptOptions: {},
   },
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+  addons: ['@storybook/addon-links', '@storybook/addon-docs'],
   framework: {
     name: '@storybook/react-vite',
     options: {},

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { Preview, Decorator } from '@storybook/react'
+import type { Preview, Decorator } from '@storybook/react-vite'
 import { Global, css } from '@emotion/react'
 
 import { TaomuApp, linkCssVar } from '../src'

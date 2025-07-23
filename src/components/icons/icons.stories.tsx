@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 
 import { IconSun } from './icon-example.doc'
 import { IconList } from './icon-list.doc'

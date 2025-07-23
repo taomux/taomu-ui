@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## TODO
+
+- FormItem 支持自定义 value & onChange 字段名
+- FormItem Label 垂直居中问题
+- Menu 组件的 name 改 value
+- Menu 组件横向行高优化
+
+### 低优先级
+
+- formInstance 方法整合
+- Transition 在频繁点击时的闪烁问题
+
 ## [0.0.38] - 2025-04-15
 
 ### Added
