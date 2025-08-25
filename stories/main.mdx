@@ -4,6 +4,89 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 # Taomu UI
 
-专为桌面端应用设计的 UI 库
+一个专为桌面端应用设计的现代化 React UI 组件库。
 
-更多类型文档: [Type Doc](https://taomux.github.io/taomu-ui/type-doc/)
+## 🎯 设计理念
+
+Taomu UI 专注于桌面端应用的用户体验，提供简洁、现代化的界面组件。与移动端优先的 UI 库不同，我们的组件针对桌面端的交互模式进行了深度优化。
+
+## ✨ 核心特性
+
+- **🖥️ 桌面端优化** - 针对桌面应用场景的交互设计
+- **🎨 现代化设计** - 简洁优雅的视觉风格，支持亮色/暗色主题
+- **🔧 TypeScript 原生支持** - 完整的类型定义，提供最佳开发体验
+- **⚡ 高性能渲染** - 基于 Emotion 的 CSS-in-JS 解决方案
+- **🎯 原子化样式** - 集成 atomic-cls，支持原子化 CSS 开发
+- **📱 SSR 就绪** - 完整的服务端渲染支持
+- **🔧 灵活配置** - 支持主题定制和样式变量覆盖
+
+## 🚀 快速开始
+
+```bash
+npm install taomu-ui
+```
+
+```tsx
+import React from 'react'
+import { TaomuApp, Button } from 'taomu-ui'
+
+function App() {
+  return (
+    <TaomuApp>
+      <Button type="primary">开始使用</Button>
+    </TaomuApp>
+  )
+}
+```
+
+## 📦 组件总览
+
+### 基础组件
+- **Button** - 按钮组件，支持多种样式和状态
+- **Loading** - 加载指示器
+- **Progress** - 进度条组件
+- **Icons** - 图标组件集合
+
+### 数据录入
+- **Input** - 输入框组件
+- **Select** - 选择器组件
+- **Switch** - 开关组件
+- **Checkbox** - 复选框组件
+- **Radio** - 单选框组件
+- **Form** - 表单组件，集成表单验证
+
+### 反馈组件
+- **Dialog** - 对话框组件
+- **Toast** - 消息提示组件
+- **Popup** - 弹出层组件
+
+### 导航组件
+- **Menu** - 菜单组件
+- **Dropdown** - 下拉菜单
+- **Titlebar** - 标题栏组件
+- **Toolbar** - 工具栏组件
+
+### 布局组件
+- **TaomuApp** - 应用根组件，提供主题和全局样式
+- **Transition** - 过渡动画组件
+
+### 数据展示
+- **Empty** - 空状态组件
+
+## 📚 进阶使用
+
+### 主题定制
+Taomu UI 支持灵活的主题定制，您可以通过 CSS 变量或组件的 `cssVars` 属性来自定义样式。
+
+### 服务端渲染
+完整支持 Next.js、Remix 等 React SSR 框架，详细配置请参考 [服务端渲染文档](/?path=/docs/服务端渲染--docs)。
+
+## 🔗 相关链接
+
+- **GitHub**: [https://github.com/taomux/taomu-ui](https://github.com/taomux/taomu-ui)
+- **NPM**: [https://www.npmjs.com/package/taomu-ui](https://www.npmjs.com/package/taomu-ui)  
+- **类型文档**: [Type Doc](https://taomux.github.io/taomu-ui/type-doc/)
+
+---
+
+欢迎使用 Taomu UI！如果您有任何问题或建议，请随时提交 Issue 或 Pull Request。
